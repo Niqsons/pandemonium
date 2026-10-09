@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0f0c0b">
+<title>Пандемониум · Серия 3 · Чистый лист</title>
+<script>document.documentElement.className += ' js';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Literata:ital,wght@0,400;0,600;1,400&family=Caveat:wght@500;600&family=PT+Mono&display=swap">
+<style>
+:root{
+  --bg:#0f0c0b;--bg-deep:#070505;
+  --ink:#e6ddd1;--ink-strong:#f6eee4;--muted:#9b9187;
+  --ember:#ff7438;--ember-soft:#ffb072;
+  --serif:"Literata",Georgia,"Times New Roman",serif;
+  --display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box}
+html{background:var(--bg);color-scheme:dark;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:clamp(17px,.55vw + 15px,19px);line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.wrap{max-width:35rem;margin:0 auto;padding:0 20px}
+p{margin:0 0 1.05em;-webkit-hyphens:auto;hyphens:auto;overflow-wrap:break-word}
+::selection{background:rgba(255,116,56,.35);color:#fff}
+
+/* полоска прогресса чтения */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:20;pointer-events:none}
+.progress span{display:block;height:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,#ff5a1f,var(--ember-soft));box-shadow:0 0 10px rgba(255,100,40,.8)}
+
+/* титул серии */
+.hero{min-height:80vh;min-height:80svh;display:flex;align-items:center;text-align:center;padding:10vh 0 6vh;background:radial-gradient(60% 40% at 50% 42%,rgba(255,100,40,.13),rgba(255,100,40,0) 70%)}
+.hero .wrap{width:100%}
+.g.emblem{display:block;width:64px;height:64px;margin:0 auto;animation:smoulder 5s ease-in-out infinite}
+.series{margin:1.7rem 0 .35rem;font-family:var(--display);font-weight:600;font-size:.88rem;letter-spacing:.45em;padding-left:.45em;text-transform:uppercase;color:var(--ember-soft)}
+.ep{margin:0;color:var(--muted);font-size:.88rem;letter-spacing:.06em}
+h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:500;font-size:clamp(3.1rem,13vw,4.8rem);line-height:1;color:var(--ink-strong)}
+.meta{margin:0;color:var(--muted);font-size:.84rem}
+.scroll-cue{width:1px;height:52px;margin:3rem auto 0;background:linear-gradient(var(--ember),rgba(255,116,56,0));opacity:.65}
+
+/* сцены наверху */
+.earth{padding:.5rem 0 2.5rem}
+.hero + .earth .wrap > p:first-child::first-letter{float:left;font-family:var(--display);font-weight:600;font-size:3.6em;line-height:.8;padding:.07em .1em 0 0;color:var(--ember-soft)}
+.divider{display:flex;justify-content:center;gap:.9em;margin:2.8em 0}
+.divider span{width:5px;height:5px;border-radius:50%;background:var(--ember);box-shadow:0 0 8px rgba(255,116,56,.85);opacity:.85}
+
+/* знаки лисьего алфавита */
+.g{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.22em;margin:0 .05em;color:var(--ember);overflow:visible;filter:drop-shadow(0 0 3px rgba(255,110,50,.55))}
+.g path{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.g .dot{fill:currentColor;stroke:none}
+.nw{white-space:nowrap}
+.signs{margin:.4em 0 .9em;text-align:center;font-size:1.85em;line-height:1.2}
+.signs .g{margin:0 .08em}
+
+/* голос из телефона, крупная реплика */
+.call{margin:1.6em 0;padding:.85em 1.1em;border-left:2px solid rgba(255,116,56,.6);border-radius:0 8px 8px 0;background:linear-gradient(90deg,rgba(255,116,56,.09),rgba(255,116,56,0) 80%);font-style:italic;color:var(--ink-strong)}
+.call .label{display:block;margin-bottom:.4em;font-style:normal;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.call p{margin:0}
+.voice{margin:1.1em 0 1.4em;text-align:center;font-family:var(--display);font-size:1.5em;line-height:1.3;color:var(--ink-strong)}
+
+/* журнал Марка: тетрадный лист */
+.log{position:relative;margin:1.8em 0 2em;padding:.9em 1em 1em 2.5em;border-radius:3px;color:#22304f;font-family:"Caveat","Segoe Print","Bradley Hand",cursive;font-size:1.32em;line-height:1.6em;font-weight:500;
+  background-color:#ebe6da;
+  background-image:linear-gradient(90deg,transparent 1.75em,rgba(205,80,80,.55) 1.75em,rgba(205,80,80,.55) calc(1.75em + 1px),transparent calc(1.75em + 1px)),repeating-linear-gradient(180deg,transparent 0,transparent calc(1.6em - 1px),rgba(70,110,175,.32) calc(1.6em - 1px),rgba(70,110,175,.32) 1.6em);
+  background-position:0 0,0 .9em;
+  box-shadow:0 14px 34px rgba(0,0,0,.45);transform:rotate(-.35deg)}
+.log figcaption{font-family:var(--serif);font-size:.46em;line-height:3.48em;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:#7c7b88}
+.log p{margin:0;-webkit-hyphens:manual;hyphens:manual}
+.log u{text-decoration-line:underline;text-decoration-style:double;text-decoration-thickness:1px;text-underline-offset:.12em}
+
+/* уведомление на телефоне */
+.notice{margin:1.8em auto;max-width:21rem;padding:.75em .9em .85em;border-radius:16px;background:rgba(44,41,43,.95);border:1px solid rgba(255,255,255,.09);box-shadow:0 18px 40px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.06);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:.8em;line-height:1.45;color:#ececf0}
+.notice-head{display:flex;align-items:center;gap:.5em;margin-bottom:.4em;font-size:.85em;color:#a7a9b1}
+.notice-head svg{width:1.4em;height:1.4em;flex:none}
+.notice p{margin:0;-webkit-hyphens:manual;hyphens:manual}
+
+/* документ: «Сценарий», договор */
+.doc{margin:1.8em 0 2em;padding:1em 1.2em 1.15em;border-radius:2px;background:#eceae3;color:#1e1d1b;font-family:"PT Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.8em;line-height:1.65;box-shadow:0 14px 34px rgba(0,0,0,.45)}
+.doc figcaption{margin-bottom:.8em;padding-bottom:.55em;border-bottom:1px solid rgba(0,0,0,.16);font-size:.8em;letter-spacing:.16em;text-transform:uppercase;color:#6c695f}
+.doc p{margin:0;-webkit-hyphens:manual;hyphens:manual}
+.doc .hand{margin-top:.55em;font-family:"Caveat","Segoe Print","Bradley Hand",cursive;font-size:1.6em;line-height:1.2;font-weight:600;color:#203d86;transform:rotate(-.8deg);transform-origin:0 50%}
+.doc .sig{display:flex;align-items:flex-end;gap:.6em;margin-top:1.1em}
+.doc .sig .line{flex:1;min-width:4em;height:1.3em;border-bottom:1px solid currentColor;opacity:.75}
+.doc.cold{background:linear-gradient(160deg,#1b1f25,#101317);color:#c4ccd6;border:1px solid rgba(170,195,225,.22);box-shadow:0 18px 44px rgba(0,0,0,.6),inset 0 0 40px rgba(140,170,210,.07)}
+.doc.cold figcaption{color:#7f8b99;border-bottom-color:rgba(170,195,225,.18)}
+.doc .fine{margin-top:.7em;font-size:.76em;line-height:1.5;opacity:.72}
+
+/* окно соглашения с кнопками */
+.notice .btns{display:flex;justify-content:flex-end;gap:.55em;margin-top:.75em}
+.notice .btn{padding:.38em 1em;border-radius:999px;background:rgba(255,255,255,.09);color:#d7d8dd;font-size:.92em}
+.notice .btn.primary{background:#ececf0;color:#121214;font-weight:600}
+
+/* лента самописца */
+.tape{margin:1.8em -4px 2em;transform:rotate(-.5deg);box-shadow:0 12px 30px rgba(0,0,0,.45);border-radius:2px;overflow:hidden}
+.tape svg{display:block;width:100%;height:auto}
+.tape .paper{fill:#ece5d3}
+.tape .grid{fill:none;stroke:rgba(200,90,90,.22);stroke-width:1}
+.tape .ink{fill:none;stroke:#3a3d8c;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.tape .tick{fill:none;stroke:#6f6a60;stroke-width:1.2}
+.tape text{font-family:"Caveat","Segoe Print",cursive;font-size:24px;fill:#5d5850}
+
+/* карта дыма */
+.smokemap{margin:1.8em 0 2em;border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px rgba(120,255,170,.08),0 20px 50px rgba(0,0,0,.6)}
+.smokemap svg{display:block;width:100%;height:auto}
+.smokemap .bg{fill:#05080a}
+.smokemap .streets{fill:none;stroke:rgba(120,190,150,.07);stroke-width:1}
+.smokemap .river{fill:none;stroke:#0b1820;stroke-width:16;stroke-linecap:round}
+.smokemap .d0 circle{fill:#57e590}
+.smokemap .d1 circle{fill:#3fbf74;opacity:.8}
+.smokemap .d2 circle{fill:#2f9a5d;opacity:.6}
+.smokemap .hit{fill:#ff7a2f}
+.smokemap .ring{fill:none;stroke:#ff7a2f;stroke-width:1.1;transform-box:fill-box;transform-origin:center;animation:ping 2.6s ease-out infinite}
+/* запотевшее зеркало */
+.mirror{position:relative;display:grid;gap:.7em;justify-items:center;width:min(100%,19rem);margin:2.4em auto;padding:1.6em 1.2em;border-radius:18px;color:#1c2227;
+  background:radial-gradient(140% 100% at 18% 0%,rgba(255,255,255,.55),rgba(255,255,255,0) 58%),radial-gradient(120% 120% at 85% 100%,rgba(110,125,140,.55),rgba(110,125,140,0) 70%),linear-gradient(160deg,#cdd2d6,#99a1a8);
+  box-shadow:0 0 0 6px #27211e,0 0 0 7px rgba(255,255,255,.07),0 24px 60px rgba(0,0,0,.55)}
+.mirror::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:.7;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,0) 0 19px,rgba(255,255,255,.14) 19px 20px,rgba(255,255,255,0) 20px 37px);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 35%,#000);mask-image:linear-gradient(to bottom,transparent 35%,#000)}
+.mirror .row{position:relative;z-index:1;display:flex;gap:.75em;justify-content:center}
+.mirror .g{width:clamp(2.4rem,11.5vw,3.3rem);height:clamp(2.4rem,11.5vw,3.3rem);margin:0;color:inherit;filter:drop-shadow(0 0 1.5px rgba(255,255,255,.5))}
+.mirror .g path{stroke-width:1.45}
+.mirror.hot{background:radial-gradient(140% 100% at 18% 0%,rgba(255,240,225,.55),rgba(255,255,255,0) 58%),radial-gradient(80% 80% at 50% 55%,rgba(255,120,60,.4),rgba(255,120,60,0) 70%),linear-gradient(160deg,#dccdc2,#a8978b)}
+.mirror.hot .g{color:#b2300b;filter:drop-shadow(0 0 4px rgba(255,90,20,.8));animation:heat 2.4s ease-in-out infinite}
+.mirror.back{transform:scaleX(-1);color:#ff8a4c;
+  background:radial-gradient(120% 90% at 50% 35%,rgba(255,240,230,.13),rgba(255,240,230,0) 62%),linear-gradient(160deg,#2b2524,#131010);
+  box-shadow:0 0 0 6px #1a1413,0 0 0 7px rgba(255,120,60,.16),0 24px 60px rgba(0,0,0,.65)}
+.mirror.back::after{opacity:.18}
+.mirror.back .g{color:#ff8a4c;filter:drop-shadow(0 0 5px rgba(255,100,40,.85))}
+.js .mirror .g path{stroke-dasharray:1 2;stroke-dashoffset:1.01}
+.js .mirror .g .dot{opacity:0}
+.js .mirror.on .g path{animation:draw 1.3s cubic-bezier(.6,.05,.4,1) forwards;animation-delay:calc(var(--i,0) * .95s + .25s)}
+.js .mirror.on .g .dot{animation:appear .35s ease forwards;animation-delay:calc(var(--i,0) * .95s + 1.35s)}
+.mirror .letters{display:block;font-family:var(--display);font-weight:600;font-size:clamp(2rem,9.5vw,2.8rem);line-height:1.1;letter-spacing:.16em;padding-left:.16em;color:inherit}
+.mirror.back .letters{text-shadow:0 0 10px rgba(255,100,40,.85)}
+.js .mirror .letters{opacity:0}
+.js .mirror.on .letters{animation:appear 1.2s ease forwards;animation-delay:calc(var(--i,0) * .95s + .25s)}
+
+/* лист-воспоминание */
+.page{margin:1.8em 0;padding:1.1em 1.25em;border:1px solid rgba(255,150,70,.3);border-radius:6px;font-family:var(--display);font-style:italic;font-size:1.2em;line-height:1.5;color:#f6e3cc;background:linear-gradient(180deg,rgba(255,170,90,.08),rgba(255,120,40,.03));box-shadow:inset 0 0 40px rgba(255,90,20,.12),0 0 26px rgba(255,90,20,.1)}
+.page p{margin:0}
+.page.burn{animation:burn 3.2s ease forwards}
+
+/* внизу */
+.below{position:relative;overflow:hidden;padding:6em 0 4em;color:#ecdccb;background:radial-gradient(130% 55% at 50% 112%,rgba(175,45,10,.45),rgba(175,45,10,0) 62%),linear-gradient(var(--bg) 0,var(--bg-deep) 200px)}
+.below .wrap{position:relative;z-index:1}
+.below-label{margin:0 0 2.6em;text-align:center;font-family:var(--display);font-weight:600;font-size:.88rem;letter-spacing:.55em;padding-left:.55em;text-transform:uppercase;color:var(--ember);text-shadow:0 0 14px rgba(255,100,40,.7)}
+.ash{position:absolute;inset:0;z-index:0;pointer-events:none}
+.ash i{position:absolute;bottom:-10px;width:var(--s);height:var(--s);border-radius:50%;background:#cbbfb4;opacity:0;animation:rise var(--d) linear infinite;animation-delay:var(--delay)}
+.ash i.e{background:#ffb27a;box-shadow:0 0 6px 1px rgba(255,110,40,.75)}
+
+/* финал */
+.end{padding:1em 0 5em;text-align:center;background:var(--bg-deep)}
+.end .divider{margin-top:0}
+.end-title{margin:0;font-family:var(--display);font-style:italic;font-size:1.55rem;color:var(--ink-strong)}
+.end-sub{margin:.45em 0 0;color:var(--muted);font-size:.85rem;letter-spacing:.06em}
+
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes appear{to{opacity:1}}
+@keyframes ping{0%{transform:scale(1);opacity:.95}100%{transform:scale(5.5);opacity:0}}
+@keyframes smoulder{0%,100%{filter:drop-shadow(0 0 6px rgba(255,100,40,.55))}50%{filter:drop-shadow(0 0 14px rgba(255,100,40,.95))}}
+@keyframes heat{0%,100%{filter:drop-shadow(0 0 3px rgba(255,90,20,.7))}50%{filter:drop-shadow(0 0 9px rgba(255,90,20,1))}}
+@keyframes rise{0%{transform:translate(0,0);opacity:0}8%{opacity:var(--o)}80%{opacity:calc(var(--o) * .55)}100%{transform:translate(var(--x),calc(-1 * var(--h,1800px)));opacity:0}}
+@keyframes burn{25%{border-color:rgba(255,175,95,.95);color:#fff4e6;box-shadow:inset 0 0 70px rgba(255,120,40,.6),0 0 60px rgba(255,90,20,.5)}100%{border-color:rgba(150,140,130,.15);color:rgba(185,175,165,.42);background:rgba(255,255,255,.012);box-shadow:none}}
+
+@media (prefers-reduced-motion:reduce){
+  .g.emblem,.mirror.hot .g,.page.burn{animation:none}
+  .js .mirror .g path,.js .mirror.on .g path{stroke-dasharray:none;stroke-dashoffset:0;animation:none}
+  .js .mirror .g .dot,.js .mirror.on .g .dot{opacity:1;animation:none}
+  .js .mirror .letters,.js .mirror.on .letters{opacity:1;animation:none}
+  .smokemap .ring{animation:none;opacity:0}
+  .ash{display:none}
+  .page.burn{border-color:rgba(150,140,130,.18);color:rgba(195,185,175,.6);box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"><span></span></div>
+<header class="hero"><div class="wrap">
+<svg class="g emblem" viewBox="0 0 24 24" role="img" aria-label="друг"><path pathLength="1" d="M4.5 12 a7.5 7.5 0 1 0 15 0 a7.5 7.5 0 1 0 -15 0"/><circle class="dot" cx="9.3" cy="12" r="1.55"/><circle class="dot" cx="14.7" cy="12" r="1.55"/></svg>
+<p class="series">Пандемониум</p>
+<p class="ep">Серия 3</p>
+<h1>Чистый лист</h1>
+<p class="meta">≈ 15 минут чтения</p>
+<div class="scroll-cue" aria-hidden="true"></div>
+</div></header>
+<section class="earth"><div class="wrap">
+<p>Утром в пятницу Вера написала на запотевшем зеркале «почему — лисёнок?», и папа ответил сразу.</p>
+<figure class="mirror" aria-label="Знаки на зеркале"><div class="row"><svg class="g" viewBox="0 0 24 24" role="img" aria-label="озеро" style="--i:0"><path pathLength="1" d="M3.4 13 a8.6 5.2 0 1 0 17.2 0 a8.6 5.2 0 1 0 -17.2 0"/><path pathLength="1" d="M8 13.3 Q10 11.4 12 13.3 T16 13.3"/></svg><svg class="g" viewBox="0 0 24 24" role="img" aria-label="лягушка" style="--i:1"><path pathLength="1" d="M5.6 7.9 a2.5 2.5 0 1 0 5 0 a2.5 2.5 0 1 0 -5 0"/><path pathLength="1" d="M13.4 7.9 a2.5 2.5 0 1 0 5 0 a2.5 2.5 0 1 0 -5 0"/><circle class="dot" cx="8.1" cy="8.1" r="0.95"/><circle class="dot" cx="15.9" cy="8.1" r="0.95"/><path pathLength="1" d="M5.8 9.9 C3.4 12.6 4.3 18.1 12 18.3 C19.7 18.1 20.6 12.6 18.2 9.9"/><path pathLength="1" d="M8.4 13.4 Q12 16.4 15.6 13.4"/></svg></div></figure>
+<p>Озеро. Лягушка. Ровно и аккуратно, без единой дрожи в линиях — так отвечают у доски выученный урок.</p>
+<p>Вера улыбнулась зеркалу. Было больно, но она улыбалась: он старался, значит, и ей надо стараться. Об этом они договорились без всяких знаков — делать вид.</p>
+<p>Кое-что Вера решила и сама, ещё ночью, сидя на холодном кафеле. Больше никаких чудес. Никаких Алин у доски и пропавших видео. Пусть Дафна выкладывает что хочет, пусть весь класс пищит «алло, папочка» — она справится. Каждый раз, когда папа ей помогает, огонь что-то у него съедает. А воспоминаний о ней у него не так много, чтобы ими топить.</p>
+<p>Когда Вера вернулась из школы, на потолке в коридоре висела белая шайба размером с блюдце: посередине серебряная искра, сбоку зелёный огонёк.</p>
+<p>— Датчик дыма, — сказала мама из кухни. Она только что встала после ночной смены и пила кофе, обхватив чашку двумя руками. — Из «Фосфора» поставили, бесплатно. Я сама заказала: у нас вечно чем-то пахнет. Программа «Тихий дом».</p>
+<p>Вера смотрела на зелёный огонёк, и ей казалось, что огонёк смотрит на неё.</p>
+<p>— Мастер говорит, их теперь по всему городу ставят, — добавила мама. — Скоро без датчика даже договор на квартиру не продлят.</p>
+<p>На холодильнике, рядом с визиткой Октавии, висела глянцевая памятка: «„Тихий дом“. Спокойствие под присмотром». Читать её Вера не стала. Главное она поняла и так: теперь у зеркала есть свидетель.</p>
+<div class="divider" aria-hidden="true"><span></span><span></span><span></span></div>
+<p>Марк готовился к разговору все выходные.</p>
+<p>Разговаривать с людьми он не умел — с шелестом выходило лучше. Поэтому он сделал то, что делал всегда: составил план. В журнале, под перерисованным лисёнком, появились вопросы.</p>
+<figure class="log"><p>1. Что выжгло знак?</p><p>2. Что было в среду с 9:41 до 10:26?</p><p>3. Почему пахнет дымом?</p><p>4. Слышит ли она шелест?</p></figure>
+<p>За выходные в школе тоже повесили белые шайбы — в каждом классе, в столовой, даже в туалетах. Марк насчитал сорок три штуки и записал число в журнал, сам не зная зачем.</p>
+<p>В понедельник на большой перемене он взял поднос и пошёл через столовую. Вера сидела у окна одна. Через два стола от неё, тоже одна, сидела Алина. Между ними был пустой стол, и Марк сел за него — ровно посередине. Он не сразу понял, почему на него оглядываются: самое пустое место в столовой, а он уселся туда, будто нарочно.</p>
+<p>Потом он собрался с духом, пересел к Вере и положил перед ней раскрытый журнал.</p>
+<p>— Это твой знак? — Он ткнул пальцем в лисёнка и прочёл подпись, как читал всё, — вслух и точно: — «Каро, Вера. Лисёнок».</p>
+<p>За соседним столом прыснули. Кто-то пропищал: «Алло, папочка?»</p>
+<p>Вера медленно подняла глаза. Такие глаза Марк видел у бродячих собак на фабричном дворе — за секунду до того, как они кусаются. Она ничего не сказала. Встала, взяла поднос и ушла.</p>
+<p>— Глядите, — громко сказала за его спиной Дафна. — Вдова и Чудик без телефона. Два сапога пара.</p>
+<p>Смеялись все. Марк смотрел на свою запись, и впервые за четыре года ему было стыдно за журнал.</p>
+<p>Он не видел того видео: у него не было телефона, чтобы его увидеть. «Лисёнок» он записал так же, как записывал частоту или время, — это было слово, по которому её узнавали. Только теперь до него дошло, что по некоторым словам узнают, как по шраму.</p>
+<div class="divider" aria-hidden="true"><span></span><span></span><span></span></div>
+<p>Алину он догнал у раздевалок.</p>
+<p>— Где она бывает одна?</p>
+<p>Алина посмотрела на него так, будто он спросил, где у Веры болит. Потом быстро оглянулась — нет ли рядом Дафны.</p>
+<p>— В норе, — тихо сказала она. — В старой раздевалке за спортзалом. Только не говори, что это я.</p>
+<p>Марк вырвал из журнала лист и написал печатными буквами:</p>
+<figure class="log"><p>У меня нет телефона.</p><p>Меня никто не слышит.</p><p>Нора, после уроков.</p></figure>
+<p>К записке он приложил кусок ленты самописца за среду. Перед последним уроком он положил и то и другое Вере в парту. Её парту он нашёл по запаху свежего лака.</p>
+<div class="divider" aria-hidden="true"><span></span><span></span><span></span></div>
+<p>Вера нашла записку на последнем уроке.</p>
+<figure class="tape" role="img" aria-label="Лента самописца: 9:41–10:26"><svg viewBox="0 0 480 136" aria-hidden="true"><rect class="paper" width="480" height="136"/><path class="grid" d="M15 8 V102 M45 8 V102 M75 8 V102 M105 8 V102 M135 8 V102 M165 8 V102 M195 8 V102 M225 8 V102 M255 8 V102 M285 8 V102 M315 8 V102 M345 8 V102 M375 8 V102 M405 8 V102 M435 8 V102 M465 8 V102 M0 22 H480 M0 58 H480 M0 94 H480"/><path class="ink" d="M0 58 L3.2 58.3 L6.4 59.7 L9.6 56.6 L12.8 59.6 L16.0 59.3 L19.2 58.6 L22.4 56.8 L25.6 55.1 L28.8 58.6 L32.0 60.6 L35.2 55.6 L38.4 59.6 L41.6 57.4 L44.8 57.0 L48.0 55.8 L51.2 55.0 L54.4 58.2 L57.6 56.6 L60.8 55.6 L64.0 57.8 L67.2 57.3 L70.4 57.3 L73.6 57.1 L76.8 60.8 L80.0 57.5 L83.2 56.5 L86.4 56.2 L89.6 58.2 L92.8 60.8 L96.0 56.6 L99.2 57.9 L102.4 61.0 L105.6 57.3 L108.8 58.2 L112.0 57.2 L115.2 60.5 L118.4 58.2 L121.6 60.9 L124.8 56.0 L128.0 56.0 L131.2 57.2 L134.4 60.3 L137.6 57.7 L140.8 56.2 L144.0 58.8 L147.2 58.1 L150.4 58.1 C154.9 43.6 171.5 39.6 140.9 54.7 S168.5 79.2 165.5 59.4 C168.7 31.3 180.5 27.3 163.7 54.6 S178.3 80.7 176.2 56.8 C180.7 40.0 197.5 36.0 173.0 55.8 S194.4 73.8 191.4 58.0 C195.6 29.9 211.2 25.9 186.3 54.1 S208.3 76.9 205.5 57.8 C209.3 28.2 223.3 24.2 204.5 57.6 S220.7 80.5 218.2 57.5 C222.3 39.8 237.5 35.8 208.6 61.1 S234.7 67.0 232.0 61.1 C235.8 37.3 249.8 33.3 225.4 52.4 S247.3 73.3 244.7 61.8 C249.3 34.6 265.8 30.6 235.8 59.1 S262.8 74.7 259.8 53.7 C263.1 32.7 275.2 28.7 256.6 55.0 S273.0 68.0 270.8 57.6 C274.7 30.8 289.0 26.8 271.1 58.8 S286.4 75.7 283.8 55.0 C288.4 43.6 305.4 39.6 278.4 53.6 S302.3 79.4 299.2 62.3 C302.1 33.9 312.7 29.9 292.7 57.7 S310.7 75.5 308.8 57.3 C313.1 29.7 328.6 25.7 306.9 55.1 S325.8 76.4 323.0 57.0 C326.7 36.7 340.5 32.7 320.9 51.5 S338.0 66.5 335.5 57.1 L338.7 55.2 L341.9 59.5 L345.1 55.7 L348.3 55.5 L351.5 59.0 L354.7 56.1 L357.9 58.2 L361.1 58.8 L364.3 58.6 L367.5 55.2 L370.7 60.6 L373.9 58.4 L377.1 60.7 L380.3 56.3 L383.5 59.4 L386.7 56.2 L389.9 58.8 L393.1 58.4 L396.3 60.1 L399.5 60.6 L402.7 55.0 L405.9 56.0 L409.1 60.7 L412.3 56.7 L415.5 56.9 L418.7 58.6 L421.9 57.2 L425.1 59.8 L428.3 60.5 L431.5 60.0 L434.7 60.9 L437.9 55.3 L441.1 59.8 L444.3 59.7 L447.5 60.1 L450.7 60.1 L453.9 59.0 L457.1 56.6 L460.3 60.5 L463.5 55.9 L466.7 58.8 L469.9 55.8 L473.1 55.5 L476.3 55.2 L479.5 57.5 L482.7 55.2"/><path class="tick" d="M150 100 V110 M330 100 V110"/><text x="150" y="130" text-anchor="middle">9:41</text><text x="330" y="130" text-anchor="middle">10:26</text></svg></figure>
+<p>Узкая бумажная лента, а на ней колючая сонная линия, которая вдруг срывалась в петли и росчерки, будто кто-то торопливо писал письмо. Карандашом сбоку: «Ср, 9:41–10:26». В среду, на истории, без двадцати десять Алина начала говорить правду. Сорок пять минут.</p>
+<p>И слово «нора». Его знали двое: она и Алина.</p>
+<p>Вера оглянулась на последнюю парту. Алина смотрела в окно.</p>
+<p>После уроков Вера пошла в нору — медленно, как ходят туда, где может ждать засада.</p>
+<p>Марк сидел на сломанной скамейке, на той самой, где неделю назад сидела она. Рядом на матах стояло что-то вроде старой магнитолы, которую разобрали и собрали обратно неправильно: голые платы, катушка медной проволоки, изолента, наушники на длинном шнуре. Белой шайбы на потолке не было. Раздевалку закрыли на ремонт так давно, что «Фосфор» про неё забыл.</p>
+<p>— Я записал неправильно, — сказал Марк вместо «привет». — Я не видел видео. Не знал.</p>
+<p>— Теперь знаешь.</p>
+<p>— Теперь знаю. — Он помолчал. — Я не умею разговаривать. Четыре года я разговаривал в основном вот с этим.</p>
+<p>— И что оно тебе отвечало?</p>
+<p>— Шшш, — совершенно серьёзно сказал Марк.</p>
+<p>Вера фыркнула раньше, чем успела себя остановить. Смеяться с живыми людьми она, кажется, разучилась полтора года назад.</p>
+<p>Марк протянул ей наушники.</p>
+<p>— Это приёмник. Собрал из фабричного лома. Ловит то, чего не должно быть. — Марк подумал и добавил честно: — Я сегодня первый раз вынес его из дома. Если отец его найдёт, второго у меня нет.</p>
+<p>Почему-то это убедило её больше всего остального. Вера надела наушники.</p>
+<p>Сначала ей показалось, что там тишина. Потом она услышала шелест.</p>
+<p>Ровный, тихий, бесконечный, будто где-то очень далеко горела бумага. Не трещала, а именно шелестела, страница за страницей, словно кто-то листал книгу без конца.</p>
+<p>Огонь. Дом. Бумага — много.</p>
+<p>Вера сама не заметила, как села на маты. Это был не просто звук. Это было место. Папа сказал ей, где он, а она не поняла. Теперь она слышала: огромный горящий дом, полный бумаги, и где-то в нём, в этом шорохе, — он.</p>
+<p>Марк не спрашивал, почему она плачет. Ждать он умел: четыре года ждал, что шелест что-нибудь скажет.</p>
+<p>— Давно ты это слышишь? — спросила Вера, когда смогла.</p>
+<p>— Четыре года. Сначала думал, что это помехи. Потом — что я схожу с ума. Потом начал записывать.</p>
+<p>— Зачем?</p>
+<p>— Сумасшедшие не ведут журналов.</p>
+<p>Вера вытерла лицо рукавом папиной куртки.</p>
+<p>— Это мой папа, — сказала она. — Там.</p>
+<p>— Твой папа умер.</p>
+<p>— Полтора года назад.</p>
+<p>Марк кивнул, будто записал это в журнал. Потом спросил то же, что спросил бы про любой сигнал:</p>
+<p>— Он с тобой говорит?</p>
+<p>— Пишет. Знаками, на зеркале. — Вера сама удивилась, как легко это вышло. Полтора года она ни с кем не говорила о папе, а тут рассказывала чудику без телефона в заброшенной раздевалке. — Мы придумали свой алфавит, когда мне было семь. Лисий.</p>
+<p>— Знак на парте.</p>
+<p>— Это я. На папином языке.</p>
+<p>Она рассказала про Алину у доски. И про то, что за каждое чудо папа платит не деньгами, а собой: огонь съедает у него кусок памяти. В среду огонь съел озеро — тот день, когда она стала Лисёнком. Она пересказала ему озеро знаками, и он выучил, но не вспомнил.</p>
+<p>Марк слушал, не перебивая. Когда она замолчала, он сказал:</p>
+<p>— Я маму тоже не помню. Она ушла, когда мне было девять. Остались руки. Запах хозяйственного мыла. Песенка, которую она пела, когда резала хлеб, — без слов. — Он посмотрел на приёмник. — Если бы мне кто-нибудь её пересказал, я бы тоже выучил.</p>
+<p>— Это не одно и то же.</p>
+<p>— Нет. Но лучше, чем ничего.</p>
+<p>Они помолчали. Наушники лежали между ними на мате и шуршали так тихо, что это было похоже на дыхание.</p>
+<p>— А ты? — вдруг спросил Марк.</p>
+<p>— Что я?</p>
+<p>— Ты рассказала про папу. А про себя?</p>
+<p>Вера открыла рот и закрыла. Полтора года она была дочерью мёртвого отца — для класса, для учителей, для мамы, для себя самой. Раньше было что-то ещё. В десять лет она сочинила грамматику кошачьего языка. В двенадцать — шифр, которым они с Алиной переписывались на уроках.</p>
+<p>— Раньше я придумывала языки, — сказала она.</p>
+<p>— А теперь?</p>
+<p>— Не знаю.</p>
+<p>— А я хочу понять, откуда шелест, — сказал Марк. — А потом уехать туда, где его не слышно.</p>
+<p>— Такого места нет.</p>
+<p>— Знаю. Я проверял. Даже в лесу за городом слышно. Тише, но слышно.</p>
+<p>И тут шелест в наушниках взревел.</p>
+<p>Вера сорвала их с головы, но рёв был слышен и на расстоянии вытянутой руки, будто кто-то распахнул дверь в горящий цех. В кармане завибрировал телефон.</p>
+<div class="notice prompt" role="note"><div class="notice-head"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6" fill="#0e0e12"/><path d="M12 4.2 13.5 10.5 19.8 12 13.5 13.5 12 19.8 10.5 13.5 4.2 12 10.5 10.5Z" fill="#dfe1e8"/></svg><span>«Фосфор» · обновление</span></div><p>Мы обновили пользовательское соглашение. Пункт 11.2: пользователь соглашается на размещение в жилом помещении устройств безопасности «Тихий дом». Без принятия новых условий через 7 дней доступ к сервисам будет ограничен.</p><div class="btns" aria-hidden="true"><span class="btn">Позже</span><span class="btn primary">Принимаю</span></div></div>
+<p>— Это они, — сказал Марк. Он смотрел не на телефон, а на приёмник, и лицо у него было такое, будто он наконец решил задачу, над которой бился четыре года. — Все сразу. Весь город. Каждое «Принимаю».</p>
+<p>Вера перевела взгляд с экрана на ревущие наушники.</p>
+<p>— Бумага — много, — сказала она. — Это договоры. Папа там, где договоры.</p>
+<p>— Тогда твой папа живёт в архиве.</p>
+<p>— В горящем.</p>
+<p>Марк протянул руку к телефону — медленно, как тянутся к тому, что всю жизнь видел только издалека.</p>
+<p>— Можно? Я никогда…</p>
+<p>Его палец завис над словом «Принимаю». Вера перехватила его запястье.</p>
+<p>— Никогда, — сказала она. — Ничего. Не подписывай.</p>
+<p>Марк удивлённо посмотрел на неё.</p>
+<p>— Отец говорит то же самое.</p>
+<p>— Хоть в чём-то он прав.</p>
+<p>Она нажала «Позже». Экран погас, рёв в наушниках понемногу стих и снова стал ровным шелестом. Где-то в огромном горящем доме на полки упали тысячи новых искр.</p>
+<p>Марк открыл журнал на странице с лисёнком, аккуратно, по линейке, зачеркнул «Лисёнок» и написал сверху: «Вера». На обложке тем же почерком было выведено: «Север, Марк».</p>
+<p>— Марк, — прочитала она.</p>
+<p>— Вера, — сказал он, будто проверял, правильно ли записал.</p>
+<p>Она снова надела наушники и долго слушала. Потом сказала, не снимая их:</p>
+<p>— У нас дома теперь датчик. Из «Фосфора». Я не могу говорить с папой.</p>
+<p>— Покажи, — сказал Марк.</p>
+<div class="divider" aria-hidden="true"><span></span><span></span><span></span></div>
+<p>Мама ушла на ночную смену в семь, а в половине восьмого Марк стоял у Вериного подъезда и смотрел на дверь так, будто она могла укусить.</p>
+<p>Дверь открывалась телефоном. Лифт вызывался телефоном. Над каждой площадкой горел зелёным такой же датчик, как у Каро в коридоре. Марк впервые был в доме, где всё было «Фосфором», и шёл по нему, как по чужой стране, где все говорят на языке, которого он не знает.</p>
+<p>Когда они вошли в квартиру, динамик у двери сказал мягким женским голосом:</p>
+<p>— Добрый вечер, Вера. Обнаружен гость без учётной записи. Зарегистрировать гостя?</p>
+<p>— Нет, — сказала Вера.</p>
+<p>— Гость без учётной записи не может пользоваться сервисами дома.</p>
+<p>Марк щёлкнул выключателем. Свет не зажёгся. Вера включила его с телефона.</p>
+<p>— У вас даже свет по договору, — сказал Марк.</p>
+<p>В квартире он первым делом снял с холодильника памятку «Тихого дома» и прочёл её от первой строки до последней сноски. Вера смотрела на него с изумлением: она в жизни не видела, чтобы кто-то читал мелкий шрифт.</p>
+<figure class="doc"><figcaption>«Тихий дом». Спокойствие под присмотром</figcaption><p>Умный датчик круглосуточно следит за воздухом в вашем доме.</p><p>Сведения о дыме передаются в службу безопасности «Фосфора».</p><p class="fine">Датчик не поднимает ложной тревоги из-за свечей, спичек и подгоревшего ужина.</p></figure>
+<p>— Вот, — сказал Марк и показал на последнюю строчку. — Обычный датчик орал бы от свечки. А этот нет. Он ищет не пожар, а дым без огня.</p>
+<p>— Дым без огня — это папа, — сказала Вера.</p>
+<p>— Значит, нужен огонь.</p>
+<p>Свечи в доме нашлись только одни: толстые, восковые, в коробке на антресолях. Вера долго держала коробку в руках. Эти свечи стояли на поминках.</p>
+<p>Спички были у Марка: старый коробок с фабрики «Искра», выцветший, с искрой на этикетке. Четыре луча — почти как у «Фосфора».</p>
+<p>— Это же их искра, — сказала Вера.</p>
+<p>— Это наша искра, — сказал Марк. — Фабрике сто лет.</p>
+<p>Они пустили горячую воду. Вера поставила свечу на стиральную машину, Марк чиркнул спичкой — запахло серой, по-фабричному, — и фитиль занялся. Дверь в коридор осталась приоткрытой. Зелёный огонёк на потолке горел ровно.</p>
+<p>Марк поставил приёмник на пол, надел наушники и сел на край ванны.</p>
+<p>Зеркало побелело. Вера написала:</p>
+<p class="signs"><svg class="g" viewBox="0 0 24 24" role="img" aria-label="лис в очках"><path pathLength="1" d="M5 3 L9 9 L15 9 L19 3 L20.5 11.5 L12 20.5 L3.5 11.5 Z"/><path pathLength="1" d="M7.1 13 a2.2 2.2 0 1 0 4.4 0 a2.2 2.2 0 1 0 -4.4 0"/><path pathLength="1" d="M12.5 13 a2.2 2.2 0 1 0 4.4 0 a2.2 2.2 0 1 0 -4.4 0"/><path pathLength="1" d="M11.5 13 L12.5 13"/></svg> <svg class="g" viewBox="0 0 24 24" role="img" aria-label="почему"><path pathLength="1" d="M7.8 8.2 C7.2 4.8 9.8 2.9 12.5 2.9 C15.4 2.9 17.3 4.8 17.3 7.4 C17.3 10.6 13.4 11.3 12.9 14.3 L12.8 15.6"/><path pathLength="1" d="M7.8 8.2 L5.9 7.5 M7.8 8.2 L6.6 9.9"/><circle class="dot" cx="12.8" cy="19" r="1.55"/></svg></p>
+<p>По стеклу прошла дрожь. Потом изнутри — не по туманной поверхности, а из глубины — проступил знак.</p>
+<figure class="mirror" aria-label="Знаки на зеркале"><div class="row"><svg class="g" viewBox="0 0 24 24" role="img" aria-label="здесь" style="--i:0"><path pathLength="1" d="M4.5 12 a7.5 7.5 0 1 0 15 0 a7.5 7.5 0 1 0 -15 0"/><circle class="dot" cx="12" cy="12" r="1.7"/></svg></div></figure>
+<p>Марк смотрел на зеркало и не дышал. Перо самописца у его колена выводило петли и росчерки — тот же почерк, что в среду. Он видел, как проступает знак, и видел, как пишет перо, и это было одно и то же. Четыре года у него были помехи. Теперь у помех был почерк, а у почерка — человек.</p>
+<p>Зелёный огонёк в коридоре горел ровно.</p>
+<p>Вера написала:</p>
+<p class="signs"><svg class="g" viewBox="0 0 24 24" role="img" aria-label="не"><path pathLength="1" d="M6 6 L18 18 M18 6 L6 18"/></svg> <svg class="g" viewBox="0 0 24 24" role="img" aria-label="помогать"><path pathLength="1" d="M3.4 16.6 C3.8 12 6.6 8.8 10.4 9.3 L13 11.9"/><path pathLength="1" d="M20.6 16.6 C20.2 12 17.4 8.8 13.6 9.3 L11 11.9"/><path pathLength="1" d="M9.2 13.7 C10.3 15.9 13.7 15.9 14.8 13.7"/></svg></p>
+<p>Потом остановилась: дальше нужно было слово, которого в их словаре не было. Она подумала и нарисовала новый знак — круг, а в нём не одну точку, как в «здесь», а две.</p>
+<p class="signs"><svg class="g" viewBox="0 0 24 24" role="img" aria-label="друг"><path pathLength="1" d="M4.5 12 a7.5 7.5 0 1 0 15 0 a7.5 7.5 0 1 0 -15 0"/><circle class="dot" cx="9.3" cy="12" r="1.55"/><circle class="dot" cx="14.7" cy="12" r="1.55"/></svg></p>
+<p>Двое здесь. Друг.</p>
+<p>Зеркало долго молчало. Потом рядом с её знаком проступил такой же, чуть кривоватый, — и хвост, свёрнутый вопросом.</p>
+<figure class="mirror" aria-label="Знаки на зеркале"><div class="row"><svg class="g" viewBox="0 0 24 24" role="img" aria-label="друг" style="--i:0"><path pathLength="1" d="M4.5 12 a7.5 7.5 0 1 0 15 0 a7.5 7.5 0 1 0 -15 0"/><circle class="dot" cx="9.3" cy="12" r="1.55"/><circle class="dot" cx="14.7" cy="12" r="1.55"/></svg><svg class="g" viewBox="0 0 24 24" role="img" aria-label="почему" style="--i:1"><path pathLength="1" d="M7.8 8.2 C7.2 4.8 9.8 2.9 12.5 2.9 C15.4 2.9 17.3 4.8 17.3 7.4 C17.3 10.6 13.4 11.3 12.9 14.3 L12.8 15.6"/><path pathLength="1" d="M7.8 8.2 L5.9 7.5 M7.8 8.2 L6.6 9.9"/><circle class="dot" cx="12.8" cy="19" r="1.55"/></svg></div></figure>
+<p>Вера вывела пальцем большие печатные буквы через всё стекло: МАРК.</p>
+<p>И вдруг поняла, что впервые знакомит папу со своим другом. Раньше было не с кем: кроме Алины, друзей у неё не было, а Алину папа знал и так.</p>
+<p>Ответ пришёл сразу.</p>
+<figure class="mirror" aria-label="Знаки на зеркале"><div class="row"><svg class="g" viewBox="0 0 24 24" role="img" aria-label="здесь" style="--i:0"><path pathLength="1" d="M4.5 12 a7.5 7.5 0 1 0 15 0 a7.5 7.5 0 1 0 -15 0"/><circle class="dot" cx="12" cy="12" r="1.7"/></svg><svg class="g" viewBox="0 0 24 24" role="img" aria-label="пирог" style="--i:1"><path pathLength="1" d="M4 15.6 C4 10.7 7.5 8 12 8 C16.5 8 20 10.7 20 15.6 Z"/><path pathLength="1" d="M8.4 11.9 L9.5 10.4 M12 11.2 V9.5 M15.6 11.9 L14.5 10.4"/><path pathLength="1" d="M3 18.6 H21"/></svg><svg class="g" viewBox="0 0 24 24" role="img" aria-label="почему" style="--i:2"><path pathLength="1" d="M7.8 8.2 C7.2 4.8 9.8 2.9 12.5 2.9 C15.4 2.9 17.3 4.8 17.3 7.4 C17.3 10.6 13.4 11.3 12.9 14.3 L12.8 15.6"/><path pathLength="1" d="M7.8 8.2 L5.9 7.5 M7.8 8.2 L6.6 9.9"/><circle class="dot" cx="12.8" cy="19" r="1.55"/></svg></div></figure>
+<p>— Что он пишет? — шёпотом спросил Марк.</p>
+<p>— Спрашивает, кормят ли тебя, — сказала Вера и сама не поняла, смеётся она или плачет.</p>
+<p>Марк подумал.</p>
+<p>— Иногда, — сказал он зеркалу.</p>
+<p>И тут на кухне хлопнула форточка. Сквозняк прошёл по коридору, пламя свечи легло набок и погасло.</p>
+<p>Огонёк на потолке мигнул оранжевым.</p>
+<p>Они замерли. Марк чиркнул спичкой раньше, чем Вера успела испугаться, — свеча снова загорелась, — и огонёк опять стал зелёным, будто ничего не было.</p>
+<p>Знаки на зеркале таяли. Вера смотрела на огонёк, Марк — на ленту, где перо снова тянуло сонную колючую дорожку.</p>
+<p>— Заметил? — спросила Вера.</p>
+<p>— Не знаю, — сказал Марк.</p>
+<p>Это была правда, и почему-то от неё стало легче, чем стало бы от вранья.</p>
+<div class="divider" aria-hidden="true"><span></span><span></span><span></span></div>
+<p>Марк ушёл в одиннадцатом часу. Вера погасила поминальную свечу и стояла над ней, пока не перестал виться дымок. Потом убрала свечу обратно в коробку.</p>
+<p>Из-под матраса она достала словарь с лисой. Сто сорок два знака — папиной рукой и её детской, но все придуманные вместе. Вера открыла чистую страницу и нарисовала круг с двумя точками.</p>
+<p>Сто сорок третий. Первый, который она придумала без него.</p>
+<div class="divider" aria-hidden="true"><span></span><span></span><span></span></div>
+<p>Домой Марк шёл пешком через весь город: автобусы тоже открывались телефоном.</p>
+<p>Раньше он не обращал на них внимания. Теперь он видел их везде — белые шайбы с зелёными огоньками. В подъездах, в автобусах, в витринах, над дверью аптеки, в окнах первых этажей. Город светился зелёным, как ёлка: тысячи маленьких глаз, и ни один не моргал. На крыше торгового центра горел экран во всю стену: «„Тихий дом“. Спокойствие под присмотром».</p>
+<p>На остановке старик в мокрой куртке стоял перед закрытыми дверями автобуса. На экране у двери горело: «Мы обновили условия. Позже / Принимаю». Старик постоял, вытер воду с лица и нажал «Принимаю», не читая. Двери открылись. Марку показалось, что где-то очень далеко зашуршала бумага.</p>
+<p>Марк поднял воротник. Впервые за шестнадцать лет он подумал, что отец, может быть, запрещал ему «Фосфор» не просто так.</p>
+<div class="divider" aria-hidden="true"><span></span><span></span><span></span></div>
+<p>В ту же ночь на другом конце города, в здании с серебряной искрой на крыше, во всю стену светилась карта.</p>
+<figure class="smokemap" role="img" aria-label="Карта дыма: тысячи зелёных точек и одна оранжевая"><svg viewBox="0 0 400 250" aria-hidden="true"><rect class="bg" width="400" height="250"/><path class="streets" d="M77 0 L131 250 M173 0 L258 250 M382 0 L247 250 M103 0 L111 250 M67 0 L221 250 M391 0 L241 250 M347 0 L354 250 M0 73 L400 174 M0 159 L400 21 M0 141 L400 48 M0 109 L400 211 M0 210 L400 27 M0 212 L400 220"/><path class="river" d="M-10 174.4 L-5 175.2 L0 176.0 L5 176.8 L10 177.6 L15 178.4 L20 179.2 L25 179.9 L30 180.6 L35 181.3 L40 181.9 L45 182.4 L50 182.9 L55 183.3 L60 183.6 L65 183.9 L70 184.0 L75 184.1 L80 184.1 L85 183.9 L90 183.7 L95 183.3 L100 182.9 L105 182.3 L110 181.7 L115 180.9 L120 180.0 L125 179.0 L130 177.9 L135 176.8 L140 175.5 L145 174.1 L150 172.6 L155 171.0 L160 169.4 L165 167.7 L170 165.9 L175 164.0 L180 162.1 L185 160.1 L190 158.1 L195 156.1 L200 154.0 L205 151.9 L210 149.8 L215 147.6 L220 145.5 L225 143.4 L230 141.3 L235 139.3 L240 137.2 L245 135.2 L250 133.3 L255 131.4 L260 129.6 L265 127.8 L270 126.2 L275 124.6 L280 123.0 L285 121.6 L290 120.3 L295 119.0 L300 117.9 L305 116.9 L310 115.9 L315 115.1 L320 114.4 L325 113.8 L330 113.3 L335 112.9 L340 112.6 L345 112.4 L350 112.4 L355 112.4 L360 112.5 L365 112.7 L370 113.0 L375 113.3 L380 113.8 L385 114.3 L390 114.9 L395 115.5 L400 116.2 L405 116.9 L410 117.7"/><g class="d0"><circle cx="356.2" cy="45.4" r="1.3"/><circle cx="347.4" cy="40.6" r="1.3"/><circle cx="373.0" cy="56.0" r="1.3"/><circle cx="353.3" cy="38.8" r="1.3"/><circle cx="370.9" cy="27.9" r="1.3"/><circle cx="376.4" cy="31.5" r="1.3"/><circle cx="352.2" cy="17.5" r="1.3"/><circle cx="381.4" cy="34.4" r="1.3"/><circle cx="391.5" cy="30.5" r="1.3"/><circle cx="343.4" cy="16.3" r="1.3"/><circle cx="291.2" cy="55.3" r="1.3"/><circle cx="299.3" cy="37.4" r="1.3"/><circle cx="297.2" cy="18.2" r="1.3"/><circle cx="312.8" cy="36.8" r="1.3"/><circle cx="47.2" cy="233.2" r="1.3"/><circle cx="25.7" cy="209.6" r="1.3"/><circle cx="62.9" cy="218.9" r="1.3"/><circle cx="38.4" cy="200.1" r="1.3"/><circle cx="39.1" cy="214.9" r="1.3"/><circle cx="204.7" cy="185.0" r="1.3"/><circle cx="200.6" cy="215.5" r="1.3"/><circle cx="201.8" cy="220.7" r="1.3"/><circle cx="189.8" cy="210.2" r="1.3"/><circle cx="188.4" cy="203.7" r="1.3"/><circle cx="170.4" cy="211.2" r="1.3"/><circle cx="160.6" cy="199.2" r="1.3"/><circle cx="324.5" cy="125.5" r="1.3"/><circle cx="302.0" cy="148.2" r="1.3"/><circle cx="308.7" cy="136.4" r="1.3"/><circle cx="300.6" cy="103.1" r="1.3"/><circle cx="23.0" cy="216.1" r="1.3"/><circle cx="37.5" cy="193.4" r="1.3"/><circle cx="109.1" cy="137.2" r="1.3"/><circle cx="113.6" cy="122.2" r="1.3"/><circle cx="108.0" cy="126.5" r="1.3"/><circle cx="120.3" cy="132.3" r="1.3"/><circle cx="114.6" cy="108.5" r="1.3"/><circle cx="124.3" cy="132.6" r="1.3"/><circle cx="117.5" cy="115.7" r="1.3"/><circle cx="115.0" cy="114.9" r="1.3"/><circle cx="112.1" cy="114.3" r="1.3"/><circle cx="108.3" cy="114.3" r="1.3"/><circle cx="104.5" cy="105.3" r="1.3"/><circle cx="348.7" cy="136.5" r="1.3"/><circle cx="302.6" cy="129.1" r="1.3"/><circle cx="314.7" cy="153.9" r="1.3"/><circle cx="23.9" cy="81.3" r="1.3"/><circle cx="23.9" cy="59.1" r="1.3"/><circle cx="23.8" cy="59.1" r="1.3"/><circle cx="56.5" cy="81.9" r="1.3"/><circle cx="148.5" cy="103.8" r="1.3"/><circle cx="94.9" cy="91.9" r="1.3"/><circle cx="137.6" cy="97.5" r="1.3"/><circle cx="235.5" cy="205.5" r="1.3"/><circle cx="244.6" cy="215.1" r="1.3"/><circle cx="255.5" cy="199.7" r="1.3"/><circle cx="230.2" cy="221.3" r="1.3"/><circle cx="41.1" cy="212.0" r="1.3"/><circle cx="49.1" cy="221.5" r="1.3"/><circle cx="45.2" cy="226.9" r="1.3"/><circle cx="67.2" cy="223.9" r="1.3"/><circle cx="39.5" cy="242.1" r="1.3"/><circle cx="52.0" cy="219.0" r="1.3"/><circle cx="92.5" cy="205.7" r="1.3"/><circle cx="88.0" cy="231.3" r="1.3"/><circle cx="106.5" cy="222.9" r="1.3"/><circle cx="104.9" cy="224.7" r="1.3"/><circle cx="129.6" cy="241.6" r="1.3"/><circle cx="125.4" cy="214.8" r="1.3"/><circle cx="98.6" cy="226.1" r="1.3"/><circle cx="233.2" cy="207.3" r="1.3"/><circle cx="256.9" cy="212.1" r="1.3"/><circle cx="259.7" cy="218.5" r="1.3"/><circle cx="227.9" cy="212.4" r="1.3"/><circle cx="83.0" cy="146.1" r="1.3"/><circle cx="51.9" cy="157.1" r="1.3"/><circle cx="45.7" cy="168.7" r="1.3"/><circle cx="29.6" cy="164.7" r="1.3"/><circle cx="322.0" cy="82.1" r="1.3"/><circle cx="360.7" cy="67.5" r="1.3"/><circle cx="126.1" cy="153.3" r="1.3"/><circle cx="136.5" cy="138.7" r="1.3"/><circle cx="128.8" cy="159.0" r="1.3"/><circle cx="121.0" cy="159.5" r="1.3"/><circle cx="131.5" cy="165.7" r="1.3"/><circle cx="104.7" cy="156.1" r="1.3"/><circle cx="140.9" cy="128.7" r="1.3"/><circle cx="91.8" cy="57.1" r="1.3"/><circle cx="65.2" cy="96.7" r="1.3"/><circle cx="79.6" cy="44.2" r="1.3"/><circle cx="360.0" cy="46.7" r="1.3"/><circle cx="372.6" cy="33.2" r="1.3"/><circle cx="377.2" cy="41.5" r="1.3"/><circle cx="313.6" cy="157.3" r="1.3"/><circle cx="324.6" cy="152.4" r="1.3"/><circle cx="292.9" cy="165.6" r="1.3"/><circle cx="301.7" cy="142.4" r="1.3"/><circle cx="341.9" cy="145.2" r="1.3"/><circle cx="308.6" cy="166.0" r="1.3"/><circle cx="314.6" cy="23.4" r="1.3"/><circle cx="290.6" cy="37.7" r="1.3"/><circle cx="332.4" cy="19.0" r="1.3"/><circle cx="300.7" cy="34.9" r="1.3"/><circle cx="287.6" cy="52.1" r="1.3"/><circle cx="77.4" cy="93.8" r="1.3"/><circle cx="85.3" cy="98.5" r="1.3"/><circle cx="98.9" cy="100.7" r="1.3"/><circle cx="48.2" cy="107.2" r="1.3"/><circle cx="237.1" cy="236.7" r="1.3"/><circle cx="50.6" cy="82.6" r="1.3"/><circle cx="11.7" cy="67.9" r="1.3"/><circle cx="12.4" cy="83.8" r="1.3"/><circle cx="19.0" cy="79.9" r="1.3"/><circle cx="334.1" cy="241.6" r="1.3"/><circle cx="318.3" cy="221.1" r="1.3"/><circle cx="304.0" cy="228.1" r="1.3"/><circle cx="329.5" cy="232.1" r="1.3"/><circle cx="331.1" cy="214.4" r="1.3"/><circle cx="330.9" cy="240.6" r="1.3"/><circle cx="230.1" cy="243.8" r="1.3"/><circle cx="342.5" cy="74.3" r="1.3"/><circle cx="396.4" cy="27.3" r="1.3"/><circle cx="241.9" cy="87.3" r="1.3"/><circle cx="84.5" cy="51.2" r="1.3"/><circle cx="37.8" cy="120.3" r="1.3"/><circle cx="97.4" cy="122.5" r="1.3"/><circle cx="317.4" cy="55.2" r="1.3"/><circle cx="277.7" cy="84.4" r="1.3"/><circle cx="344.8" cy="60.4" r="1.3"/><circle cx="260.4" cy="5.3" r="1.3"/><circle cx="121.6" cy="25.1" r="1.3"/><circle cx="112.3" cy="27.3" r="1.3"/><circle cx="389.5" cy="130.3" r="1.3"/><circle cx="317.3" cy="200.3" r="1.3"/><circle cx="136.7" cy="163.7" r="1.3"/><circle cx="40.0" cy="104.8" r="1.3"/><circle cx="133.0" cy="71.2" r="1.3"/><circle cx="190.3" cy="198.3" r="1.3"/><circle cx="180.0" cy="245.9" r="1.3"/><circle cx="134.2" cy="193.8" r="1.3"/><circle cx="88.5" cy="143.8" r="1.3"/><circle cx="106.9" cy="158.9" r="1.3"/><circle cx="221.5" cy="6.5" r="1.3"/></g><g class="d1"><circle cx="366.6" cy="50.5" r="1.3"/><circle cx="365.9" cy="58.1" r="1.3"/><circle cx="372.1" cy="37.7" r="1.3"/><circle cx="352.9" cy="45.2" r="1.3"/><circle cx="369.1" cy="64.0" r="1.3"/><circle cx="374.2" cy="73.2" r="1.3"/><circle cx="376.6" cy="55.0" r="1.3"/><circle cx="348.1" cy="54.3" r="1.3"/><circle cx="359.2" cy="77.4" r="1.3"/><circle cx="347.7" cy="44.0" r="1.3"/><circle cx="374.7" cy="49.2" r="1.3"/><circle cx="359.4" cy="22.9" r="1.3"/><circle cx="337.7" cy="25.2" r="1.3"/><circle cx="367.2" cy="24.8" r="1.3"/><circle cx="377.6" cy="17.6" r="1.3"/><circle cx="386.1" cy="24.0" r="1.3"/><circle cx="374.1" cy="40.9" r="1.3"/><circle cx="381.2" cy="13.2" r="1.3"/><circle cx="380.8" cy="32.8" r="1.3"/><circle cx="390.0" cy="18.1" r="1.3"/><circle cx="377.6" cy="36.8" r="1.3"/><circle cx="353.8" cy="19.9" r="1.3"/><circle cx="278.4" cy="40.0" r="1.3"/><circle cx="272.8" cy="10.3" r="1.3"/><circle cx="273.1" cy="50.6" r="1.3"/><circle cx="302.2" cy="41.8" r="1.3"/><circle cx="295.2" cy="28.2" r="1.3"/><circle cx="300.0" cy="22.7" r="1.3"/><circle cx="312.3" cy="9.6" r="1.3"/><circle cx="304.5" cy="26.3" r="1.3"/><circle cx="301.9" cy="26.1" r="1.3"/><circle cx="277.5" cy="6.0" r="1.3"/><circle cx="295.3" cy="41.4" r="1.3"/><circle cx="41.2" cy="235.3" r="1.3"/><circle cx="32.3" cy="212.6" r="1.3"/><circle cx="52.9" cy="218.0" r="1.3"/><circle cx="29.0" cy="234.0" r="1.3"/><circle cx="31.3" cy="235.3" r="1.3"/><circle cx="13.9" cy="245.0" r="1.3"/><circle cx="33.9" cy="207.8" r="1.3"/><circle cx="46.0" cy="217.2" r="1.3"/><circle cx="50.3" cy="221.0" r="1.3"/><circle cx="45.8" cy="231.6" r="1.3"/><circle cx="49.6" cy="221.2" r="1.3"/><circle cx="24.7" cy="199.7" r="1.3"/><circle cx="32.0" cy="238.3" r="1.3"/><circle cx="183.4" cy="216.1" r="1.3"/><circle cx="175.0" cy="181.0" r="1.3"/><circle cx="167.3" cy="203.0" r="1.3"/><circle cx="191.2" cy="192.1" r="1.3"/><circle cx="165.7" cy="191.1" r="1.3"/><circle cx="176.3" cy="206.1" r="1.3"/><circle cx="202.2" cy="195.9" r="1.3"/><circle cx="145.3" cy="196.9" r="1.3"/><circle cx="174.2" cy="224.0" r="1.3"/><circle cx="168.0" cy="212.7" r="1.3"/><circle cx="307.1" cy="141.4" r="1.3"/><circle cx="299.6" cy="98.1" r="1.3"/><circle cx="308.6" cy="129.1" r="1.3"/><circle cx="295.4" cy="130.5" r="1.3"/><circle cx="297.2" cy="107.0" r="1.3"/><circle cx="318.5" cy="126.5" r="1.3"/><circle cx="319.7" cy="136.2" r="1.3"/><circle cx="287.6" cy="98.3" r="1.3"/><circle cx="296.1" cy="130.2" r="1.3"/><circle cx="318.8" cy="126.4" r="1.3"/><circle cx="44.1" cy="210.2" r="1.3"/><circle cx="30.6" cy="197.3" r="1.3"/><circle cx="29.4" cy="163.5" r="1.3"/><circle cx="22.4" cy="194.9" r="1.3"/><circle cx="106.5" cy="140.5" r="1.3"/><circle cx="108.8" cy="114.4" r="1.3"/><circle cx="131.3" cy="122.8" r="1.3"/><circle cx="87.1" cy="109.0" r="1.3"/><circle cx="131.3" cy="107.3" r="1.3"/><circle cx="123.0" cy="114.3" r="1.3"/><circle cx="106.8" cy="118.6" r="1.3"/><circle cx="96.9" cy="134.6" r="1.3"/><circle cx="120.0" cy="122.5" r="1.3"/><circle cx="93.8" cy="111.0" r="1.3"/><circle cx="115.8" cy="128.6" r="1.3"/><circle cx="94.4" cy="133.2" r="1.3"/><circle cx="110.3" cy="128.6" r="1.3"/><circle cx="82.6" cy="149.7" r="1.3"/><circle cx="117.5" cy="117.4" r="1.3"/><circle cx="105.6" cy="155.9" r="1.3"/><circle cx="117.3" cy="133.3" r="1.3"/><circle cx="113.6" cy="112.5" r="1.3"/><circle cx="102.6" cy="122.5" r="1.3"/><circle cx="358.8" cy="132.9" r="1.3"/><circle cx="319.9" cy="169.5" r="1.3"/><circle cx="386.4" cy="154.6" r="1.3"/><circle cx="365.7" cy="136.7" r="1.3"/><circle cx="359.6" cy="124.0" r="1.3"/><circle cx="337.9" cy="124.9" r="1.3"/><circle cx="338.6" cy="134.8" r="1.3"/><circle cx="365.7" cy="135.4" r="1.3"/><circle cx="364.8" cy="138.6" r="1.3"/><circle cx="335.1" cy="136.2" r="1.3"/><circle cx="356.7" cy="125.8" r="1.3"/><circle cx="37.3" cy="81.5" r="1.3"/><circle cx="28.1" cy="84.9" r="1.3"/><circle cx="31.5" cy="79.5" r="1.3"/><circle cx="30.0" cy="92.4" r="1.3"/><circle cx="33.1" cy="93.1" r="1.3"/><circle cx="42.2" cy="96.0" r="1.3"/><circle cx="47.8" cy="100.4" r="1.3"/><circle cx="29.6" cy="98.7" r="1.3"/><circle cx="17.1" cy="84.3" r="1.3"/><circle cx="11.2" cy="92.2" r="1.3"/><circle cx="40.5" cy="86.0" r="1.3"/><circle cx="43.5" cy="65.1" r="1.3"/><circle cx="145.2" cy="96.5" r="1.3"/><circle cx="143.2" cy="93.5" r="1.3"/><circle cx="120.7" cy="87.0" r="1.3"/><circle cx="137.4" cy="93.2" r="1.3"/><circle cx="111.4" cy="101.2" r="1.3"/><circle cx="156.4" cy="95.7" r="1.3"/><circle cx="140.5" cy="82.2" r="1.3"/><circle cx="123.1" cy="98.5" r="1.3"/><circle cx="251.2" cy="220.5" r="1.3"/><circle cx="242.7" cy="194.8" r="1.3"/><circle cx="251.8" cy="204.5" r="1.3"/><circle cx="268.4" cy="229.5" r="1.3"/><circle cx="265.1" cy="206.5" r="1.3"/><circle cx="294.1" cy="215.7" r="1.3"/><circle cx="254.6" cy="224.5" r="1.3"/><circle cx="286.6" cy="232.7" r="1.3"/><circle cx="40.8" cy="215.0" r="1.3"/><circle cx="53.6" cy="223.9" r="1.3"/><circle cx="9.5" cy="193.2" r="1.3"/><circle cx="42.6" cy="214.2" r="1.3"/><circle cx="28.3" cy="218.1" r="1.3"/><circle cx="49.0" cy="202.8" r="1.3"/><circle cx="51.1" cy="212.4" r="1.3"/><circle cx="29.6" cy="213.4" r="1.3"/><circle cx="43.8" cy="219.2" r="1.3"/><circle cx="124.3" cy="241.5" r="1.3"/><circle cx="85.4" cy="234.9" r="1.3"/><circle cx="125.6" cy="239.8" r="1.3"/><circle cx="120.2" cy="219.7" r="1.3"/><circle cx="118.7" cy="237.1" r="1.3"/><circle cx="103.5" cy="246.0" r="1.3"/><circle cx="107.2" cy="217.5" r="1.3"/><circle cx="121.2" cy="244.4" r="1.3"/><circle cx="226.0" cy="211.8" r="1.3"/><circle cx="222.7" cy="218.5" r="1.3"/><circle cx="260.5" cy="213.8" r="1.3"/><circle cx="233.6" cy="214.6" r="1.3"/><circle cx="230.0" cy="212.7" r="1.3"/><circle cx="264.7" cy="205.9" r="1.3"/><circle cx="252.4" cy="223.8" r="1.3"/><circle cx="237.7" cy="205.2" r="1.3"/><circle cx="232.7" cy="191.1" r="1.3"/><circle cx="52.2" cy="169.3" r="1.3"/><circle cx="80.0" cy="168.4" r="1.3"/><circle cx="79.4" cy="167.8" r="1.3"/><circle cx="68.1" cy="162.5" r="1.3"/><circle cx="95.9" cy="158.0" r="1.3"/><circle cx="22.1" cy="153.0" r="1.3"/><circle cx="54.9" cy="153.5" r="1.3"/><circle cx="80.5" cy="153.5" r="1.3"/><circle cx="51.5" cy="163.6" r="1.3"/><circle cx="49.4" cy="163.5" r="1.3"/><circle cx="48.1" cy="164.2" r="1.3"/><circle cx="346.6" cy="97.7" r="1.3"/><circle cx="337.7" cy="93.1" r="1.3"/><circle cx="322.4" cy="92.2" r="1.3"/><circle cx="370.7" cy="99.3" r="1.3"/><circle cx="335.9" cy="96.5" r="1.3"/><circle cx="347.8" cy="89.9" r="1.3"/><circle cx="108.4" cy="163.8" r="1.3"/><circle cx="139.8" cy="156.9" r="1.3"/><circle cx="123.8" cy="162.8" r="1.3"/><circle cx="143.0" cy="162.5" r="1.3"/><circle cx="139.6" cy="156.9" r="1.3"/><circle cx="85.2" cy="53.0" r="1.3"/><circle cx="50.0" cy="107.4" r="1.3"/><circle cx="36.7" cy="43.6" r="1.3"/><circle cx="77.8" cy="79.8" r="1.3"/><circle cx="60.6" cy="65.5" r="1.3"/><circle cx="76.4" cy="46.5" r="1.3"/><circle cx="51.9" cy="66.9" r="1.3"/><circle cx="63.4" cy="62.3" r="1.3"/><circle cx="55.1" cy="56.3" r="1.3"/><circle cx="56.8" cy="58.3" r="1.3"/><circle cx="374.6" cy="31.3" r="1.3"/><circle cx="379.5" cy="45.2" r="1.3"/><circle cx="383.0" cy="12.3" r="1.3"/><circle cx="389.8" cy="38.8" r="1.3"/><circle cx="388.5" cy="48.1" r="1.3"/><circle cx="365.4" cy="53.8" r="1.3"/><circle cx="372.6" cy="25.3" r="1.3"/><circle cx="377.3" cy="37.4" r="1.3"/><circle cx="379.4" cy="48.2" r="1.3"/><circle cx="288.8" cy="167.4" r="1.3"/><circle cx="339.4" cy="149.8" r="1.3"/><circle cx="301.2" cy="138.0" r="1.3"/><circle cx="333.8" cy="143.5" r="1.3"/><circle cx="321.1" cy="141.4" r="1.3"/><circle cx="267.4" cy="154.4" r="1.3"/><circle cx="273.4" cy="183.4" r="1.3"/><circle cx="315.9" cy="138.0" r="1.3"/><circle cx="311.5" cy="148.6" r="1.3"/><circle cx="304.2" cy="159.6" r="1.3"/><circle cx="326.0" cy="172.6" r="1.3"/><circle cx="284.3" cy="155.7" r="1.3"/><circle cx="310.1" cy="35.6" r="1.3"/><circle cx="326.3" cy="47.1" r="1.3"/><circle cx="310.1" cy="63.6" r="1.3"/><circle cx="326.5" cy="52.6" r="1.3"/><circle cx="314.8" cy="32.4" r="1.3"/><circle cx="299.3" cy="49.4" r="1.3"/><circle cx="301.2" cy="39.1" r="1.3"/><circle cx="321.4" cy="33.9" r="1.3"/><circle cx="314.6" cy="44.9" r="1.3"/><circle cx="303.5" cy="46.4" r="1.3"/><circle cx="331.4" cy="28.2" r="1.3"/><circle cx="321.2" cy="44.4" r="1.3"/><circle cx="305.4" cy="26.8" r="1.3"/><circle cx="316.4" cy="30.5" r="1.3"/><circle cx="324.0" cy="40.0" r="1.3"/><circle cx="62.1" cy="67.4" r="1.3"/><circle cx="100.4" cy="83.6" r="1.3"/><circle cx="104.3" cy="74.0" r="1.3"/><circle cx="113.5" cy="90.1" r="1.3"/><circle cx="91.5" cy="77.7" r="1.3"/><circle cx="80.6" cy="79.6" r="1.3"/><circle cx="91.6" cy="78.5" r="1.3"/><circle cx="68.3" cy="88.7" r="1.3"/><circle cx="261.4" cy="230.3" r="1.3"/><circle cx="241.7" cy="207.8" r="1.3"/><circle cx="252.8" cy="198.8" r="1.3"/><circle cx="235.3" cy="220.0" r="1.3"/><circle cx="243.4" cy="225.9" r="1.3"/><circle cx="246.1" cy="233.8" r="1.3"/><circle cx="244.5" cy="234.9" r="1.3"/><circle cx="217.5" cy="231.1" r="1.3"/><circle cx="235.4" cy="215.3" r="1.3"/><circle cx="237.8" cy="215.8" r="1.3"/><circle cx="27.2" cy="79.7" r="1.3"/><circle cx="20.9" cy="81.6" r="1.3"/><circle cx="32.5" cy="65.9" r="1.3"/><circle cx="19.3" cy="64.1" r="1.3"/><circle cx="62.0" cy="74.6" r="1.3"/><circle cx="42.3" cy="82.1" r="1.3"/><circle cx="32.2" cy="68.7" r="1.3"/><circle cx="35.8" cy="55.6" r="1.3"/><circle cx="37.9" cy="66.7" r="1.3"/><circle cx="32.2" cy="66.1" r="1.3"/><circle cx="304.3" cy="222.8" r="1.3"/><circle cx="318.7" cy="223.6" r="1.3"/><circle cx="342.6" cy="209.0" r="1.3"/><circle cx="336.1" cy="241.9" r="1.3"/><circle cx="360.7" cy="211.6" r="1.3"/><circle cx="290.1" cy="238.4" r="1.3"/><circle cx="303.2" cy="216.2" r="1.3"/><circle cx="305.4" cy="227.6" r="1.3"/><circle cx="233.4" cy="98.1" r="1.3"/><circle cx="365.6" cy="39.6" r="1.3"/><circle cx="318.1" cy="214.7" r="1.3"/><circle cx="373.3" cy="17.4" r="1.3"/><circle cx="175.5" cy="104.9" r="1.3"/><circle cx="246.4" cy="99.6" r="1.3"/><circle cx="195.6" cy="179.5" r="1.3"/><circle cx="354.8" cy="224.8" r="1.3"/><circle cx="364.6" cy="238.8" r="1.3"/><circle cx="218.2" cy="72.8" r="1.3"/><circle cx="166.3" cy="206.2" r="1.3"/><circle cx="349.7" cy="221.5" r="1.3"/><circle cx="21.9" cy="7.7" r="1.3"/><circle cx="239.6" cy="101.5" r="1.3"/><circle cx="177.3" cy="90.3" r="1.3"/><circle cx="248.1" cy="201.2" r="1.3"/><circle cx="344.6" cy="179.5" r="1.3"/><circle cx="369.9" cy="219.8" r="1.3"/><circle cx="288.6" cy="3.3" r="1.3"/><circle cx="8.8" cy="138.2" r="1.3"/><circle cx="259.1" cy="231.5" r="1.3"/><circle cx="136.4" cy="25.4" r="1.3"/><circle cx="313.0" cy="175.2" r="1.3"/><circle cx="82.5" cy="113.4" r="1.3"/><circle cx="126.2" cy="110.1" r="1.3"/><circle cx="395.5" cy="137.2" r="1.3"/><circle cx="229.5" cy="212.4" r="1.3"/><circle cx="4.1" cy="202.6" r="1.3"/><circle cx="243.3" cy="188.5" r="1.3"/><circle cx="228.7" cy="162.3" r="1.3"/><circle cx="170.8" cy="208.2" r="1.3"/><circle cx="59.4" cy="12.5" r="1.3"/><circle cx="161.3" cy="83.5" r="1.3"/><circle cx="210.1" cy="245.4" r="1.3"/><circle cx="389.3" cy="98.0" r="1.3"/><circle cx="342.9" cy="137.5" r="1.3"/><circle cx="290.0" cy="28.3" r="1.3"/><circle cx="142.0" cy="129.5" r="1.3"/><circle cx="57.9" cy="136.9" r="1.3"/><circle cx="81.5" cy="77.6" r="1.3"/><circle cx="157.9" cy="123.2" r="1.3"/><circle cx="180.6" cy="56.4" r="1.3"/><circle cx="163.6" cy="207.2" r="1.3"/><circle cx="145.2" cy="151.8" r="1.3"/><circle cx="148.9" cy="95.3" r="1.3"/><circle cx="164.3" cy="213.0" r="1.3"/><circle cx="223.6" cy="191.1" r="1.3"/><circle cx="137.1" cy="90.4" r="1.3"/><circle cx="40.5" cy="57.3" r="1.3"/><circle cx="194.8" cy="210.7" r="1.3"/><circle cx="276.9" cy="183.0" r="1.3"/><circle cx="393.2" cy="14.8" r="1.3"/><circle cx="300.3" cy="20.2" r="1.3"/><circle cx="195.2" cy="24.4" r="1.3"/><circle cx="32.8" cy="208.2" r="1.3"/><circle cx="357.5" cy="92.7" r="1.3"/><circle cx="296.1" cy="87.5" r="1.3"/><circle cx="213.9" cy="66.5" r="1.3"/><circle cx="264.6" cy="231.5" r="1.3"/><circle cx="66.4" cy="209.2" r="1.3"/><circle cx="187.1" cy="211.7" r="1.3"/><circle cx="313.1" cy="63.2" r="1.3"/><circle cx="37.6" cy="232.4" r="1.3"/><circle cx="283.4" cy="101.5" r="1.3"/><circle cx="17.7" cy="222.8" r="1.3"/><circle cx="347.9" cy="245.1" r="1.3"/><circle cx="146.5" cy="219.7" r="1.3"/><circle cx="337.7" cy="245.5" r="1.3"/><circle cx="234.3" cy="55.6" r="1.3"/></g><g class="d2"><circle cx="335.8" cy="39.5" r="1.3"/><circle cx="349.5" cy="41.8" r="1.3"/><circle cx="343.8" cy="67.3" r="1.3"/><circle cx="366.1" cy="64.7" r="1.3"/><circle cx="348.4" cy="49.3" r="1.3"/><circle cx="359.9" cy="63.5" r="1.3"/><circle cx="376.7" cy="50.7" r="1.3"/><circle cx="384.2" cy="13.6" r="1.3"/><circle cx="355.4" cy="27.4" r="1.3"/><circle cx="394.8" cy="34.2" r="1.3"/><circle cx="395.0" cy="21.0" r="1.3"/><circle cx="379.4" cy="16.3" r="1.3"/><circle cx="387.3" cy="22.3" r="1.3"/><circle cx="380.7" cy="8.2" r="1.3"/><circle cx="395.5" cy="6.6" r="1.3"/><circle cx="393.2" cy="29.2" r="1.3"/><circle cx="375.3" cy="26.6" r="1.3"/><circle cx="362.3" cy="20.5" r="1.3"/><circle cx="368.0" cy="14.7" r="1.3"/><circle cx="383.3" cy="26.3" r="1.3"/><circle cx="387.8" cy="11.4" r="1.3"/><circle cx="391.0" cy="9.8" r="1.3"/><circle cx="366.2" cy="22.8" r="1.3"/><circle cx="375.7" cy="14.9" r="1.3"/><circle cx="390.6" cy="9.6" r="1.3"/><circle cx="365.4" cy="18.6" r="1.3"/><circle cx="352.8" cy="8.8" r="1.3"/><circle cx="334.1" cy="32.8" r="1.3"/><circle cx="278.3" cy="35.9" r="1.3"/><circle cx="276.7" cy="6.0" r="1.3"/><circle cx="273.3" cy="30.7" r="1.3"/><circle cx="273.9" cy="23.3" r="1.3"/><circle cx="266.8" cy="34.7" r="1.3"/><circle cx="301.2" cy="40.2" r="1.3"/><circle cx="289.6" cy="41.7" r="1.3"/><circle cx="276.2" cy="49.8" r="1.3"/><circle cx="277.8" cy="11.7" r="1.3"/><circle cx="297.0" cy="10.8" r="1.3"/><circle cx="296.4" cy="45.8" r="1.3"/><circle cx="325.2" cy="21.0" r="1.3"/><circle cx="287.3" cy="14.2" r="1.3"/><circle cx="290.7" cy="50.3" r="1.3"/><circle cx="35.0" cy="202.9" r="1.3"/><circle cx="35.2" cy="226.0" r="1.3"/><circle cx="41.7" cy="240.8" r="1.3"/><circle cx="36.9" cy="214.0" r="1.3"/><circle cx="34.1" cy="211.1" r="1.3"/><circle cx="42.6" cy="225.9" r="1.3"/><circle cx="13.9" cy="195.2" r="1.3"/><circle cx="13.5" cy="225.0" r="1.3"/><circle cx="47.3" cy="245.8" r="1.3"/><circle cx="19.5" cy="221.3" r="1.3"/><circle cx="55.2" cy="219.2" r="1.3"/><circle cx="37.2" cy="197.4" r="1.3"/><circle cx="35.2" cy="198.5" r="1.3"/><circle cx="196.3" cy="203.4" r="1.3"/><circle cx="203.1" cy="210.5" r="1.3"/><circle cx="200.7" cy="219.9" r="1.3"/><circle cx="168.5" cy="190.6" r="1.3"/><circle cx="174.8" cy="202.7" r="1.3"/><circle cx="167.0" cy="209.1" r="1.3"/><circle cx="176.2" cy="214.7" r="1.3"/><circle cx="174.0" cy="206.2" r="1.3"/><circle cx="186.9" cy="189.1" r="1.3"/><circle cx="213.2" cy="212.7" r="1.3"/><circle cx="189.0" cy="229.7" r="1.3"/><circle cx="213.4" cy="196.9" r="1.3"/><circle cx="182.0" cy="211.5" r="1.3"/><circle cx="158.0" cy="204.1" r="1.3"/><circle cx="193.6" cy="196.7" r="1.3"/><circle cx="191.8" cy="184.0" r="1.3"/><circle cx="204.9" cy="197.1" r="1.3"/><circle cx="175.8" cy="214.5" r="1.3"/><circle cx="174.8" cy="227.4" r="1.3"/><circle cx="318.7" cy="138.0" r="1.3"/><circle cx="301.1" cy="106.3" r="1.3"/><circle cx="279.6" cy="99.7" r="1.3"/><circle cx="313.2" cy="131.8" r="1.3"/><circle cx="275.3" cy="105.8" r="1.3"/><circle cx="304.3" cy="90.1" r="1.3"/><circle cx="289.6" cy="97.9" r="1.3"/><circle cx="329.3" cy="132.4" r="1.3"/><circle cx="304.7" cy="100.7" r="1.3"/><circle cx="305.2" cy="139.1" r="1.3"/><circle cx="40.2" cy="199.7" r="1.3"/><circle cx="15.0" cy="162.5" r="1.3"/><circle cx="28.3" cy="191.8" r="1.3"/><circle cx="65.2" cy="200.8" r="1.3"/><circle cx="35.9" cy="170.4" r="1.3"/><circle cx="21.0" cy="212.0" r="1.3"/><circle cx="9.3" cy="196.5" r="1.3"/><circle cx="33.1" cy="168.9" r="1.3"/><circle cx="27.0" cy="165.9" r="1.3"/><circle cx="112.9" cy="116.4" r="1.3"/><circle cx="103.9" cy="133.7" r="1.3"/><circle cx="95.7" cy="110.4" r="1.3"/><circle cx="105.3" cy="119.8" r="1.3"/><circle cx="96.7" cy="123.2" r="1.3"/><circle cx="115.5" cy="141.1" r="1.3"/><circle cx="106.6" cy="131.4" r="1.3"/><circle cx="88.6" cy="117.2" r="1.3"/><circle cx="112.4" cy="135.2" r="1.3"/><circle cx="114.4" cy="117.6" r="1.3"/><circle cx="89.3" cy="126.8" r="1.3"/><circle cx="120.5" cy="132.6" r="1.3"/><circle cx="113.8" cy="123.6" r="1.3"/><circle cx="117.5" cy="115.0" r="1.3"/><circle cx="392.3" cy="129.7" r="1.3"/><circle cx="304.8" cy="138.4" r="1.3"/><circle cx="355.2" cy="124.0" r="1.3"/><circle cx="350.4" cy="137.5" r="1.3"/><circle cx="311.0" cy="128.0" r="1.3"/><circle cx="310.9" cy="137.5" r="1.3"/><circle cx="335.6" cy="164.2" r="1.3"/><circle cx="360.6" cy="145.3" r="1.3"/><circle cx="367.2" cy="154.4" r="1.3"/><circle cx="383.3" cy="129.4" r="1.3"/><circle cx="329.7" cy="147.6" r="1.3"/><circle cx="352.8" cy="125.2" r="1.3"/><circle cx="364.4" cy="99.9" r="1.3"/><circle cx="325.6" cy="135.4" r="1.3"/><circle cx="373.5" cy="126.4" r="1.3"/><circle cx="341.6" cy="138.8" r="1.3"/><circle cx="300.6" cy="140.7" r="1.3"/><circle cx="368.1" cy="139.9" r="1.3"/><circle cx="19.7" cy="98.5" r="1.3"/><circle cx="17.9" cy="40.8" r="1.3"/><circle cx="8.3" cy="50.9" r="1.3"/><circle cx="29.0" cy="70.8" r="1.3"/><circle cx="32.3" cy="86.5" r="1.3"/><circle cx="20.6" cy="64.5" r="1.3"/><circle cx="43.3" cy="79.1" r="1.3"/><circle cx="35.7" cy="82.6" r="1.3"/><circle cx="138.1" cy="94.5" r="1.3"/><circle cx="159.7" cy="89.5" r="1.3"/><circle cx="144.2" cy="97.8" r="1.3"/><circle cx="160.1" cy="89.1" r="1.3"/><circle cx="179.8" cy="86.8" r="1.3"/><circle cx="138.7" cy="98.9" r="1.3"/><circle cx="146.6" cy="92.5" r="1.3"/><circle cx="174.0" cy="108.8" r="1.3"/><circle cx="145.0" cy="94.0" r="1.3"/><circle cx="139.2" cy="96.0" r="1.3"/><circle cx="137.2" cy="94.6" r="1.3"/><circle cx="145.9" cy="101.3" r="1.3"/><circle cx="140.2" cy="103.7" r="1.3"/><circle cx="155.3" cy="89.4" r="1.3"/><circle cx="144.9" cy="88.8" r="1.3"/><circle cx="148.7" cy="98.4" r="1.3"/><circle cx="121.4" cy="83.1" r="1.3"/><circle cx="135.4" cy="105.7" r="1.3"/><circle cx="129.0" cy="96.4" r="1.3"/><circle cx="166.5" cy="97.9" r="1.3"/><circle cx="243.0" cy="201.5" r="1.3"/><circle cx="244.2" cy="196.1" r="1.3"/><circle cx="276.3" cy="218.3" r="1.3"/><circle cx="289.4" cy="211.2" r="1.3"/><circle cx="239.3" cy="201.9" r="1.3"/><circle cx="233.4" cy="209.0" r="1.3"/><circle cx="241.4" cy="208.9" r="1.3"/><circle cx="277.3" cy="235.9" r="1.3"/><circle cx="231.9" cy="234.7" r="1.3"/><circle cx="257.4" cy="232.1" r="1.3"/><circle cx="243.9" cy="215.3" r="1.3"/><circle cx="274.8" cy="224.7" r="1.3"/><circle cx="19.5" cy="238.1" r="1.3"/><circle cx="10.1" cy="222.9" r="1.3"/><circle cx="40.0" cy="209.4" r="1.3"/><circle cx="29.5" cy="203.3" r="1.3"/><circle cx="27.4" cy="201.8" r="1.3"/><circle cx="44.3" cy="200.7" r="1.3"/><circle cx="35.9" cy="225.3" r="1.3"/><circle cx="16.4" cy="206.4" r="1.3"/><circle cx="23.7" cy="243.7" r="1.3"/><circle cx="40.7" cy="211.5" r="1.3"/><circle cx="16.1" cy="232.7" r="1.3"/><circle cx="62.2" cy="221.1" r="1.3"/><circle cx="46.5" cy="200.3" r="1.3"/><circle cx="105.7" cy="225.9" r="1.3"/><circle cx="50.4" cy="207.2" r="1.3"/><circle cx="32.1" cy="206.1" r="1.3"/><circle cx="42.2" cy="204.2" r="1.3"/><circle cx="28.8" cy="237.0" r="1.3"/><circle cx="114.2" cy="242.2" r="1.3"/><circle cx="98.2" cy="212.4" r="1.3"/><circle cx="138.8" cy="239.6" r="1.3"/><circle cx="123.0" cy="239.6" r="1.3"/><circle cx="117.9" cy="241.6" r="1.3"/><circle cx="95.6" cy="203.8" r="1.3"/><circle cx="104.3" cy="242.3" r="1.3"/><circle cx="110.0" cy="211.4" r="1.3"/><circle cx="116.9" cy="206.8" r="1.3"/><circle cx="125.4" cy="227.4" r="1.3"/><circle cx="123.4" cy="223.1" r="1.3"/><circle cx="95.0" cy="212.4" r="1.3"/><circle cx="104.2" cy="230.2" r="1.3"/><circle cx="115.5" cy="235.9" r="1.3"/><circle cx="124.3" cy="228.3" r="1.3"/><circle cx="114.3" cy="226.6" r="1.3"/><circle cx="112.4" cy="226.8" r="1.3"/><circle cx="134.2" cy="235.4" r="1.3"/><circle cx="129.0" cy="224.6" r="1.3"/><circle cx="112.9" cy="229.6" r="1.3"/><circle cx="235.9" cy="210.8" r="1.3"/><circle cx="228.4" cy="200.1" r="1.3"/><circle cx="219.7" cy="209.2" r="1.3"/><circle cx="243.1" cy="208.4" r="1.3"/><circle cx="220.8" cy="204.3" r="1.3"/><circle cx="228.3" cy="205.3" r="1.3"/><circle cx="238.9" cy="208.9" r="1.3"/><circle cx="249.6" cy="240.3" r="1.3"/><circle cx="249.7" cy="212.0" r="1.3"/><circle cx="245.7" cy="205.7" r="1.3"/><circle cx="234.0" cy="199.9" r="1.3"/><circle cx="215.3" cy="214.3" r="1.3"/><circle cx="237.5" cy="214.4" r="1.3"/><circle cx="249.3" cy="225.4" r="1.3"/><circle cx="256.5" cy="212.7" r="1.3"/><circle cx="233.1" cy="230.5" r="1.3"/><circle cx="210.2" cy="214.8" r="1.3"/><circle cx="237.1" cy="207.7" r="1.3"/><circle cx="60.3" cy="169.8" r="1.3"/><circle cx="66.9" cy="152.8" r="1.3"/><circle cx="65.1" cy="145.8" r="1.3"/><circle cx="17.3" cy="162.4" r="1.3"/><circle cx="71.8" cy="160.9" r="1.3"/><circle cx="38.8" cy="146.1" r="1.3"/><circle cx="56.0" cy="159.8" r="1.3"/><circle cx="66.4" cy="156.1" r="1.3"/><circle cx="58.3" cy="163.5" r="1.3"/><circle cx="55.5" cy="152.7" r="1.3"/><circle cx="59.4" cy="168.9" r="1.3"/><circle cx="39.3" cy="151.3" r="1.3"/><circle cx="100.9" cy="159.8" r="1.3"/><circle cx="60.8" cy="152.4" r="1.3"/><circle cx="64.0" cy="142.9" r="1.3"/><circle cx="59.9" cy="160.5" r="1.3"/><circle cx="318.6" cy="79.0" r="1.3"/><circle cx="348.9" cy="74.4" r="1.3"/><circle cx="331.7" cy="88.4" r="1.3"/><circle cx="340.0" cy="89.5" r="1.3"/><circle cx="304.9" cy="86.3" r="1.3"/><circle cx="310.2" cy="99.3" r="1.3"/><circle cx="319.9" cy="91.3" r="1.3"/><circle cx="352.6" cy="98.6" r="1.3"/><circle cx="357.9" cy="85.3" r="1.3"/><circle cx="134.0" cy="196.4" r="1.3"/><circle cx="131.6" cy="145.4" r="1.3"/><circle cx="133.7" cy="152.4" r="1.3"/><circle cx="137.0" cy="153.8" r="1.3"/><circle cx="122.9" cy="166.2" r="1.3"/><circle cx="131.6" cy="158.4" r="1.3"/><circle cx="143.7" cy="151.3" r="1.3"/><circle cx="125.9" cy="147.4" r="1.3"/><circle cx="126.4" cy="157.6" r="1.3"/><circle cx="134.1" cy="157.4" r="1.3"/><circle cx="139.2" cy="158.4" r="1.3"/><circle cx="114.6" cy="80.4" r="1.3"/><circle cx="71.4" cy="68.0" r="1.3"/><circle cx="69.9" cy="88.8" r="1.3"/><circle cx="66.0" cy="65.9" r="1.3"/><circle cx="93.0" cy="82.8" r="1.3"/><circle cx="81.0" cy="86.6" r="1.3"/><circle cx="97.6" cy="84.7" r="1.3"/><circle cx="49.4" cy="70.8" r="1.3"/><circle cx="66.1" cy="53.8" r="1.3"/><circle cx="65.7" cy="55.7" r="1.3"/><circle cx="30.5" cy="61.0" r="1.3"/><circle cx="370.7" cy="40.4" r="1.3"/><circle cx="379.8" cy="60.2" r="1.3"/><circle cx="396.6" cy="38.2" r="1.3"/><circle cx="360.5" cy="37.1" r="1.3"/><circle cx="392.8" cy="66.2" r="1.3"/><circle cx="313.6" cy="156.7" r="1.3"/><circle cx="279.5" cy="137.3" r="1.3"/><circle cx="304.2" cy="158.1" r="1.3"/><circle cx="307.8" cy="145.8" r="1.3"/><circle cx="323.1" cy="150.0" r="1.3"/><circle cx="309.4" cy="184.4" r="1.3"/><circle cx="320.4" cy="141.2" r="1.3"/><circle cx="287.7" cy="156.2" r="1.3"/><circle cx="318.2" cy="179.0" r="1.3"/><circle cx="293.1" cy="165.0" r="1.3"/><circle cx="308.5" cy="139.7" r="1.3"/><circle cx="312.3" cy="157.9" r="1.3"/><circle cx="341.6" cy="151.5" r="1.3"/><circle cx="307.7" cy="130.0" r="1.3"/><circle cx="344.5" cy="170.1" r="1.3"/><circle cx="296.9" cy="31.4" r="1.3"/><circle cx="311.1" cy="31.5" r="1.3"/><circle cx="302.4" cy="51.8" r="1.3"/><circle cx="293.1" cy="46.8" r="1.3"/><circle cx="308.0" cy="39.8" r="1.3"/><circle cx="302.8" cy="45.0" r="1.3"/><circle cx="297.2" cy="53.4" r="1.3"/><circle cx="306.0" cy="36.5" r="1.3"/><circle cx="306.5" cy="26.5" r="1.3"/><circle cx="289.2" cy="43.3" r="1.3"/><circle cx="309.8" cy="34.3" r="1.3"/><circle cx="299.8" cy="40.4" r="1.3"/><circle cx="310.1" cy="51.8" r="1.3"/><circle cx="288.5" cy="38.9" r="1.3"/><circle cx="293.6" cy="68.7" r="1.3"/><circle cx="299.6" cy="35.2" r="1.3"/><circle cx="305.0" cy="32.2" r="1.3"/><circle cx="294.1" cy="68.0" r="1.3"/><circle cx="290.5" cy="42.6" r="1.3"/><circle cx="317.9" cy="22.1" r="1.3"/><circle cx="301.1" cy="17.1" r="1.3"/><circle cx="309.3" cy="54.4" r="1.3"/><circle cx="325.8" cy="28.4" r="1.3"/><circle cx="291.8" cy="17.2" r="1.3"/><circle cx="284.7" cy="31.6" r="1.3"/><circle cx="73.6" cy="88.1" r="1.3"/><circle cx="66.1" cy="69.0" r="1.3"/><circle cx="64.2" cy="69.7" r="1.3"/><circle cx="80.1" cy="73.4" r="1.3"/><circle cx="79.0" cy="87.1" r="1.3"/><circle cx="84.5" cy="83.5" r="1.3"/><circle cx="84.2" cy="84.9" r="1.3"/><circle cx="75.8" cy="99.8" r="1.3"/><circle cx="60.4" cy="100.2" r="1.3"/><circle cx="55.9" cy="75.0" r="1.3"/><circle cx="87.2" cy="105.8" r="1.3"/><circle cx="72.7" cy="78.5" r="1.3"/><circle cx="92.4" cy="79.8" r="1.3"/><circle cx="65.6" cy="97.0" r="1.3"/><circle cx="98.6" cy="107.9" r="1.3"/><circle cx="195.9" cy="220.2" r="1.3"/><circle cx="201.9" cy="221.7" r="1.3"/><circle cx="258.6" cy="228.3" r="1.3"/><circle cx="253.1" cy="234.2" r="1.3"/><circle cx="242.9" cy="209.2" r="1.3"/><circle cx="220.1" cy="227.5" r="1.3"/><circle cx="231.4" cy="200.8" r="1.3"/><circle cx="249.9" cy="203.0" r="1.3"/><circle cx="285.9" cy="199.6" r="1.3"/><circle cx="242.6" cy="209.7" r="1.3"/><circle cx="233.6" cy="201.6" r="1.3"/><circle cx="225.9" cy="215.0" r="1.3"/><circle cx="250.8" cy="201.6" r="1.3"/><circle cx="234.8" cy="232.3" r="1.3"/><circle cx="261.6" cy="223.8" r="1.3"/><circle cx="221.7" cy="202.0" r="1.3"/><circle cx="254.6" cy="223.4" r="1.3"/><circle cx="227.1" cy="191.0" r="1.3"/><circle cx="30.5" cy="70.1" r="1.3"/><circle cx="21.2" cy="84.1" r="1.3"/><circle cx="24.7" cy="98.9" r="1.3"/><circle cx="6.5" cy="82.1" r="1.3"/><circle cx="48.7" cy="70.3" r="1.3"/><circle cx="13.4" cy="79.7" r="1.3"/><circle cx="21.8" cy="69.7" r="1.3"/><circle cx="48.0" cy="79.9" r="1.3"/><circle cx="28.2" cy="88.7" r="1.3"/><circle cx="18.2" cy="84.3" r="1.3"/><circle cx="40.6" cy="77.3" r="1.3"/><circle cx="34.2" cy="90.7" r="1.3"/><circle cx="325.0" cy="217.4" r="1.3"/><circle cx="303.6" cy="228.3" r="1.3"/><circle cx="286.1" cy="236.0" r="1.3"/><circle cx="327.0" cy="202.5" r="1.3"/><circle cx="287.5" cy="222.2" r="1.3"/><circle cx="362.3" cy="201.8" r="1.3"/><circle cx="353.9" cy="216.6" r="1.3"/><circle cx="335.5" cy="232.5" r="1.3"/><circle cx="345.9" cy="223.2" r="1.3"/><circle cx="373.3" cy="228.5" r="1.3"/><circle cx="308.7" cy="227.3" r="1.3"/><circle cx="318.0" cy="242.6" r="1.3"/><circle cx="314.3" cy="224.7" r="1.3"/><circle cx="323.5" cy="210.1" r="1.3"/><circle cx="353.0" cy="226.1" r="1.3"/><circle cx="335.1" cy="212.4" r="1.3"/><circle cx="320.8" cy="234.9" r="1.3"/><circle cx="393.3" cy="100.1" r="1.3"/><circle cx="173.2" cy="180.5" r="1.3"/><circle cx="245.7" cy="244.4" r="1.3"/><circle cx="155.4" cy="193.0" r="1.3"/><circle cx="259.1" cy="196.1" r="1.3"/><circle cx="188.0" cy="35.5" r="1.3"/><circle cx="109.2" cy="74.6" r="1.3"/><circle cx="239.4" cy="151.8" r="1.3"/><circle cx="341.4" cy="154.3" r="1.3"/><circle cx="161.7" cy="22.2" r="1.3"/><circle cx="393.6" cy="161.5" r="1.3"/><circle cx="145.4" cy="133.8" r="1.3"/><circle cx="82.5" cy="208.1" r="1.3"/><circle cx="245.6" cy="160.4" r="1.3"/><circle cx="84.8" cy="69.3" r="1.3"/><circle cx="355.1" cy="14.3" r="1.3"/><circle cx="206.3" cy="56.4" r="1.3"/><circle cx="188.5" cy="202.1" r="1.3"/><circle cx="298.0" cy="7.3" r="1.3"/><circle cx="98.6" cy="244.3" r="1.3"/><circle cx="117.1" cy="41.1" r="1.3"/><circle cx="234.6" cy="74.8" r="1.3"/><circle cx="227.1" cy="195.2" r="1.3"/><circle cx="137.8" cy="232.7" r="1.3"/><circle cx="34.2" cy="210.4" r="1.3"/><circle cx="178.7" cy="101.5" r="1.3"/><circle cx="118.5" cy="192.6" r="1.3"/><circle cx="132.6" cy="53.9" r="1.3"/><circle cx="258.5" cy="25.5" r="1.3"/><circle cx="242.8" cy="35.5" r="1.3"/><circle cx="374.3" cy="130.8" r="1.3"/><circle cx="360.9" cy="184.9" r="1.3"/><circle cx="348.5" cy="192.5" r="1.3"/><circle cx="238.8" cy="156.2" r="1.3"/><circle cx="266.2" cy="15.0" r="1.3"/><circle cx="18.5" cy="118.2" r="1.3"/><circle cx="3.2" cy="27.3" r="1.3"/><circle cx="59.3" cy="130.6" r="1.3"/><circle cx="358.4" cy="10.9" r="1.3"/><circle cx="325.2" cy="181.7" r="1.3"/><circle cx="330.8" cy="179.0" r="1.3"/><circle cx="168.3" cy="237.0" r="1.3"/><circle cx="143.0" cy="210.4" r="1.3"/><circle cx="153.8" cy="70.7" r="1.3"/><circle cx="276.8" cy="171.4" r="1.3"/><circle cx="308.7" cy="217.4" r="1.3"/><circle cx="396.4" cy="244.3" r="1.3"/><circle cx="209.2" cy="24.5" r="1.3"/><circle cx="20.4" cy="75.9" r="1.3"/><circle cx="104.9" cy="79.8" r="1.3"/><circle cx="23.4" cy="131.6" r="1.3"/><circle cx="336.7" cy="79.2" r="1.3"/><circle cx="100.8" cy="37.9" r="1.3"/><circle cx="251.2" cy="204.9" r="1.3"/><circle cx="172.5" cy="68.1" r="1.3"/><circle cx="213.5" cy="201.4" r="1.3"/><circle cx="209.3" cy="51.9" r="1.3"/><circle cx="136.9" cy="89.6" r="1.3"/><circle cx="203.3" cy="186.0" r="1.3"/><circle cx="34.8" cy="16.3" r="1.3"/><circle cx="278.6" cy="178.6" r="1.3"/><circle cx="230.0" cy="11.5" r="1.3"/><circle cx="103.2" cy="223.4" r="1.3"/><circle cx="322.0" cy="240.0" r="1.3"/><circle cx="160.4" cy="48.5" r="1.3"/><circle cx="227.2" cy="96.0" r="1.3"/><circle cx="117.6" cy="5.5" r="1.3"/><circle cx="54.2" cy="118.1" r="1.3"/><circle cx="167.2" cy="148.2" r="1.3"/><circle cx="170.1" cy="82.7" r="1.3"/><circle cx="312.7" cy="36.6" r="1.3"/><circle cx="253.6" cy="40.0" r="1.3"/><circle cx="32.7" cy="151.8" r="1.3"/><circle cx="303.2" cy="21.8" r="1.3"/><circle cx="286.3" cy="100.6" r="1.3"/><circle cx="27.9" cy="45.6" r="1.3"/><circle cx="151.5" cy="117.3" r="1.3"/><circle cx="111.4" cy="65.7" r="1.3"/><circle cx="242.8" cy="232.0" r="1.3"/><circle cx="74.1" cy="210.3" r="1.3"/><circle cx="303.1" cy="96.8" r="1.3"/><circle cx="205.9" cy="128.7" r="1.3"/><circle cx="373.5" cy="228.9" r="1.3"/><circle cx="206.2" cy="226.4" r="1.3"/><circle cx="320.8" cy="68.4" r="1.3"/><circle cx="327.3" cy="144.5" r="1.3"/><circle cx="350.6" cy="68.9" r="1.3"/><circle cx="131.6" cy="32.8" r="1.3"/><circle cx="322.6" cy="150.8" r="1.3"/><circle cx="69.9" cy="117.9" r="1.3"/><circle cx="188.1" cy="83.3" r="1.3"/><circle cx="250.2" cy="196.7" r="1.3"/><circle cx="124.8" cy="158.3" r="1.3"/><circle cx="381.1" cy="205.2" r="1.3"/><circle cx="302.7" cy="236.8" r="1.3"/><circle cx="355.4" cy="224.6" r="1.3"/><circle cx="131.0" cy="70.2" r="1.3"/><circle cx="343.9" cy="84.6" r="1.3"/></g><circle class="ring" cx="268" cy="92" r="3"/><circle class="hit" cx="268" cy="92" r="3"/></svg></figure>
+<p>Миллион зелёных точек: каждая — датчик, каждая — квартира, каждая — «Тихий дом». Карта дышала, как спящий город, и точки на ней не мигали.</p>
+<p>В 21:47 одна из них, на пятом этаже, на секунду стала оранжевой. Система отметила: «Дым без огня. 0,8 секунды. Квартира Каро. Адрес на контроле».</p>
+<p>Ниже система сама добавила вторую строчку: «В квартире — гость без учётной записи».</p>
+<p>Дежурный переслал отметку в отдел сопровождения договоров. Там её уже ждали.</p>
+</div></section>
+<section class="below"><div class="ash" aria-hidden="true"></div><div class="wrap">
+<p class="below-label">Внизу</p>
+<p>Феликс увидел огонь раньше, чем знаки.</p>
+<p>Наверху, по ту сторону стекла, горела свеча. Отсюда она была похожа на маленькое солнце в тумане. Его собственный дым — тот, что тянулся за каждым знаком, как хвост, — тонул в её дыме без следа.</p>
+<p>Кто-то там, наверху, был очень умным.</p>
+<p>Потом проступили знаки, и одного из них он не знал.</p>
+<figure class="mirror back" aria-label="Знаки на стекле, вид снизу"><div class="row"><svg class="g" viewBox="0 0 24 24" role="img" aria-label="не" style="--i:0"><path pathLength="1" d="M6 6 L18 18 M18 6 L6 18"/></svg><svg class="g" viewBox="0 0 24 24" role="img" aria-label="помогать" style="--i:1"><path pathLength="1" d="M3.4 16.6 C3.8 12 6.6 8.8 10.4 9.3 L13 11.9"/><path pathLength="1" d="M20.6 16.6 C20.2 12 17.4 8.8 13.6 9.3 L11 11.9"/><path pathLength="1" d="M9.2 13.7 C10.3 15.9 13.7 15.9 14.8 13.7"/></svg></div><div class="row"><svg class="g" viewBox="0 0 24 24" role="img" aria-label="друг" style="--i:2"><path pathLength="1" d="M4.5 12 a7.5 7.5 0 1 0 15 0 a7.5 7.5 0 1 0 -15 0"/><circle class="dot" cx="9.3" cy="12" r="1.55"/><circle class="dot" cx="14.7" cy="12" r="1.55"/></svg></div></figure>
+<p>Круг и две точки. Он прочёл его, как читал всё на свете, проверяя каждое слово, и понял сразу: двое здесь. Друг.</p>
+<p>Этот знак придумал не он. Впервые за много лет в их алфавите появилось слово, которого он ей не давал. Феликс написал его в ответ — медленно, чтобы запомнила рука, — так же, как выучил озеро. Он был рад: ей наконец было на кого опереться, кроме мёртвого отца за стеклом. Он был рад, и ему было больно, и одно не мешало другому.</p>
+<p>Потом она вывела буквы.</p>
+<figure class="mirror back" aria-label="Знаки на стекле, вид снизу"><div class="row"><span class="letters" style="--i:0">МАРК</span></div></figure>
+<p>Феликс посмотрел на полку. Там лежал холодный договор, который он вычитывал уже не первую ночь: «Передача тела. М. С., 16 лет».</p>
+<p>Марков в городе тысячи, сказал он себе.</p>
+<p>Но договор на полке почему-то стал холоднее.</p>
+</div></section>
+<footer class="end"><div class="wrap">
+<div class="divider" aria-hidden="true"><span></span><span></span><span></span></div>
+<p class="end-title">Конец третьей серии</p>
+<p class="end-sub">Пандемониум · продолжение следует</p>
+</div></footer>
+<script>
+(function () {
+  var root = document.documentElement;
+  var bar = document.querySelector('.progress span');
+  function progress() {
+    var max = root.scrollHeight - root.clientHeight;
+    var y = window.pageYOffset || root.scrollTop || 0;
+    if (bar) bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, y / max) : 0) + ')';
+  }
+  window.addEventListener('scroll', progress, { passive: true });
+  window.addEventListener('resize', progress);
+  progress();
+
+  var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var hasIO = 'IntersectionObserver' in window;
+  function each(sel, fn) { Array.prototype.forEach.call(document.querySelectorAll(sel), fn); }
+
+  // Знаки на зеркале проступают, когда зеркало оказывается на экране
+  if (!hasIO || reduce) {
+    each('.mirror', function (m) { m.classList.add('on'); });
+  } else {
+    var seen = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('on'); seen.unobserve(e.target); }
+      });
+    }, { threshold: 0.6 });
+    each('.mirror', function (m) { seen.observe(m); });
+  }
+
+  // Лист-воспоминание сгорает, когда следующий абзац поднимается в верхнюю часть экрана,
+  // то есть когда сам лист уже дочитан и уходит вверх
+  if (hasIO) each('.page', function (page) {
+    var next = page.nextElementSibling;
+    if (!next) return;
+    var watch = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { page.classList.add('burn'); watch.disconnect(); }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -58% 0px' });
+    watch.observe(next);
+  });
+
+  // Пепел падает вверх
+  if (!reduce) each('.below', function (sec) {
+    var ash = sec.querySelector('.ash');
+    if (!ash) return;
+    for (var i = 0; i < 36; i++) {
+      var s = document.createElement('i');
+      if (Math.random() < 0.3) s.className = 'e';
+      s.style.left = (Math.random() * 100).toFixed(2) + '%';
+      s.style.setProperty('--s', (Math.random() * 2.4 + 1.2).toFixed(2) + 'px');
+      s.style.setProperty('--d', (Math.random() * 16 + 16).toFixed(1) + 's');
+      s.style.setProperty('--delay', (-Math.random() * 32).toFixed(1) + 's');
+      s.style.setProperty('--x', ((Math.random() - 0.5) * 90).toFixed(0) + 'px');
+      s.style.setProperty('--o', (Math.random() * 0.45 + 0.35).toFixed(2));
+      ash.appendChild(s);
+    }
+    function size() { sec.style.setProperty('--h', (sec.offsetHeight + 20) + 'px'); }
+    size();
+    window.addEventListener('resize', size);
+  });
+})();
+</script>
+</body>
+</html>
