@@ -100,6 +100,10 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
 .tape .ink{fill:none;stroke:#3a3d8c;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .tape .tick{fill:none;stroke:#6f6a60;stroke-width:1.2}
 .tape text{font-family:"Caveat","Segoe Print",cursive;font-size:24px;fill:#5d5850}
+/* волны: страна уходит вниз по часовым поясам (с С6) */
+.tape.waves .ink{stroke-width:1.3}
+.tape.waves .tick{stroke:#8a837a}
+.tape.waves text{font-size:21px}
 
 /* карта дыма */
 .smokemap{margin:1.8em 0 2em;border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px rgba(120,255,170,.08),0 20px 50px rgba(0,0,0,.6)}
@@ -129,6 +133,12 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
   box-shadow:0 0 0 6px #1a1413,0 0 0 7px rgba(255,120,60,.16),0 24px 60px rgba(0,0,0,.65)}
 .mirror.back::after{opacity:.18}
 .mirror.back .g{color:#ff8a4c;filter:drop-shadow(0 0 5px rgba(255,100,40,.85))}
+/* чужое пыльное стекло: знак выжжен в пыли — это чудо, за него платят (с С6) */
+.mirror.dust{color:#7c2a0a;
+  background:radial-gradient(120% 90% at 26% 8%,rgba(255,248,232,.32),rgba(255,248,232,0) 58%),radial-gradient(70% 70% at 52% 54%,rgba(255,130,60,.22),rgba(255,130,60,0) 72%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .27 0 0 0 0 .24 0 0 0 1.1 -.42'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23d)'/%3E%3C/svg%3E"),linear-gradient(104deg,rgba(255,255,255,0) 38%,rgba(255,250,240,.12) 46%,rgba(255,255,255,0) 54%),linear-gradient(160deg,#aaa197,#6d655d);
+  box-shadow:0 0 0 6px #2b2723,0 0 0 7px rgba(255,255,255,.05),0 24px 60px rgba(0,0,0,.6)}
+.mirror.dust::after{opacity:.22}
+.mirror.dust .g{color:#8f2f0b;filter:drop-shadow(0 0 4px rgba(255,95,25,.8));animation:heat 2.4s ease-in-out infinite}
 .js .mirror .g path{stroke-dasharray:1 2;stroke-dashoffset:1.01}
 .js .mirror .g .dot{opacity:0}
 .js .mirror.on .g path{animation:draw 1.3s cubic-bezier(.6,.05,.4,1) forwards;animation-delay:calc(var(--i,0) * .95s + .25s)}
@@ -155,6 +165,11 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
 .below.cold-1::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 140px rgba(180,210,240,.07)}
 .below.cold-1 .ash i{background:#c4c9d0}
 .below.cold-1 .ash i.e{background:#ffb27a}
+.below.cold-2{background:radial-gradient(130% 50% at 50% 112%,rgba(125,58,38,.2),rgba(125,58,38,0) 60%),radial-gradient(130% 55% at 50% -10%,rgba(175,205,235,.13),rgba(175,205,235,0) 66%),linear-gradient(var(--bg) 0,#05070a 200px)}
+.below.cold-2::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 170px rgba(185,212,240,.12),inset 0 0 26px rgba(215,232,250,.1)}
+.below.cold-2 .ash i{background:#d6dce3}
+.below.cold-2 .ash i.e{background:#f3b48a}
+.below.cold-2 .below-label{color:#f0a479;text-shadow:0 0 14px rgba(200,225,250,.35)}
 
 /* квадрат SATOR на чугунной заслонке */
 .sator{margin:2.2em auto;width:min(100%,15.5rem);padding:1.1em;border-radius:6px;background:radial-gradient(120% 120% at 30% 20%,#3b3634,#1c1918 70%);box-shadow:inset 0 0 0 2px #2b2725,inset 0 0 24px rgba(0,0,0,.75),0 16px 40px rgba(0,0,0,.55)}
@@ -167,6 +182,8 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
   background:radial-gradient(circle,rgba(87,229,144,.2) 0 1px,rgba(87,229,144,0) 1.6px) 0 0/22px 22px;
   -webkit-mask-image:linear-gradient(transparent,#000 9em,#000 calc(100% - 9em),transparent);mask-image:linear-gradient(transparent,#000 9em,#000 calc(100% - 9em),transparent)}
 .city .wrap{position:relative;z-index:1}
+/* страна: карта отъехала — огоньков больше, и они мельче (с С6) */
+.city.country::before{opacity:.5;background:radial-gradient(circle,rgba(87,229,144,.22) 0 .7px,rgba(87,229,144,0) 1.1px) 0 0/11px 11px}
 .stamp{overflow:hidden;margin:0 0 2.2em;padding:.45em 0 .85em;border-bottom:1px solid rgba(130,160,185,.18);font-family:"PT Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.68rem;line-height:1.75;letter-spacing:.13em;text-transform:uppercase;color:#7f95a6;-webkit-hyphens:manual;hyphens:manual}
 .stamp-in{display:flex;flex-wrap:wrap;align-items:baseline;margin-left:-2em}
 .stamp-in>span::before{content:"·";display:inline-block;width:2em;text-align:center;letter-spacing:0;color:#46545f}
@@ -197,7 +214,7 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
 @keyframes flicker{0%{opacity:0}8%{opacity:.75}12%{opacity:.1}20%{opacity:.6}26%{opacity:.15}40%{opacity:.8}46%{opacity:.35}60%,100%{opacity:1}}
 
 @media (prefers-reduced-motion:reduce){
-  .g.emblem,.mirror.hot .g,.page.burn{animation:none}
+  .g.emblem,.mirror.hot .g,.mirror.dust .g,.page.burn{animation:none}
   .js .mirror .g path,.js .mirror.on .g path{stroke-dasharray:none;stroke-dashoffset:0;animation:none}
   .js .mirror .g .dot,.js .mirror.on .g .dot{opacity:1;animation:none}
   .js .mirror .letters,.js .mirror.on .letters{opacity:1;animation:none}

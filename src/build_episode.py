@@ -9,7 +9,8 @@
   >>> Подпись               сцена «внизу», до <<< или до конца
   >>> Город · 19:12 · Садовая, 9 · датчик
                             вставка о мире до <<<: вместо заголовка штамп «Фосфора»;
-                            последнее поле «нет данных» — место, где датчиков нет
+                            последнее поле «нет данных» — место, где датчиков нет;
+                            первое поле растёт с масштабом: «Город», «Страна» (с С6), «Мир»
   >[метка] текст            голос из телефона и т. п.
   >> текст                  лист-воспоминание (сгорает, когда его дочитали)
   >log[метка]               тетрадный лист; каждая следующая строка — запись
@@ -25,8 +26,11 @@
   [[mirror: a b / c d]]     знаки на запотевшем зеркале (рисуются при прокрутке)
   [[mirror-hot: a]]         то же на раскалённом стекле
   [[mirror-below: a b]]     то же стекло, вид снизу: зеркально и огнём
+  [[mirror-dust: a]]        знак, выжженный в пыли на чужом стекле (чудо, за которое платят)
   "СЛОВО" внутри [[mirror…]] буквы, выведенные пальцем
   [[tape: 9:41 10:26]]      кусок ленты самописца с «почерком» между отметками
+  [[tape-waves: 8:00 9:00]] лента, где под каждой отметкой — всплеск: волны массового Сошествия,
+                            последняя — самая сильная
   [[smokemap]]              карта дыма «Фосфора»: зелёные датчики и одна оранжевая вспышка
   [[smokemap: 14]]          та же карта, но вспышек столько, сколько указано
   [[sator]]                 квадрат SATOR на чугунной печной заслонке
@@ -193,8 +197,10 @@ def mirror(kind, spec):
                 cells.append(glyph(m.group(1), i=i, mods=m.group(2)))
             i += 1
         rows.append('<div class="row">' + "".join(cells) + "</div>")
-    cls = {"mirror": "mirror", "mirror-hot": "mirror hot", "mirror-below": "mirror back"}[kind]
-    label = "Знаки на стекле, вид снизу" if kind == "mirror-below" else "Знаки на зеркале"
+    cls = {"mirror": "mirror", "mirror-hot": "mirror hot", "mirror-below": "mirror back",
+           "mirror-dust": "mirror dust"}[kind]
+    label = {"mirror-below": "Знаки на стекле, вид снизу",
+             "mirror-dust": "Знак, выжженный в пыли на стекле"}.get(kind, "Знаки на зеркале")
     return f'<figure class="{cls}" aria-label="{label}">' + "".join(rows) + "</figure>"
 
 
@@ -229,6 +235,47 @@ def tape(spec):
     return (f'<figure class="tape" role="img" aria-label="{label}"><svg viewBox="0 0 {W} {H}" aria-hidden="true">'
             f'<rect class="paper" width="{W}" height="{H}"/><path class="grid" d="{grid.strip()}"/>'
             f'<path class="ink" d="{" ".join(d)}"/>{labels}</svg></figure>')
+
+
+def tape_waves(spec):
+    """Лента самописца, на которой страна уходит вниз: под каждой отметкой — всплеск.
+
+    Между всплесками перо почти спит; всплески идут волнами, по часовым поясам,
+    и чем ближе полдень к самому приёмнику, тем выше и гуще удары. Последний — самый сильный.
+    """
+    marks = spec.split()
+    n = max(1, len(marks))
+    rnd = random.Random("tape-waves:" + spec)
+    W, H, MID = 480, 136, 58
+    pad = 26
+    span = (W - 2 * pad) / n
+    centers = [pad + span * (k + .5) for k in range(n)]
+    half = span * .3
+    d, x, flip = [f"M0 {MID}"], 0.0, 1
+    while x < W:
+        amp = 0.0
+        for k, cx in enumerate(centers):
+            if abs(x - cx) < half:
+                strength = .38 + .62 * ((k + 1) / n) ** 1.6
+                amp = max(amp, strength * (.3 + .7 * (1 - abs(x - cx) / half)))
+        if amp:
+            x += rnd.uniform(1.6, 2.8)
+            flip = -flip
+            y = MID + flip * amp * rnd.uniform(28, 42)
+        else:
+            x += 3.2
+            y = MID + rnd.uniform(-3, 3)
+        d.append(f"L{x:.1f} {y:.1f}")
+    grid = "".join(f"M{gx} 8 V{H - 34} " for gx in range(15, W, 30))
+    grid += "".join(f"M0 {gy} H{W} " for gy in (22, 58, 94))
+    ticks = "".join(f"M{cx:.0f} {H - 36} V{H - 26} " for cx in centers)
+    labels = "".join(f'<text x="{cx:.0f}" y="{H - 6}" text-anchor="middle">{html.escape(m)}</text>'
+                     for cx, m in zip(centers, marks))
+    label = "Лента самописца: волны " + ", ".join(html.escape(m) for m in marks)
+    return (f'<figure class="tape waves" role="img" aria-label="{label}"><svg viewBox="0 0 {W} {H}" '
+            f'aria-hidden="true"><rect class="paper" width="{W}" height="{H}"/>'
+            f'<path class="grid" d="{grid.strip()}"/><path class="ink" d="{" ".join(d)}"/>'
+            f'<path class="tick" d="{ticks.strip()}"/>{labels}</svg></figure>')
 
 
 def smokemap(n=1):
@@ -289,9 +336,16 @@ def sator():
             + ", ".join(SATOR_ROWS) + f'"><div class="grid" aria-hidden="true">{cells}</div></figure>')
 
 
+SCOPES = {"город": "", "страна": " country", "мир": " world"}
+
+
 def city_open(fields):
-    """Начало вставки «Город»: штамп «Фосфора» — время, место и что видит датчик."""
+    """Начало вставки о мире: штамп «Фосфора» — масштаб, время, место и что видит датчик.
+
+    Масштаб — первое поле: «Город» (С4–С5), «Страна» (с С6), «Мир».
+    """
     blind = len(fields) > 1 and fields[-1].lower() == "нет данных"
+    scope = SCOPES.get(fields[0].lower(), "") if fields else ""
     spans = []
     for j, field in enumerate(fields):
         text = html.escape(field, quote=False).replace("№ ", "№" + NBSP)
@@ -301,7 +355,7 @@ def city_open(fields):
     aria = html.escape(". ".join(fields))
     # Разделитель «·» стоит перед каждым полем; у первого поля в строке он уезжает
     # за левый край и обрезается, так что перенос не начинается с точки
-    return (f'<section class="city{" blind" if blind else ""}" aria-label="{aria}"><div class="wrap">\n'
+    return (f'<section class="city{scope}{" blind" if blind else ""}" aria-label="{aria}"><div class="wrap">\n'
             f'<p class="stamp"><span class="stamp-in">{"".join(spans)}</span></p>\n')
 
 
@@ -355,16 +409,18 @@ def build(src, out, template):
         elif block.startswith(">>>"):
             label = block[3:].strip()
             fields = [f.strip() for f in label.split("·") if f.strip()]
-            if fields and fields[0].lower() == "город":
+            if fields and fields[0].lower() in SCOPES:
                 sections.append(["city", fields, []])
             else:
                 sections.append(["below", label, []])
         elif block.startswith("<<<"):
             sections.append(["earth", "", []])
-        elif (m := re.fullmatch(r"\[\[(mirror(?:-hot|-below)?):\s*(.+?)\]\]", block)):
+        elif (m := re.fullmatch(r"\[\[(mirror(?:-hot|-below|-dust)?):\s*(.+?)\]\]", block)):
             items.append(mirror(m.group(1), m.group(2)))
         elif (m := re.fullmatch(r"\[\[tape:\s*(.*?)\]\]", block)):
             items.append(tape(m.group(1)))
+        elif (m := re.fullmatch(r"\[\[tape-waves:\s*(.*?)\]\]", block)):
+            items.append(tape_waves(m.group(1)))
         elif (m := re.fullmatch(r"\[\[smokemap(?::\s*(\d+))?\]\]", block)):
             items.append(smokemap(int(m.group(1) or 1)))
         elif block == "[[sator]]":
@@ -432,7 +488,7 @@ def build(src, out, template):
     below = sum(1 for s in sections if s[0] == "below")
     city = sum(1 for s in sections if s[0] == "city")
     print(f"{out}: {words} слов, ≈{minutes} мин чтения, сцен внизу: {below}"
-          + (f", вставок «Город»: {city}" if city else ""))
+          + (f", вставок о мире: {city}" if city else ""))
 
 
 if __name__ == "__main__":
