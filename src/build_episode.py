@@ -3,6 +3,7 @@
 
 Разметка исходника:
   TITLE / NUMBER / EMBLEM   шапка до первой пустой строки
+  COLD: 1                   в шапке: насколько остыл Архив — сцена «Внизу» холоднее (с С5)
   пустая строка             граница абзаца
   ***                       смена сцены
   >>> Подпись               сцена «внизу», до <<< или до конца
@@ -28,6 +29,7 @@
   [[tape: 9:41 10:26]]      кусок ленты самописца с «почерком» между отметками
   [[smokemap]]              карта дыма «Фосфора»: зелёные датчики и одна оранжевая вспышка
   [[smokemap: 14]]          та же карта, но вспышек столько, сколько указано
+  [[sator]]                 квадрат SATOR на чугунной печной заслонке
 """
 import html
 import math
@@ -106,6 +108,12 @@ GLYPHS = {
                         "C13 9.9 13.9 9 13.9 7.9 C13.9 7.1 13.4 5.9 12 3.4 Z")),
     # С3 — первый знак, который Вера придумала без папы: «здесь», но двое
     "friend": ("друг", stroke(ring(12, 12, 7.5)) + dot(9.3, 12, 1.55) + dot(14.7, 12, 1.55)),
+    # С5 — первый за много лет знак от Феликса: кувшин, а в нём «здесь» без точки — никого
+    "vessel": ("сосуд", stroke("M9.4 3.2 H14.6 M10.3 3.2 V5.4 C6.6 6.9 5.4 10 5.9 13.3 "
+                               "C6.5 17.1 8.8 19.7 12 19.7 C15.2 19.7 17.5 17.1 18.1 13.3 "
+                               "C18.6 10 17.4 6.9 13.7 5.4 V3.2")
+               + stroke("M16.2 6.6 C20.4 6 21.6 10.9 18.2 12.6")          # ручка: кувшин, а не склянка
+               + stroke(ring(12, 13.2, 3.1))),
 }
 
 MANY = dot(9.6, 22.7, 1.15) + dot(14.4, 22.7, 1.15)   # две точки под знаком — «много»
@@ -271,6 +279,16 @@ def smokemap(n=1):
             f'{flashes}</svg></figure>')
 
 
+SATOR_ROWS = ("SATOR", "AREPO", "TENET", "OPERA", "ROTAS")
+
+
+def sator():
+    """Квадрат SATOR на чугунной печной заслонке: читается одинаково с любой стороны."""
+    cells = "".join(f"<span>{ch}</span>" for row in SATOR_ROWS for ch in row)
+    return ('<figure class="sator" role="img" aria-label="Квадрат SATOR: '
+            + ", ".join(SATOR_ROWS) + f'"><div class="grid" aria-hidden="true">{cells}</div></figure>')
+
+
 def city_open(fields):
     """Начало вставки «Город»: штамп «Фосфора» — время, место и что видит датчик."""
     blind = len(fields) > 1 and fields[-1].lower() == "нет данных"
@@ -324,6 +342,7 @@ def build(src, out, template):
     title = meta["TITLE"]
     number = int(meta["NUMBER"])
     emblem = meta.get("EMBLEM", "fox")
+    cold = int(meta.get("COLD", "0") or 0)   # насколько остыл Архив: 0 — как в С1–С4
 
     sections = [["earth", "", []]]
     for block in re.split(r"\n\s*\n", body):
@@ -348,6 +367,8 @@ def build(src, out, template):
             items.append(tape(m.group(1)))
         elif (m := re.fullmatch(r"\[\[smokemap(?::\s*(\d+))?\]\]", block)):
             items.append(smokemap(int(m.group(1) or 1)))
+        elif block == "[[sator]]":
+            items.append(sator())
         elif block.startswith(">>"):
             items.append(f'<div class="page"><p>{typo(block[2:])}</p></div>')
         elif (m := re.match(r">(log|doc|notice)((?:\.[\w-]+)*)(?:\[(.+?)\])?[ \t]*(.*)", block)):
@@ -392,7 +413,8 @@ def build(src, out, template):
             parts.append(city_open(label) + "\n".join(items) + "\n</div></section>")
         else:
             lab = f'<p class="below-label">{html.escape(label)}</p>\n' if label else ""
-            parts.append('<section class="below"><div class="ash" aria-hidden="true"></div><div class="wrap">\n'
+            cls = f'below cold-{cold}" data-cold="{cold}' if cold else "below"
+            parts.append(f'<section class="{cls}"><div class="ash" aria-hidden="true"></div><div class="wrap">\n'
                          + lab + "\n".join(items) + "\n</div></section>")
     ordinal = ORDINAL[number] if number < len(ORDINAL) else f"{number}-й"
     parts += [

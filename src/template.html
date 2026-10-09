@@ -150,6 +150,16 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
 .ash{position:absolute;inset:0;z-index:0;pointer-events:none}
 .ash i{position:absolute;bottom:-10px;width:var(--s);height:var(--s);border-radius:50%;background:#cbbfb4;opacity:0;animation:rise var(--d) linear infinite;animation-delay:var(--delay)}
 .ash i.e{background:#ffb27a;box-shadow:0 0 6px 1px rgba(255,110,40,.75)}
+/* Архив остывает: чем больше пепла, тем холоднее (с С5) */
+.below.cold-1{background:radial-gradient(130% 55% at 50% 112%,rgba(150,55,30,.3),rgba(150,55,30,0) 62%),radial-gradient(120% 45% at 50% -8%,rgba(175,205,235,.08),rgba(175,205,235,0) 65%),linear-gradient(var(--bg) 0,#060708 200px)}
+.below.cold-1::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 140px rgba(180,210,240,.07)}
+.below.cold-1 .ash i{background:#c4c9d0}
+.below.cold-1 .ash i.e{background:#ffb27a}
+
+/* квадрат SATOR на чугунной заслонке */
+.sator{margin:2.2em auto;width:min(100%,15.5rem);padding:1.1em;border-radius:6px;background:radial-gradient(120% 120% at 30% 20%,#3b3634,#1c1918 70%);box-shadow:inset 0 0 0 2px #2b2725,inset 0 0 24px rgba(0,0,0,.75),0 16px 40px rgba(0,0,0,.55)}
+.sator .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.1em}
+.sator span{display:flex;align-items:center;justify-content:center;aspect-ratio:1;font-family:var(--display);font-weight:600;font-size:clamp(1.45rem,7.2vw,1.95rem);line-height:1;color:#958c87;text-shadow:0 -1px 0 rgba(0,0,0,.85),0 1px 0 rgba(255,255,255,.13)}
 
 /* город: вставки о мире под штампом «Фосфора» */
 .city{position:relative;padding:4.6em 0 3.6em;color:#cfd8df;background:linear-gradient(var(--bg),#0a0f14 6em,#0a0f14 calc(100% - 6em),var(--bg))}
@@ -260,9 +270,11 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
   if (!reduce) each('.below', function (sec) {
     var ash = sec.querySelector('.ash');
     if (!ash) return;
+    // чем холоднее Архив, тем меньше среди пепла тлеющих искр
+    var embers = Math.max(0.04, 0.3 - (+sec.getAttribute('data-cold') || 0) * 0.14);
     for (var i = 0; i < 36; i++) {
       var s = document.createElement('i');
-      if (Math.random() < 0.3) s.className = 'e';
+      if (Math.random() < embers) s.className = 'e';
       s.style.left = (Math.random() * 100).toFixed(2) + '%';
       s.style.setProperty('--s', (Math.random() * 2.4 + 1.2).toFixed(2) + 'px');
       s.style.setProperty('--d', (Math.random() * 16 + 16).toFixed(1) + 's');

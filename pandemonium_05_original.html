@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0f0c0b">
+<title>Пандемониум · Серия 5 · Оригинал</title>
+<script>document.documentElement.className += ' js';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Literata:ital,wght@0,400;0,600;1,400&family=Caveat:wght@500;600&family=PT+Mono&display=swap">
+<style>
+:root{
+  --bg:#0f0c0b;--bg-deep:#070505;
+  --ink:#e6ddd1;--ink-strong:#f6eee4;--muted:#9b9187;
+  --ember:#ff7438;--ember-soft:#ffb072;
+  --serif:"Literata",Georgia,"Times New Roman",serif;
+  --display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box}
+html{background:var(--bg);color-scheme:dark;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:clamp(17px,.55vw + 15px,19px);line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.wrap{max-width:35rem;margin:0 auto;padding:0 20px}
+p{margin:0 0 1.05em;-webkit-hyphens:auto;hyphens:auto;overflow-wrap:break-word}
+::selection{background:rgba(255,116,56,.35);color:#fff}
+
+/* полоска прогресса чтения */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:20;pointer-events:none}
+.progress span{display:block;height:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,#ff5a1f,var(--ember-soft));box-shadow:0 0 10px rgba(255,100,40,.8)}
+
+/* титул серии */
+.hero{min-height:80vh;min-height:80svh;display:flex;align-items:center;text-align:center;padding:10vh 0 6vh;background:radial-gradient(60% 40% at 50% 42%,rgba(255,100,40,.13),rgba(255,100,40,0) 70%)}
+.hero .wrap{width:100%}
+.g.emblem{display:block;width:64px;height:64px;margin:0 auto;animation:smoulder 5s ease-in-out infinite}
+.series{margin:1.7rem 0 .35rem;font-family:var(--display);font-weight:600;font-size:.88rem;letter-spacing:.45em;padding-left:.45em;text-transform:uppercase;color:var(--ember-soft)}
+.ep{margin:0;color:var(--muted);font-size:.88rem;letter-spacing:.06em}
+h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:500;font-size:clamp(3.1rem,13vw,4.8rem);line-height:1;color:var(--ink-strong)}
+.meta{margin:0;color:var(--muted);font-size:.84rem}
+.scroll-cue{width:1px;height:52px;margin:3rem auto 0;background:linear-gradient(var(--ember),rgba(255,116,56,0));opacity:.65}
+
+/* сцены наверху */
+.earth{padding:.5rem 0 2.5rem}
+.hero + .earth .wrap > p:first-child::first-letter{float:left;font-family:var(--display);font-weight:600;font-size:3.6em;line-height:.8;padding:.07em .1em 0 0;color:var(--ember-soft)}
+.divider{display:flex;justify-content:center;gap:.9em;margin:2.8em 0}
+.divider span{width:5px;height:5px;border-radius:50%;background:var(--ember);box-shadow:0 0 8px rgba(255,116,56,.85);opacity:.85}
+
+/* знаки лисьего алфавита */
+.g{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.22em;margin:0 .05em;color:var(--ember);overflow:visible;filter:drop-shadow(0 0 3px rgba(255,110,50,.55))}
+.g path{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.g .dot{fill:currentColor;stroke:none}
+.nw{white-space:nowrap}
+.signs{margin:.4em 0 .9em;text-align:center;font-size:1.85em;line-height:1.2}
+.signs .g{margin:0 .08em}
+
+/* голос из телефона, крупная реплика */
+.call{margin:1.6em 0;padding:.85em 1.1em;border-left:2px solid rgba(255,116,56,.6);border-radius:0 8px 8px 0;background:linear-gradient(90deg,rgba(255,116,56,.09),rgba(255,116,56,0) 80%);font-style:italic;color:var(--ink-strong)}
+.call .label{display:block;margin-bottom:.4em;font-style:normal;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.call p{margin:0}
+.voice{margin:1.1em 0 1.4em;text-align:center;font-family:var(--display);font-size:1.5em;line-height:1.3;color:var(--ink-strong)}
+
+/* журнал Марка: тетрадный лист */
+.log{position:relative;margin:1.8em 0 2em;padding:.9em 1em 1em 2.5em;border-radius:3px;color:#22304f;font-family:"Caveat","Segoe Print","Bradley Hand",cursive;font-size:1.32em;line-height:1.6em;font-weight:500;
+  background-color:#ebe6da;
+  background-image:linear-gradient(90deg,transparent 1.75em,rgba(205,80,80,.55) 1.75em,rgba(205,80,80,.55) calc(1.75em + 1px),transparent calc(1.75em + 1px)),repeating-linear-gradient(180deg,transparent 0,transparent calc(1.6em - 1px),rgba(70,110,175,.32) calc(1.6em - 1px),rgba(70,110,175,.32) 1.6em);
+  background-position:0 0,0 .9em;
+  box-shadow:0 14px 34px rgba(0,0,0,.45);transform:rotate(-.35deg)}
+.log figcaption{font-family:var(--serif);font-size:.46em;line-height:3.48em;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:#7c7b88}
+.log p{margin:0;-webkit-hyphens:manual;hyphens:manual}
+.log u{text-decoration-line:underline;text-decoration-style:double;text-decoration-thickness:1px;text-underline-offset:.12em}
+
+/* уведомление на телефоне */
+.notice{margin:1.8em auto;max-width:21rem;padding:.75em .9em .85em;border-radius:16px;background:rgba(44,41,43,.95);border:1px solid rgba(255,255,255,.09);box-shadow:0 18px 40px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.06);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:.8em;line-height:1.45;color:#ececf0}
+.notice-head{display:flex;align-items:center;gap:.5em;margin-bottom:.4em;font-size:.85em;color:#a7a9b1}
+.notice-head svg{width:1.4em;height:1.4em;flex:none}
+.notice p{margin:0;-webkit-hyphens:manual;hyphens:manual}
+
+/* документ: «Сценарий», договор */
+.doc{margin:1.8em 0 2em;padding:1em 1.2em 1.15em;border-radius:2px;background:#eceae3;color:#1e1d1b;font-family:"PT Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.8em;line-height:1.65;box-shadow:0 14px 34px rgba(0,0,0,.45)}
+.doc figcaption{margin-bottom:.8em;padding-bottom:.55em;border-bottom:1px solid rgba(0,0,0,.16);font-size:.8em;letter-spacing:.16em;text-transform:uppercase;color:#6c695f}
+.doc p{margin:0;-webkit-hyphens:manual;hyphens:manual}
+.doc .hand{margin-top:.55em;font-family:"Caveat","Segoe Print","Bradley Hand",cursive;font-size:1.6em;line-height:1.2;font-weight:600;color:#203d86;transform:rotate(-.8deg);transform-origin:0 50%}
+.doc .sig{display:flex;align-items:flex-end;gap:.6em;margin-top:1.1em}
+.doc .sig .line{flex:1;min-width:4em;height:1.3em;border-bottom:1px solid currentColor;opacity:.75}
+.doc.cold{background:linear-gradient(160deg,#1b1f25,#101317);color:#c4ccd6;border:1px solid rgba(170,195,225,.22);box-shadow:0 18px 44px rgba(0,0,0,.6),inset 0 0 40px rgba(140,170,210,.07)}
+.doc.cold figcaption{color:#7f8b99;border-bottom-color:rgba(170,195,225,.18)}
+.doc .fine{margin-top:.7em;font-size:.76em;line-height:1.5;opacity:.72}
+
+/* окно соглашения с кнопками */
+.notice .btns{display:flex;justify-content:flex-end;gap:.55em;margin-top:.75em}
+.notice .btn{padding:.38em 1em;border-radius:999px;background:rgba(255,255,255,.09);color:#d7d8dd;font-size:.92em}
+.notice .btn.primary{background:#ececf0;color:#121214;font-weight:600}
+
+/* лента самописца */
+.tape{margin:1.8em -4px 2em;transform:rotate(-.5deg);box-shadow:0 12px 30px rgba(0,0,0,.45);border-radius:2px;overflow:hidden}
+.tape svg{display:block;width:100%;height:auto}
+.tape .paper{fill:#ece5d3}
+.tape .grid{fill:none;stroke:rgba(200,90,90,.22);stroke-width:1}
+.tape .ink{fill:none;stroke:#3a3d8c;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.tape .tick{fill:none;stroke:#6f6a60;stroke-width:1.2}
+.tape text{font-family:"Caveat","Segoe Print",cursive;font-size:24px;fill:#5d5850}
+
+/* карта дыма */
+.smokemap{margin:1.8em 0 2em;border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px rgba(120,255,170,.08),0 20px 50px rgba(0,0,0,.6)}
+.smokemap svg{display:block;width:100%;height:auto}
+.smokemap .bg{fill:#05080a}
+.smokemap .streets{fill:none;stroke:rgba(120,190,150,.07);stroke-width:1}
+.smokemap .river{fill:none;stroke:#0b1820;stroke-width:16;stroke-linecap:round}
+.smokemap .d0 circle{fill:#57e590}
+.smokemap .d1 circle{fill:#3fbf74;opacity:.8}
+.smokemap .d2 circle{fill:#2f9a5d;opacity:.6}
+.smokemap .hit{fill:#ff7a2f}
+.smokemap .ring{fill:none;stroke:#ff7a2f;stroke-width:1.1;transform-box:fill-box;transform-origin:center;animation:ping 2.6s ease-out infinite}
+/* запотевшее зеркало */
+.mirror{position:relative;display:grid;gap:.7em;justify-items:center;width:min(100%,19rem);margin:2.4em auto;padding:1.6em 1.2em;border-radius:18px;color:#1c2227;
+  background:radial-gradient(140% 100% at 18% 0%,rgba(255,255,255,.55),rgba(255,255,255,0) 58%),radial-gradient(120% 120% at 85% 100%,rgba(110,125,140,.55),rgba(110,125,140,0) 70%),linear-gradient(160deg,#cdd2d6,#99a1a8);
+  box-shadow:0 0 0 6px #27211e,0 0 0 7px rgba(255,255,255,.07),0 24px 60px rgba(0,0,0,.55)}
+.mirror::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:.7;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,0) 0 19px,rgba(255,255,255,.14) 19px 20px,rgba(255,255,255,0) 20px 37px);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 35%,#000);mask-image:linear-gradient(to bottom,transparent 35%,#000)}
+.mirror .row{position:relative;z-index:1;display:flex;gap:.75em;justify-content:center}
+.mirror .g{width:clamp(2.4rem,11.5vw,3.3rem);height:clamp(2.4rem,11.5vw,3.3rem);margin:0;color:inherit;filter:drop-shadow(0 0 1.5px rgba(255,255,255,.5))}
+.mirror .g path{stroke-width:1.45}
+.mirror.hot{background:radial-gradient(140% 100% at 18% 0%,rgba(255,240,225,.55),rgba(255,255,255,0) 58%),radial-gradient(80% 80% at 50% 55%,rgba(255,120,60,.4),rgba(255,120,60,0) 70%),linear-gradient(160deg,#dccdc2,#a8978b)}
+.mirror.hot .g{color:#b2300b;filter:drop-shadow(0 0 4px rgba(255,90,20,.8));animation:heat 2.4s ease-in-out infinite}
+.mirror.back{transform:scaleX(-1);color:#ff8a4c;
+  background:radial-gradient(120% 90% at 50% 35%,rgba(255,240,230,.13),rgba(255,240,230,0) 62%),linear-gradient(160deg,#2b2524,#131010);
+  box-shadow:0 0 0 6px #1a1413,0 0 0 7px rgba(255,120,60,.16),0 24px 60px rgba(0,0,0,.65)}
+.mirror.back::after{opacity:.18}
+.mirror.back .g{color:#ff8a4c;filter:drop-shadow(0 0 5px rgba(255,100,40,.85))}
+.js .mirror .g path{stroke-dasharray:1 2;stroke-dashoffset:1.01}
+.js .mirror .g .dot{opacity:0}
+.js .mirror.on .g path{animation:draw 1.3s cubic-bezier(.6,.05,.4,1) forwards;animation-delay:calc(var(--i,0) * .95s + .25s)}
+.js .mirror.on .g .dot{animation:appear .35s ease forwards;animation-delay:calc(var(--i,0) * .95s + 1.35s)}
+.mirror .letters{display:block;font-family:var(--display);font-weight:600;font-size:clamp(2rem,9.5vw,2.8rem);line-height:1.1;letter-spacing:.16em;padding-left:.16em;color:inherit}
+.mirror.back .letters{text-shadow:0 0 10px rgba(255,100,40,.85)}
+.js .mirror .letters{opacity:0}
+.js .mirror.on .letters{animation:appear 1.2s ease forwards;animation-delay:calc(var(--i,0) * .95s + .25s)}
+
+/* лист-воспоминание */
+.page{margin:1.8em 0;padding:1.1em 1.25em;border:1px solid rgba(255,150,70,.3);border-radius:6px;font-family:var(--display);font-style:italic;font-size:1.2em;line-height:1.5;color:#f6e3cc;background:linear-gradient(180deg,rgba(255,170,90,.08),rgba(255,120,40,.03));box-shadow:inset 0 0 40px rgba(255,90,20,.12),0 0 26px rgba(255,90,20,.1)}
+.page p{margin:0}
+.page.burn{animation:burn 3.2s ease forwards}
+
+/* внизу */
+.below{position:relative;overflow:hidden;padding:6em 0 4em;color:#ecdccb;background:radial-gradient(130% 55% at 50% 112%,rgba(175,45,10,.45),rgba(175,45,10,0) 62%),linear-gradient(var(--bg) 0,var(--bg-deep) 200px)}
+.below .wrap{position:relative;z-index:1}
+.below-label{margin:0 0 2.6em;text-align:center;font-family:var(--display);font-weight:600;font-size:.88rem;letter-spacing:.55em;padding-left:.55em;text-transform:uppercase;color:var(--ember);text-shadow:0 0 14px rgba(255,100,40,.7)}
+.ash{position:absolute;inset:0;z-index:0;pointer-events:none}
+.ash i{position:absolute;bottom:-10px;width:var(--s);height:var(--s);border-radius:50%;background:#cbbfb4;opacity:0;animation:rise var(--d) linear infinite;animation-delay:var(--delay)}
+.ash i.e{background:#ffb27a;box-shadow:0 0 6px 1px rgba(255,110,40,.75)}
+/* Архив остывает: чем больше пепла, тем холоднее (с С5) */
+.below.cold-1{background:radial-gradient(130% 55% at 50% 112%,rgba(150,55,30,.3),rgba(150,55,30,0) 62%),radial-gradient(120% 45% at 50% -8%,rgba(175,205,235,.08),rgba(175,205,235,0) 65%),linear-gradient(var(--bg) 0,#060708 200px)}
+.below.cold-1::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 140px rgba(180,210,240,.07)}
+.below.cold-1 .ash i{background:#c4c9d0}
+.below.cold-1 .ash i.e{background:#ffb27a}
+
+/* квадрат SATOR на чугунной заслонке */
+.sator{margin:2.2em auto;width:min(100%,15.5rem);padding:1.1em;border-radius:6px;background:radial-gradient(120% 120% at 30% 20%,#3b3634,#1c1918 70%);box-shadow:inset 0 0 0 2px #2b2725,inset 0 0 24px rgba(0,0,0,.75),0 16px 40px rgba(0,0,0,.55)}
+.sator .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.1em}
+.sator span{display:flex;align-items:center;justify-content:center;aspect-ratio:1;font-family:var(--display);font-weight:600;font-size:clamp(1.45rem,7.2vw,1.95rem);line-height:1;color:#958c87;text-shadow:0 -1px 0 rgba(0,0,0,.85),0 1px 0 rgba(255,255,255,.13)}
+
+/* город: вставки о мире под штампом «Фосфора» */
+.city{position:relative;padding:4.6em 0 3.6em;color:#cfd8df;background:linear-gradient(var(--bg),#0a0f14 6em,#0a0f14 calc(100% - 6em),var(--bg))}
+.city::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.6;
+  background:radial-gradient(circle,rgba(87,229,144,.2) 0 1px,rgba(87,229,144,0) 1.6px) 0 0/22px 22px;
+  -webkit-mask-image:linear-gradient(transparent,#000 9em,#000 calc(100% - 9em),transparent);mask-image:linear-gradient(transparent,#000 9em,#000 calc(100% - 9em),transparent)}
+.city .wrap{position:relative;z-index:1}
+.stamp{overflow:hidden;margin:0 0 2.2em;padding:.45em 0 .85em;border-bottom:1px solid rgba(130,160,185,.18);font-family:"PT Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.68rem;line-height:1.75;letter-spacing:.13em;text-transform:uppercase;color:#7f95a6;-webkit-hyphens:manual;hyphens:manual}
+.stamp-in{display:flex;flex-wrap:wrap;align-items:baseline;margin-left:-2em}
+.stamp-in>span::before{content:"·";display:inline-block;width:2em;text-align:center;letter-spacing:0;color:#46545f}
+.stamp .pin{display:inline-block;width:.62em;height:.62em;margin-left:.6em;border-radius:50%;vertical-align:-.02em;background:#57e590;box-shadow:0 0 9px rgba(87,229,144,.85);animation:blip 3.2s ease-in-out infinite}
+/* где датчиков нет: ни сетки огоньков, ни зелёного глазка */
+.city.blind{color:#d8d2cb;background:linear-gradient(var(--bg),#0c0a09 6em,#0c0a09 calc(100% - 6em),var(--bg))}
+.city.blind::before{display:none}
+.city.blind .stamp{color:#77716b;border-bottom-color:rgba(170,155,140,.14)}
+.city.blind .stamp .pin{background:none;border:1px solid currentColor;box-shadow:none;animation:none}
+.js .city .stamp{opacity:0;transition:opacity 1.4s ease}
+.js .city.on .stamp{opacity:1}
+.js .city.blind.on .stamp{animation:flicker 1.8s linear}
+
+/* финал */
+.end{padding:1em 0 5em;text-align:center;background:var(--bg-deep)}
+.end .divider{margin-top:0}
+.end-title{margin:0;font-family:var(--display);font-style:italic;font-size:1.55rem;color:var(--ink-strong)}
+.end-sub{margin:.45em 0 0;color:var(--muted);font-size:.85rem;letter-spacing:.06em}
+
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes appear{to{opacity:1}}
+@keyframes ping{0%{transform:scale(1);opacity:.95}100%{transform:scale(5.5);opacity:0}}
+@keyframes smoulder{0%,100%{filter:drop-shadow(0 0 6px rgba(255,100,40,.55))}50%{filter:drop-shadow(0 0 14px rgba(255,100,40,.95))}}
+@keyframes heat{0%,100%{filter:drop-shadow(0 0 3px rgba(255,90,20,.7))}50%{filter:drop-shadow(0 0 9px rgba(255,90,20,1))}}
+@keyframes rise{0%{transform:translate(0,0);opacity:0}8%{opacity:var(--o)}80%{opacity:calc(var(--o) * .55)}100%{transform:translate(var(--x),calc(-1 * var(--h,1800px)));opacity:0}}
+@keyframes burn{25%{border-color:rgba(255,175,95,.95);color:#fff4e6;box-shadow:inset 0 0 70px rgba(255,120,40,.6),0 0 60px rgba(255,90,20,.5)}100%{border-color:rgba(150,140,130,.15);color:rgba(185,175,165,.42);background:rgba(255,255,255,.012);box-shadow:none}}
+@keyframes blip{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes flicker{0%{opacity:0}8%{opacity:.75}12%{opacity:.1}20%{opacity:.6}26%{opacity:.15}40%{opacity:.8}46%{opacity:.35}60%,100%{opacity:1}}
+
+@media (prefers-reduced-motion:reduce){
+  .g.emblem,.mirror.hot .g,.page.burn{animation:none}
+  .js .mirror .g path,.js .mirror.on .g path{stroke-dasharray:none;stroke-dashoffset:0;animation:none}
+  .js .mirror .g .dot,.js .mirror.on .g .dot{opacity:1;animation:none}
+  .js .mirror .letters,.js .mirror.on .letters{opacity:1;animation:none}
+  .smokemap .ring{animation:none;opacity:0}
+  .ash{display:none}
+  .page.burn{border-color:rgba(150,140,130,.18);color:rgba(195,185,175,.6);box-shadow:none}
+  .stamp .pin{animation:none}
+  .js .city .stamp,.js .city.on .stamp,.js .city.blind.on .stamp{opacity:1;transition:none;animation:none}
+}
+</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"><span></span></div>
+<header class="hero"><div class="wrap">
+<svg class="g emblem" viewBox="0 0 24 24" role="img" aria-label="сосуд"><path pathLength="1" d="M9.4 3.2 H14.6 M10.3 3.2 V5.4 C6.6 6.9 5.4 10 5.9 13.3 C6.5 17.1 8.8 19.7 12 19.7 C15.2 19.7 17.5 17.1 18.1 13.3 C18.6 10 17.4 6.9 13.7 5.4 V3.2"/><path pathLength="1" d="M16.2 6.6 C20.4 6 21.6 10.9 18.2 12.6"/><path pathLength="1" d="M8.9 13.2 a3.1 3.1 0 1 0 6.2 0 a3.1 3.1 0 1 0 -6.2 0"/></svg>
+<p class="series">Пандемониум</p>
+<p class="ep">Серия 5</p>
+<h1>Оригинал</h1>
+<p class="meta">≈ 20 минут чтения</p>
+<div class="scroll-cue" aria-hidden="true"></div>
+</div></header>
+<section class="earth"><div class="wrap">
+<p>Свеча была последней.</p>
+<p>Вера нашла её на дне коробки с антресолей — толстую, восковую, с чёрным огарком фитиля. Всю прошлую неделю, пока мама работала в ночь, Вера по вечерам говорила с папой при свечах, и коробка опустела быстрее, чем она думала.</p>
+<p>Утром они с мамой разминулись: Вера ушла в школу, мама вернулась со смены и легла не раздеваясь, лицом к стене. К вечеру она так и не встала. В квартире было тихо, как бывает, когда кто-то спит днём: гудел холодильник, в коридоре ровно горел зелёный огонёк датчика.</p>
+<p>Вера пустила горячую воду, поставила свечу на стиральную машину и чиркнула спичкой. Запахло серой и поминками. Зеркало побелело.</p>
+<p class="signs"><svg class="g" viewBox="0 0 24 24" role="img" aria-label="лис в очках"><path pathLength="1" d="M5 3 L9 9 L15 9 L19 3 L20.5 11.5 L12 20.5 L3.5 11.5 Z"/><path pathLength="1" d="M7.1 13 a2.2 2.2 0 1 0 4.4 0 a2.2 2.2 0 1 0 -4.4 0"/><path pathLength="1" d="M12.5 13 a2.2 2.2 0 1 0 4.4 0 a2.2 2.2 0 1 0 -4.4 0"/><path pathLength="1" d="M11.5 13 L12.5 13"/></svg> <svg class="g" viewBox="0 0 24 24" role="img" aria-label="почему"><path pathLength="1" d="M7.8 8.2 C7.2 4.8 9.8 2.9 12.5 2.9 C15.4 2.9 17.3 4.8 17.3 7.4 C17.3 10.6 13.4 11.3 12.9 14.3 L12.8 15.6"/><path pathLength="1" d="M7.8 8.2 L5.9 7.5 M7.8 8.2 L6.6 9.9"/><circle class="dot" cx="12.8" cy="19" r="1.55"/></svg></p>
+<p>Ответ пришёл не сразу. По стеклу прошла дрожь, потом изнутри проступил её собственный знак — «друг», круг с двумя точками. А рядом медленно, словно рука вспоминала, как это делается, — ещё один, которого Вера никогда не видела.</p>
+<figure class="mirror" aria-label="Знаки на зеркале"><div class="row"><svg class="g" viewBox="0 0 24 24" role="img" aria-label="друг" style="--i:0"><path pathLength="1" d="M4.5 12 a7.5 7.5 0 1 0 15 0 a7.5 7.5 0 1 0 -15 0"/><circle class="dot" cx="9.3" cy="12" r="1.55"/><circle class="dot" cx="14.7" cy="12" r="1.55"/></svg><svg class="g" viewBox="0 0 24 24" role="img" aria-label="сосуд" style="--i:1"><path pathLength="1" d="M9.4 3.2 H14.6 M10.3 3.2 V5.4 C6.6 6.9 5.4 10 5.9 13.3 C6.5 17.1 8.8 19.7 12 19.7 C15.2 19.7 17.5 17.1 18.1 13.3 C18.6 10 17.4 6.9 13.7 5.4 V3.2"/><path pathLength="1" d="M16.2 6.6 C20.4 6 21.6 10.9 18.2 12.6"/><path pathLength="1" d="M8.9 13.2 a3.1 3.1 0 1 0 6.2 0 a3.1 3.1 0 1 0 -6.2 0"/></svg></div></figure>
+<p>Кувшин. Узкое горлышко, круглые бока, а внутри пустой круг — как «здесь», только без точки. Здесь — никого.</p>
+<p>Новых знаков папа не придумывал с тех пор, как она перешла в третий класс. Вера смотрела на кувшин, и у неё мёрзли пальцы, хотя в ванной было жарко.</p>
+<p>Друг — кувшин? Она написала «почему». Папа повторил то же самое: «друг», а рядом пустой кувшин, и обвёл его ещё раз, как в тетради обводят главное.</p>
+<p>За спиной открылась дверь.</p>
+<p>Мама стояла на пороге — в халате, с примятыми волосами и красной полосой от подушки на щеке. Смотрела она не на Веру, а на свечу. Потом на зеркало, где таяли знаки.</p>
+<p>— Ты что делаешь?</p>
+<p>— Ничего. Моюсь.</p>
+<p>— Со свечкой? — Мама шагнула в ванную, и огонёк качнулся. — Ты в своём уме? Пожар хочешь устроить?</p>
+<p>— Датчик же зелёный.</p>
+<p>— Датчик! — Мама засмеялась коротко и зло. — Ты ночевала неизвестно где. Мне посреди смены звонят из «Фосфора»: ваша дочь отказалась от условий, её не пустил дом, — а я даже не знаю, где ты. Ты хоть понимаешь…</p>
+<p>— А ты подписала за меня, — сказала Вера.</p>
+<p>Мама замолчала.</p>
+<p>— Я твой законный представитель, — сказала она наконец. Голос у неё стал чужой, канцелярский, будто она читала с листа. — Тебе пятнадцать.</p>
+<p>— Ты даже не прочитала, что там.</p>
+<p>— А ты прочитала? Неделю нажимала «Позже», а потом ушла под дождь. Куда? К кому?</p>
+<p>— Какая разница.</p>
+<p>— Такая. — Мама вдруг осела на край ванны, как будто у неё кончились ноги. — Я сидела на лестнице у ординаторской и звонила тебе каждые десять минут. «Абонент недоступен». До часу ночи. Ты знаешь, что я передумала за эти три часа?</p>
+<p>Вера знала. По маминому лицу было видно всё, что она передумала: под глазами лежали серые тени, губы потрескались, руки, красные от антисептика, мелко дрожали на коленях. Маме было страшно — и, похоже, страшно до сих пор.</p>
+<p>— Я одного уже потеряла, — тихо сказала мама. — Второго не отдам. Поняла? Мне сказали нажать — я нажала. И нажму ещё раз, если надо.</p>
+<p>Она протянула руку — то ли обнять, то ли взять за плечо. Вера отступила на шаг, к раковине. Мамина рука повисла в воздухе, и лицо у мамы сразу закрылось, как дверь.</p>
+<p>Вера открыла рот — и закрыла. Сказать «я разговариваю с папой» было нельзя. «Маме не говори» — это было первое, что он ей написал, и только сейчас Вера поняла почему. Мама подписывает всё, что ей велят. А в её договоре есть пункт девятый — Вера сама слышала, как Октавия читала его вслух у них в прихожей: сообщать о любых необычных явлениях. Узнай мама про папу — и она обязана будет сообщить. Папа прятался не от мамы. Он прятал маму — от её собственной подписи.</p>
+<p>Мама наклонилась и задула свечу. Дым потянулся к потолку тонкой серой ниткой. Мама забрала огарок, сняла с антресолей пустую коробку, заглянула в неё и унесла с собой.</p>
+<p>— Больше никакого огня в этом доме, — сказала она из коридора. — Никакого.</p>
+<p>Вера стояла перед зеркалом, пока на нём не растаял последний знак. Пустой кувшин растаял последним.</p>
+<p>Свечей больше не было. Без огня датчик в коридоре заметит каждый папин знак, а без знаков папа остаётся просто стеклом. Вера прижала ладонь к холодному зеркалу — старый ожог на ней давно побелел — и подержала, как держат руку у двери, за которой кто-то стоит.</p>
+</div></section>
+<section class="city" aria-label="Город. 23:40. квартира Каро. датчик"><div class="wrap">
+<p class="stamp"><span class="stamp-in"><span>Город</span><span>23:40</span><span>квартира Каро</span><span>датчик<i class="pin" aria-hidden="true"></i></span></span></p>
+<p>Ливия сидела на кухне, не зажигая верхнего света. Перед ней стояла пустая коробка из-под свечей, рядом лежал огарок. Холодильник гудел. На нём под магнитом висели памятка «Тихого дома» и визитка Октавии Корвин.</p>
+<p>Лис в очках. Она успела его разглядеть, прежде чем стекло высохло: треугольная морда, а вместо глаз два кружка с перемычкой. Так Феликс подписывал записки на холодильнике. Так он рисовал на салфетках в кафе, на полях её конспектов, на открытках ко дню рождения — все годы, что они были вместе.</p>
+<p>Недавно «Фосфор» присылал предупреждение: злоумышленники выдают себя за умерших родственников, копируют их манеру и почерк. Тогда Ливия смахнула его, не дочитав. Теперь нашла в старых уведомлениях и перечитала дважды.</p>
+<p>Кто-то писал её дочери папиными знаками. Кто-то знал, как Феликс рисовал лис.</p>
+<p>Пункт девятый она помнила наизусть, хотя ни разу не перечитывала договор: «Семья обязуется незамедлительно сообщать Компании о любых необычных явлениях». Ливия набрала номер с визитки.</p>
+<p>Ответили сразу. Не Октавия — молодой мужской голос, вежливый и сонный:</p>
+<p>— Отдел сопровождения договоров, слушаю.</p>
+<p>— Я по пункту девять, — сказала Ливия и сама удивилась, как ровно это прозвучало. — Моя дочь… По-моему, с ней кто-то связывается. Через зеркало. Знаками, которые рисовал её отец.</p>
+<p>Он не удивился. Записал адрес, переспросил фамилию, поблагодарил.</p>
+<p>— Вы правильно сделали, что сообщили. Мы позаботимся о вашей дочери.</p>
+<p>Ливия положила телефон экраном вниз. Пустую коробку она отнесла к мусоропроводу и долго слушала, как та стучит о стенки, падая вниз. А огарок положила к себе в сумку. Зачем — не знала сама.</p>
+</div></section>
+<section class="earth"><div class="wrap">
+<p>Отец ушёл на смену в девять, и дом сразу стал больше.</p>
+<p>Марк не спал. Он сидел на кухне с выключенным светом и смотрел на буфет — тёмный, на гнутых ножках, с мутными стёклами наверху, за которыми теперь стояла мамина тарелка с синей каймой. Внизу были глухие дверцы и ящик, который всю его жизнь был заперт.</p>
+<p>Сегодня из замка торчал ключ.</p>
+<p>Марк смотрел на него минут десять. Отец не забывал ключей. Отец вообще ничего не забывал. Ключ в замке мог значить только одно: так надо.</p>
+<p>Он повернул ключ.</p>
+<p>В ящике ровным рядом стояли папки — серый картон, на каждом корешке маленькая серебряная искра. Шестнадцать штук. «Сценарий. Год первый». «Сценарий. Год второй». Марк вынул первую.</p>
+<figure class="doc"><figcaption>Сценарий. Год первый</figcaption><p>Имя — как у оригинала.</p></figure>
+<p>Ранние папки пожелтели, бумага в них стала мягкой, как ткань; поздние были ещё белыми. Записи — машинописные, а против каждой карандашом, от руки, стояла короткая отметка: «Выполнено». Отцовский почерк Марк узнал сразу — так же ровно отец писал на клочках бумаги «Хлеб на столе» и «Не забудь ключ». Шестнадцать лет «Выполнено». Тысячи раз.</p>
+<p>Записи были короткие и шли по возрасту, как в медицинской карте. «1 год 2 месяца. Первое слово — „огонь“. Как у оригинала». «7 лет. Отец не приходит на школьный праздник. Как у оригинала». «9 лет 0 месяцев 3 дня. Мать уходит. Реакция — не плачет. Как у оригинала».</p>
+<p>Тот день Марк помнил. Мама резала хлеб и напевала, потом вытерла руки о фартук и ушла. Он не плакал. Он думал, что это он такой.</p>
+<p>«10 лет 4 месяца. Сын уходит из дома на ночь. Не искать. Как у оригинала».</p>
+<p>Ту ночь он тоже помнил. Он просидел до утра в сушильной камере, слушал, как по крыше ходит дождь, и ждал, что сейчас за ним придут с фонарём. Никто не пришёл. Утром отец молча поставил перед ним тарелку, и Марк решил, что отцу всё равно. Отцу было не всё равно. Отцу было написано не искать.</p>
+<p>«12 лет. Сын собирает приёмник из фабричного лома. Не мешать. Как у оригинала».</p>
+<p>Марк перечитал строчку три раза. Четыре года он думал, что приёмник — единственное, что он сделал сам.</p>
+<p>Дальше каждые несколько месяцев повторялось одно и то же: «Отец находит приёмник. Отец сжигает приёмник в печи». Одиннадцать раз. Одиннадцать раз «Выполнено». Марк думал, что прячет плохо нарочно, чтобы отец находил один и успокаивался. Выходило, что отец находил ровно столько, сколько было написано.</p>
+<p>В шестнадцатой папке он нашёл и последнюю такую ночь, с отцовской припиской: «Выполнено. Реакция — молчание. Как у оригинала». Его молчание тоже было записано заранее. Последние страницы были самые свежие.</p>
+<figure class="doc"><figcaption>Сценарий. Год шестнадцатый</figcaption><p>16 лет 3 месяца 20 дней.</p><p class="hand">Девочка Каро. Дописано.</p><p>16 лет 3 месяца 21 день.</p><p>Сын находит «Сценарий».</p><p class="sig"><span>Реакция:</span><span class="line" role="img" aria-label="пусто"></span></p></figure>
+<p>«Девочка Каро» была вписана от руки, но не отцом: почерк был круглый и аккуратный. А сегодняшняя запись — машинописная, как всё остальное, с пустой строчкой для реакции. Они знали, что он найдёт. Ключ в замке был не забывчивостью. Ключ в замке был по сценарию.</p>
+<p>Дальше, через месяц записей, торчала красная закладка. Перед ней стояло «16 лет 4 месяца 30 дней», за ней — страница с одним словом: «Пожар». А потом страницы были пустые. Ни одной записи, будто после «Пожара» никакого Марка уже не будет.</p>
+<p>Когда Марку было страшно, он считал. От сегодняшней строчки до закладки было сорок дней. Он пересчитал. Сорок.</p>
+<p>Сорок дней — так говорят на поминках.</p>
+<p>Он поставил папки на место, корешок к корешку, как стояли, и закрыл ящик. Ключ оставил в замке. Так надо.</p>
+</div></section>
+<section class="city" aria-label="Город. 02:15. зал карты дыма. датчик"><div class="wrap">
+<p class="stamp"><span class="stamp-in"><span>Город</span><span>02:15</span><span>зал карты дыма</span><span>датчик<i class="pin" aria-hidden="true"></i></span></span></p>
+<p>Ночью в зале карты дыма дежурили двое: девушка в форменной толстовке с искрой и термос с чаем. Термос был надёжнее. Карта во всю стену светилась ровно, миллионом зелёных точек, и почти не требовала внимания.</p>
+<p>Сбоку, на отдельном экране, шёл список «Мёртвые зоны» — места, где датчиков ещё не было. Весь месяц он только укорачивался. Старое трамвайное депо. Бассейн на ремонте. Подземный переход у вокзала. Ночью закрылась ещё одна строчка: «Школа, раздевалка за спортзалом. Датчик установлен».</p>
+<p>Внизу списка осталось: «Закрыто: 37 из 38».</p>
+<p>Тридцать восьмой была фабрика «Искра». Дежурная вздохнула и в третий раз отправила заявку на датчики по периметру. Через минуту заявка вернулась.</p>
+<div class="notice" role="note"><div class="notice-head"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6" fill="#0e0e12"/><path d="M12 4.2 13.5 10.5 19.8 12 13.5 13.5 12 19.8 10.5 13.5 4.2 12 10.5 10.5Z" fill="#dfe1e8"/></svg><span>«Фосфор» · заявка 4471</span></div><p>Отклонено. Объект не трогать. Распоряжение отдела сопровождения договоров.</p></div>
+<p>На карте тем временем загорелась красная метка — не оранжевая, как от дыма, а красная, служебная. «Квартира Каро. Сообщение по пункту 9. 23:41». Метка повисела секунду и сама ушла в отдел сопровождения договоров. Там с этой квартирой работали давно.</p>
+<p>Дежурная пожала плечами и налила себе чаю. Над картой, на большом экране, где обычно крутили «Спокойствие под присмотром», шла новая заставка — белыми буквами по чёрному:</p>
+<p class="voice"><em>«Продолжение». Не прощайтесь. Скоро — по всей стране.</em></p>
+<p>Что именно продолжится, там не говорилось.</p>
+</div></section>
+<section class="earth"><div class="wrap">
+<p>На следующий день в норе их ждал датчик.</p>
+<p>Белая шайба с серебряной искрой висела на потолке прямо над сваленными матами и горела ровным зелёным. Вокруг неё на штукатурке темнели свежие дырки от дюбелей, на полу лежала побелка. Пахло не пылью, а сверлом.</p>
+<p>Марк стоял под шайбой, задрав голову.</p>
+<p>— Ночью повесили, — сказал он. — Последнюю дыру в школе.</p>
+<p>Вера смотрела на зелёный огонёк и не могла отвести глаз. Сначала нора была их с Алиной: наушники на двоих, записки шифром, клятва никогда не стать как Дафна. Потом — только её, полтора года. Потом их с Марком. Теперь — «Фосфора».</p>
+<p>Они вышли во двор и пошли за котельную, туда, где завхоз сваливал сломанную мебель. Моросило. Старые парты громоздились друг на друге, как льдины. Верина нашлась с краю: лак облез, но в углу крышки по-прежнему темнел выжженный лисёнок с ноготь. Вера смахнула с него воду и села рядом.</p>
+<p>Она открыла тетрадь и нарисовала то, что было на зеркале.</p>
+<p class="signs"><svg class="g" viewBox="0 0 24 24" role="img" aria-label="друг"><path pathLength="1" d="M4.5 12 a7.5 7.5 0 1 0 15 0 a7.5 7.5 0 1 0 -15 0"/><circle class="dot" cx="9.3" cy="12" r="1.55"/><circle class="dot" cx="14.7" cy="12" r="1.55"/></svg> <svg class="g" viewBox="0 0 24 24" role="img" aria-label="сосуд"><path pathLength="1" d="M9.4 3.2 H14.6 M10.3 3.2 V5.4 C6.6 6.9 5.4 10 5.9 13.3 C6.5 17.1 8.8 19.7 12 19.7 C15.2 19.7 17.5 17.1 18.1 13.3 C18.6 10 17.4 6.9 13.7 5.4 V3.2"/><path pathLength="1" d="M16.2 6.6 C20.4 6 21.6 10.9 18.2 12.6"/><path pathLength="1" d="M8.9 13.2 a3.1 3.1 0 1 0 6.2 0 a3.1 3.1 0 1 0 -6.2 0"/></svg></p>
+<p>— Это папа вчера написал. Новый знак. Я не понимаю. Кувшин, а внутри пусто.</p>
+<p>Марк долго смотрел на кувшин. Капля упала на страницу и расплылась рядом с пустым кругом.</p>
+<p>— Сосуд, — сказал он. — Это я.</p>
+<p>Он рассказал про ключ в замке. Про шестнадцать папок. Про «Имя — как у оригинала», про маму, которая ушла по расписанию, про приёмник, который ему разрешили собрать. Про «Девочку Каро», вписанную чужим почерком. Про красную закладку и сорок дней. Рассказывал ровно, будто зачитывал показания прибора, и только один раз сбился — на маме.</p>
+<p>Вера слушала и мёрзла. Они были знакомы две недели. Этого мало, чтобы знать, что сказать, и слишком много, чтобы промолчать.</p>
+<p>— Надо уходить, — сказала Вера. — Из дома. Куда угодно.</p>
+<p>— Куда? — Марк пожал плечами. — Я в десять лет уже уходил. Это там тоже было написано.</p>
+<p>Вера провела пальцем по выжженному лисёнку на парте. Лак вокруг него был шершавый, вспученный, как старый ожог у неё на ладони.</p>
+<p>— Чей сосуд? — спросила она наконец.</p>
+<p>— Оригинала. Я не знаю, кто он.</p>
+<p>Вера вспомнила кухню Северов: жар от печки, пар от папиной куртки на стуле и чугунную заслонку, на которую она смотрела, пока отогревалась. На заслонке был отлит квадрат из букв — пять строк по пять, как в кроссворде. Тогда она приняла его за клеймо. Теперь первая строчка всплыла сама.</p>
+<p>SATOR.</p>
+<p>— Сатор, — сказала Вера. — Как основатель «Фосфора».</p>
+<p>Марк поднял голову.</p>
+<p>— Это заслонка. Я на неё всю жизнь смотрю. Думал — фабричное клеймо.</p>
+<p>— А я думаю, — сказала Вера, — надо пойти и посмотреть на оригинал.</p>
+<div class="divider" aria-hidden="true"><span></span><span></span><span></span></div>
+<p>Площадь в центре Марк помнил по одному дню: восемь лет назад он стоял здесь в толпе с пустыми руками, а над ним дрожали тысячи серебряных искр.</p>
+<p>С тех пор площадь стала больше — или он стал меньше. Плитка блестела после дождя. Над площадью поднималась башня «Фосфора» — стекло до низких туч, а на крыше огромная серебряная искра, которую видно из любой точки города. Экран на соседнем доме показывал новую заставку: «„Продолжение“. Не прощайтесь».</p>
+<p>Музей Луция Сатора занимал первый этаж башни. Турникет у входа пискнул и загорелся перед Марком красным. На телефоне у Веры всплыло окно.</p>
+<div class="notice prompt" role="note"><div class="notice-head"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6" fill="#0e0e12"/><path d="M12 4.2 13.5 10.5 19.8 12 13.5 13.5 12 19.8 10.5 13.5 4.2 12 10.5 10.5Z" fill="#dfe1e8"/></svg><span>«Фосфор» · Музей Луция Сатора</span></div><p>Рядом с вами гость без учётной записи. Зарегистрировать гостя? Гость будет связан с вашей учётной записью.</p><div class="btns" aria-hidden="true"><span class="btn">Отмена</span><span class="btn primary">Зарегистрировать</span></div></div>
+<p>Вера смотрела на кнопку. Марк видел, как у неё дёрнулся уголок рта — так морщатся от горького.</p>
+<p>— Нажимай, — сказал он. — Мне уже всё равно.</p>
+<p>Она нажала. Турникет мигнул зелёным, и на экранчике сбоку на секунду высветилось: «Гость: Север, Марк».</p>
+<p>Своего имени Марк им не называл.</p>
+<p>Внутри было темно и тихо, как в церкви. Свет падал только на экспонаты. Залы шли по порядку — «Детство», «Свет», «Фосфор», «Минута»; по ним водили школьные группы, и голоса экскурсоводов тонули в коврах. В дальнем конце, в проёме последнего зала, виднелась фотография во всю стену: площадь восемь лет назад, тысячи поднятых телефонов, как звёзды. Где-то в этой толпе стоял восьмилетний мальчик с пустыми руками. Марк не стал его искать.</p>
+<p>Первый зал Марк узнал раньше, чем понял, что узнаёт.</p>
+<p>За красным шнуром стояла кухня. Обои в мелкий выцветший цветочек — по семь цветков в ряду, он считал их всё детство. Ходики с гирькой на цепочке. Отрывной календарь. Радиола с зелёным глазком. Печка, а на ней чугунная заслонка.</p>
+<figure class="sator" role="img" aria-label="Квадрат SATOR: SATOR, AREPO, TENET, OPERA, ROTAS"><div class="grid" aria-hidden="true"><span>S</span><span>A</span><span>T</span><span>O</span><span>R</span><span>A</span><span>R</span><span>E</span><span>P</span><span>O</span><span>T</span><span>E</span><span>N</span><span>E</span><span>T</span><span>O</span><span>P</span><span>E</span><span>R</span><span>A</span><span>R</span><span>O</span><span>T</span><span>A</span><span>S</span></div></figure>
+<figure class="doc"><figcaption>Музей Луция Сатора · «Детство»</figcaption><p>Кухня в доме родителей. Реконструкция.</p><p>Фамилию Луций взял с печной заслонки: квадрат SATOR — старинный заговор от пожара.</p></figure>
+<p>Марк стоял у шнура и считал цветки на обоях. Семь. Семь. Семь. Как дома. Дома было — как здесь. Или здесь — как дома. Он уже не понимал, что с чего скопировано. Во рту стало кисло, а пальцы, вцепившиеся в лямку рюкзака, онемели. На отрывном календаре у них дома сегодня было среда, двадцать второе. Здесь — число из давно прошедшего года, но листок был тот же: тот же шрифт, та же картинка с подсолнухом.</p>
+<p>Вера тронула его за рукав.</p>
+<p>Мимо шла школьная группа — младшие, в одинаковых жёлтых куртках. Экскурсовод с серебряной искрой на шарфе остановила их у шнура.</p>
+<p>— Здесь прошло детство Луция Сатора, — сказала она голосом, каким читают сказки. — Семья жила бедно, отец работал ночным сторожем на фабрике. Когда Луцию было шестнадцать, на фабрике случился пожар. Отец погиб. Через год Луций уехал из города, чтобы подарить свет всему миру…</p>
+<p>Дальше Марк не слушал.</p>
+<p>Ночной сторож. Пожар. Шестнадцать лет.</p>
+<p>Красная закладка, сорок дней — и пустые страницы после неё. «Пожар» в папке был не просто словом. В ту ночь, как у оригинала, должен был погибнуть отец.</p>
+<p>Во втором зале, «Свет», под потолком висела искра в два человеческих роста и тихо гудела, как трансформатор. А под ней, под лампой, в стеклянной витрине, лежал приёмник. Катушка, мотанная вручную. Конденсаторы, явно выпаянные из чего-то старого. Изолента. Самописец с бумажной лентой, снятый, видно, со стены какой-то сушильной камеры.</p>
+<figure class="doc"><figcaption>Витрина 3</figcaption><p>Первый приёмник.</p><p>Собран Луцием Сатором в двенадцать лет из фабричного лома.</p><p>С него начался «Фосфор».</p><p class="fine">Подлинник.</p></figure>
+<p>У Марка в рюкзаке лежал такой же. Он чувствовал его спиной — тяжёлый, угловатый, свой. Был свой.</p>
+<p>— Марк, — тихо сказала Вера.</p>
+<p>— Я его не изобрёл, — сказал Марк. — Я его повторил. Мне дали собрать то, что уже собрал он.</p>
+<p>На табличке было написано «Подлинник». Значит, у него — копия.</p>
+<p>В третьем зале, «Фосфор», под стеклом на бархатной подушке лежала одна-единственная кнопка — старая, пластмассовая, с потёртой надписью «Принимаю». «С этой кнопки начались миллиарды», — сообщала табличка. Марк задержался у неё на секунду дольше, чем собирался, и сам не понял почему.</p>
+<p>На площади уже горели фонари. Они сели на холодный парапет под башней. Огромная искра на крыше светилась над ними, как луна, которую кто-то купил.</p>
+<p>— Он стал Сатором из-за заслонки, — сказала Вера. — Значит, Сатор — не настоящая фамилия. А настоящая…</p>
+<p>— «Имя — как у оригинала», — сказал Марк. — Настоящая — моя.</p>
+<p>— И что ты будешь делать?</p>
+<p>— Ничего. — Марк смотрел на искру на крыше. — Это даже честно. Я думал, что я кто-то. Что я один такой в городе, без «Фосфора». А меня просто держали чистым. Как банку перед вареньем.</p>
+<p>— Тебя не держали. Ты сам…</p>
+<p>— Что я сам? — Он не повысил голоса, но Вера замолчала. — Всё, что я сам, там записано. И «сам» тоже.</p>
+<p>— Мама подписала за меня, не спросив, — сказала Вера. — А тебя хоть спросят. Ты можешь не подписывать.</p>
+<p>— А зачем?</p>
+<p>Она не нашла, что ответить. Две недели — это было слишком мало, чтобы иметь право ответить на такое.</p>
+<p>Они помолчали. Через площадь прошла группа в жёлтых куртках: малыши держались за верёвку, как бусины на нитке.</p>
+<p>— Знака «друг» у оригинала не было, — сказала Вера. — Его я придумала. Для тебя. Его нет ни в одной папке.</p>
+<p>Марк посмотрел на неё. В лице у него что-то дрогнуло — и сразу закрылось.</p>
+<p>— Пока, — сказал он.</p>
+</div></section>
+<section class="city" aria-label="Город. 19:20. больница № 2, палата 6. датчик"><div class="wrap">
+<p class="stamp"><span class="stamp-in"><span>Город</span><span>19:20</span><span>больница № 2, палата 6</span><span>датчик<i class="pin" aria-hidden="true"></i></span></span></p>
+<p>В палате лежали шестеро стариков, и все спали, кроме Публия. Он сидел на кровати в полосатой больничной пижаме, которая была ему велика, и смотрел, как Кора болтает ногами. До пола ноги не доставали. Мама Коры вышла в коридор поговорить с врачом и прикрыла за собой дверь — как будто дверь что-то могла скрыть.</p>
+<p>Публий и так знал. Врач утром сказал ему самому: полгода, если повезёт.</p>
+<p>Вошла медсестра — немолодая, с красными от антисептика руками и тугим узлом волос на затылке. Разнесла таблетки по стаканчикам, поправила кому-то одеяло. Публию положила на тумбочку глянцевую брошюру и пошла дальше, не взглянув ни на него, ни на брошюру.</p>
+<figure class="doc"><figcaption>«Продолжение»</figcaption><p>Экспериментальное лечение — теперь для всех.</p><p>Не прощайтесь.</p><p class="fine">Программа «Фосфора». Подробности — у лечащего врача.</p></figure>
+<p>Кора схватила брошюру первой.</p>
+<p>— Про… дол… же… ни… е, — прочитала она. — Деда, а что продолжается?</p>
+<p>Публий подумал.</p>
+<p>— Всё, наверное.</p>
+<p>— И ты?</p>
+<p>— Подумаем, — сказал Публий и забрал у неё брошюру.</p>
+<p>За окном палаты горел город — окна, фонари, зелёные огоньки датчиков, а над крышами, далеко, светилась серебряная искра на башне. Публий смотрел на неё и думал, что шесть месяцев — это очень мало, а «продолжение» — очень длинное слово. Подумал ещё — и не стал выбрасывать брошюру. Сунул под подушку.</p>
+</div></section>
+<section class="earth"><div class="wrap">
+<p>Вечером отец собирался на смену так же, как собирался всю жизнь: проверил фонарь, сунул в карман коробок спичек, надел брезентовый плащ. В печке гудел огонь. По заслонке бегали отсветы, и буквы квадрата то проступали, то тонули.</p>
+<p>Марк сидел за столом.</p>
+<p>— Мама ушла по сценарию? — спросил он.</p>
+<p>Отец замер, просунув в рукав плаща одну руку. Потом медленно продел вторую.</p>
+<p>— Ключ был в замке, — сказал Марк. — Ты его оставил.</p>
+<p>Отец молчал. Лицо у него было такое же, как всегда, — тяжёлое, обветренное, неподвижное. Только пальцы на пуговицах плаща вдруг стали неловкими, как у старика.</p>
+<p>— А «Пожар»? — спросил Марк.</p>
+<p>— Делай, как написано, — сказал отец. — И с тобой ничего не случится.</p>
+<p>— Ты мне это говоришь или тебе написано мне это сказать?</p>
+<p>Отец посмотрел на него — долго, как тогда, над печкой, когда сжигал приёмник. Только теперь в этом взгляде не было никакой сцены. Было что-то, чего Марк раньше не видел и не знал, как назвать.</p>
+<p>— Я тебя шестнадцать лет кормил, — сказал отец глухо. — Я тебе не враг.</p>
+<p>— По сценарию кормил.</p>
+<p>— Не всё по сценарию. — Отец будто хотел сказать что-то ещё, но не сказал.</p>
+<p>— А с тобой? — спросил Марк. — С тобой что случится?</p>
+<p>Отец не ответил. Он присел к печке, открыл заслонку — квадрат из букв повернулся к стене — и подложил полено. Огонь осветил ему лицо снизу. Потом он закрыл заслонку, поднялся и взял фонарь.</p>
+<p>У двери остановился.</p>
+<p>— Хлеб на столе, — сказал он. — Поешь.</p>
+<p>И ушёл.</p>
+<div class="divider" aria-hidden="true"><span></span><span></span><span></span></div>
+<p>Ночью Марк снова открыл ящик.</p>
+<p>Ключ по-прежнему торчал в замке. Папка «Год шестнадцатый» стояла на месте, и вчерашняя страница была там же, где он её оставил: с пустой строчкой посередине, как незаполненная клеточка в анкете.</p>
+<p>Марк долго сидел над ней.</p>
+<p>Если всё написано, пусть допишут до конца. Мама ушла — как у оригинала. Приёмник — как у оригинала. Имя — как у оригинала. Отказаться, наверное, тоже где-нибудь написано, на странице, которую ему не показали. Он устал быть копией, которая думает, что она человек. Быть сосудом хотя бы честно: для этого его и сделали.</p>
+<p>Он взял со стола ручку.</p>
+<p>Шестнадцать лет он не нажимал «Принимаю». Ни на экране, ни на дверях автобуса, ни на школьных турникетах. Этим одним он и отличался от всего города.</p>
+<p>Теперь он написал это слово сам — печатными буквами, аккуратно, как писал всё.</p>
+<figure class="doc"><figcaption>Сценарий. Год шестнадцатый</figcaption><p>16 лет 3 месяца 21 день.</p><p>Сын находит «Сценарий».</p><p>Реакция:</p><p class="hand">Принимаю.</p></figure>
+<p>Рука не дрогнула. Дрогнуло что-то другое, глубже, — и сразу затихло, как шелест к четырём утра.</p>
+<p>Потом он поставил папку на место и сам повернул ключ.</p>
+</div></section>
+<section class="below cold-1" data-cold="1"><div class="ash" aria-hidden="true"></div><div class="wrap">
+<p class="below-label">Внизу</p>
+<p>С того вечера стекло не белело.</p>
+<p>Феликс стоял перед ним в своём проходе и ждал, как ждут у окна поезд, который уже ушёл. В тот вечер наверху горела свеча. Он успел написать то, ради чего придумывал знак, — и увидел, как огонёк дрогнул от чужого дыхания и погас. Свечу задули. Больше её не зажигали.</p>
+<p>Знак он придумывал всю ночь и весь день, если здесь бывают ночи и дни. Сначала хотел «чужой», но «чужого» в их словаре не было, и начинать с чужого было неправильно. Тогда он взял её собственный знак. «Здесь» — точка в круге: кто-то дома. «Друг» — две точки: двое. А «сосуд» — кувшин, и в нём круг без точки. Дом, где никого нет. Пока.</p>
+<p>Она не ответила. Может, не поняла. Может, поняла — и не захотела читать. Он знал, что так будет.</p>
+<p>Чтобы не стоять у тёмного стекла, Феликс пошёл туда, куда раньше себе не позволял: к полке, где лежали договоры дочери. Школьный тлел ровно, как ночник. Мамин договор о компенсации, к которому Вера была подшита одной строчкой. И новый листок — маленький, ещё тёплый.</p>
+<p>«Каро, Вера. Дополнение. Пункт 11.2». И подпись.</p>
+<p>Подпись он узнал бы в темноте, на ощупь: размашистая, с длинным хвостом у «К». Этим хвостом Ливия подписала их свидетельство о браке, а потом — договор о компенсации. Теперь — это.</p>
+<p>Он ведь затем и написал «маме не говори»: чтобы Ливии не пришлось ни о чём сообщать и ничего подписывать. Не помогло.</p>
+<p>Потом Феликс, как каждую ночь с тех пор, пошёл в дальний проход, к пустой полке. «Север, Марк». Медная табличка, тёмное дерево, бирка «Зарезервировано». Ни одного договора.</p>
+<p>Он уже собирался уходить, когда на полке вспыхнула искра.</p>
+<p>Одна, крошечная, как от спички, — там, где лёг бы первый договор, если бы мальчик хоть раз что-нибудь подписал. Искра повисела в воздухе, словно искала, за что зацепиться, — и погасла. Зацепиться было не за что.</p>
+<p>Кто-то наверху написал слово, которое здесь значит подпись. Только не там, где подписывают.</p>
+<p>Феликс вернулся к себе и снял с полки холодный договор, который вычитывал уже вторую неделю. «Передача тела. М. С., 16 лет. Владелец: Л. С. Подпись передающей стороны». Раньше он читал его как приговор. Теперь — как читал всю жизнь, как лингвист: слово за словом, проверяя, что каждое значит и чего не значит. «Передающей стороны». Передать можно только своё. Кто здесь передающая сторона — тот, кого передают, или тот, кто за него решает?</p>
+<p>Ответа он пока не знал. Но впервые за две недели в холодном договоре что-то зацепило глаз — как заусенец на гладкой доске.</p>
+<p>Феликс стоял над договором, и ему было холодно.</p>
+<p>Сначала он решил, что кажется. Внизу никогда не бывало холодно: каждый договор тлел изнутри, как угли в остывающей печи, и от миллиардов углей воздух всегда был тёплым, как над плитой. Но угли теперь горели тусклее. А пепел, который всегда падал вверх и растворялся где-то там, в темноте, больше не растворялся. Он копился наверху, серый и низкий, как зимнее небо.</p>
+<p>Феликс не знал, откуда пришло это знание, но оно было твёрдым, как правило грамматики: чем больше пепла, тем холоднее.</p>
+<p>Он поднял воротник, которого у него не было.</p>
+</div></section>
+<footer class="end"><div class="wrap">
+<div class="divider" aria-hidden="true"><span></span><span></span><span></span></div>
+<p class="end-title">Конец пятой серии</p>
+<p class="end-sub">Пандемониум · продолжение следует</p>
+</div></footer>
+<script>
+(function () {
+  var root = document.documentElement;
+  var bar = document.querySelector('.progress span');
+  function progress() {
+    var max = root.scrollHeight - root.clientHeight;
+    var y = window.pageYOffset || root.scrollTop || 0;
+    if (bar) bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, y / max) : 0) + ')';
+  }
+  window.addEventListener('scroll', progress, { passive: true });
+  window.addEventListener('resize', progress);
+  progress();
+
+  var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var hasIO = 'IntersectionObserver' in window;
+  function each(sel, fn) { Array.prototype.forEach.call(document.querySelectorAll(sel), fn); }
+
+  // Знаки на зеркале проступают, когда зеркало оказывается на экране
+  if (!hasIO || reduce) {
+    each('.mirror', function (m) { m.classList.add('on'); });
+  } else {
+    var seen = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('on'); seen.unobserve(e.target); }
+      });
+    }, { threshold: 0.6 });
+    each('.mirror', function (m) { seen.observe(m); });
+  }
+
+  // Штамп «Фосфора» над вставкой «Город» загорается, когда вставка выходит на экран
+  if (!hasIO || reduce) {
+    each('.city', function (c) { c.classList.add('on'); });
+  } else {
+    var shown = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('on'); shown.unobserve(e.target); }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -20% 0px' });
+    each('.city', function (c) { shown.observe(c); });
+  }
+
+  // Лист-воспоминание сгорает, когда следующий абзац поднимается в верхнюю часть экрана,
+  // то есть когда сам лист уже дочитан и уходит вверх
+  if (hasIO) each('.page', function (page) {
+    var next = page.nextElementSibling;
+    if (!next) return;
+    var watch = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { page.classList.add('burn'); watch.disconnect(); }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -58% 0px' });
+    watch.observe(next);
+  });
+
+  // Пепел падает вверх
+  if (!reduce) each('.below', function (sec) {
+    var ash = sec.querySelector('.ash');
+    if (!ash) return;
+    // чем холоднее Архив, тем меньше среди пепла тлеющих искр
+    var embers = Math.max(0.04, 0.3 - (+sec.getAttribute('data-cold') || 0) * 0.14);
+    for (var i = 0; i < 36; i++) {
+      var s = document.createElement('i');
+      if (Math.random() < embers) s.className = 'e';
+      s.style.left = (Math.random() * 100).toFixed(2) + '%';
+      s.style.setProperty('--s', (Math.random() * 2.4 + 1.2).toFixed(2) + 'px');
+      s.style.setProperty('--d', (Math.random() * 16 + 16).toFixed(1) + 's');
+      s.style.setProperty('--delay', (-Math.random() * 32).toFixed(1) + 's');
+      s.style.setProperty('--x', ((Math.random() - 0.5) * 90).toFixed(0) + 'px');
+      s.style.setProperty('--o', (Math.random() * 0.45 + 0.35).toFixed(2));
+      ash.appendChild(s);
+    }
+    function size() { sec.style.setProperty('--h', (sec.offsetHeight + 20) + 'px'); }
+    size();
+    window.addEventListener('resize', size);
+  });
+})();
+</script>
+</body>
+</html>
