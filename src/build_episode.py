@@ -6,6 +6,9 @@
   пустая строка             граница абзаца
   ***                       смена сцены
   >>> Подпись               сцена «внизу», до <<< или до конца
+  >>> Город · 19:12 · Садовая, 9 · датчик
+                            вставка о мире до <<<: вместо заголовка штамп «Фосфора»;
+                            последнее поле «нет данных» — место, где датчиков нет
   >[метка] текст            голос из телефона и т. п.
   >> текст                  лист-воспоминание (сгорает, когда его дочитали)
   >log[метка]               тетрадный лист; каждая следующая строка — запись
@@ -24,6 +27,7 @@
   "СЛОВО" внутри [[mirror…]] буквы, выведенные пальцем
   [[tape: 9:41 10:26]]      кусок ленты самописца с «почерком» между отметками
   [[smokemap]]              карта дыма «Фосфора»: зелёные датчики и одна оранжевая вспышка
+  [[smokemap: 14]]          та же карта, но вспышек столько, сколько указано
 """
 import html
 import math
@@ -219,8 +223,12 @@ def tape(spec):
             f'<path class="ink" d="{" ".join(d)}"/>{labels}</svg></figure>')
 
 
-def smokemap():
-    """Карта дыма «Фосфора»: город из зелёных точек-датчиков, река и одна оранжевая вспышка."""
+def smokemap(n=1):
+    """Карта дыма «Фосфора»: город из зелёных точек-датчиков, река и оранжевые вспышки.
+
+    Одна вспышка — квартира Каро (С3). Остальные раскладываются своим генератором,
+    так что карта с одной вспышкой остаётся точно такой же, как была.
+    """
     rnd = random.Random("smokemap")
     W, H = 400, 250
 
@@ -236,20 +244,47 @@ def smokemap():
         sx, sy = rnd.uniform(9, 24), rnd.uniform(7, 18)
         pts += [(rnd.gauss(cx, sx), rnd.gauss(cy, sy)) for _ in range(rnd.randint(22, 46))]
     pts += [(rnd.uniform(0, W), rnd.uniform(0, H)) for _ in range(220)]
-    hit = (268.0, 92.0)
+    hits = [(268.0, 92.0)]
+    more = random.Random(f"smokemap-hits:{n}")
+    while len(hits) < n:
+        hx, hy = round(more.uniform(18, W - 18), 1), round(more.uniform(18, H - 18), 1)
+        if abs(hy - river_y(hx)) < 16 or any(math.hypot(hx - a, hy - b) < 20 for a, b in hits):
+            continue
+        hits.append((hx, hy))
     groups = {0: [], 1: [], 2: []}
     for px, py in pts:
         if not (3 < px < W - 3 and 3 < py < H - 3) or abs(py - river_y(px)) < 11:
             continue
-        if math.hypot(px - hit[0], py - hit[1]) < 4:
+        if any(math.hypot(px - a, py - b) < 4 for a, b in hits):
             continue
         groups[rnd.choice((0, 1, 1, 2, 2, 2))].append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="1.3"/>')
     dots = "".join(f'<g class="d{k}">{"".join(v)}</g>' for k, v in groups.items())
-    return (f'<figure class="smokemap" role="img" aria-label="Карта дыма: тысячи зелёных точек и одна оранжевая">'
+    flashes = ""
+    for k, (hx, hy) in enumerate(hits):
+        delay = f' style="animation-delay:-{k * 0.83 % 2.6:.2f}s"' if k else ""
+        flashes += (f'<circle class="ring" cx="{hx:g}" cy="{hy:g}" r="3"{delay}/>'
+                    f'<circle class="hit" cx="{hx:g}" cy="{hy:g}" r="3"/>')
+    label = "одна оранжевая" if n == 1 else "много оранжевых"
+    return (f'<figure class="smokemap" role="img" aria-label="Карта дыма: тысячи зелёных точек и {label}">'
             f'<svg viewBox="0 0 {W} {H}" aria-hidden="true"><rect class="bg" width="{W}" height="{H}"/>'
             f'<path class="streets" d="{streets.strip()}"/><path class="river" d="{river}"/>{dots}'
-            f'<circle class="ring" cx="{hit[0]:g}" cy="{hit[1]:g}" r="3"/>'
-            f'<circle class="hit" cx="{hit[0]:g}" cy="{hit[1]:g}" r="3"/></svg></figure>')
+            f'{flashes}</svg></figure>')
+
+
+def city_open(fields):
+    """Начало вставки «Город»: штамп «Фосфора» — время, место и что видит датчик."""
+    blind = len(fields) > 1 and fields[-1].lower() == "нет данных"
+    spans = []
+    for j, field in enumerate(fields):
+        text = html.escape(field, quote=False).replace("№ ", "№" + NBSP)
+        if j == len(fields) - 1 and len(fields) > 1:
+            text += '<i class="pin" aria-hidden="true"></i>'
+        spans.append(f"<span>{text}</span>")
+    aria = html.escape(". ".join(fields))
+    # Разделитель «·» стоит перед каждым полем; у первого поля в строке он уезжает
+    # за левый край и обрезается, так что перенос не начинается с точки
+    return (f'<section class="city{" blind" if blind else ""}" aria-label="{aria}"><div class="wrap">\n'
+            f'<p class="stamp"><span class="stamp-in">{"".join(spans)}</span></p>\n')
 
 
 def card(kind, mods, label, lines):
@@ -299,15 +334,20 @@ def build(src, out, template):
         if block == "***":
             items.append(DIVIDER)
         elif block.startswith(">>>"):
-            sections.append(["below", block[3:].strip(), []])
+            label = block[3:].strip()
+            fields = [f.strip() for f in label.split("·") if f.strip()]
+            if fields and fields[0].lower() == "город":
+                sections.append(["city", fields, []])
+            else:
+                sections.append(["below", label, []])
         elif block.startswith("<<<"):
             sections.append(["earth", "", []])
         elif (m := re.fullmatch(r"\[\[(mirror(?:-hot|-below)?):\s*(.+?)\]\]", block)):
             items.append(mirror(m.group(1), m.group(2)))
         elif (m := re.fullmatch(r"\[\[tape:\s*(.*?)\]\]", block)):
             items.append(tape(m.group(1)))
-        elif block == "[[smokemap]]":
-            items.append(smokemap())
+        elif (m := re.fullmatch(r"\[\[smokemap(?::\s*(\d+))?\]\]", block)):
+            items.append(smokemap(int(m.group(1) or 1)))
         elif block.startswith(">>"):
             items.append(f'<div class="page"><p>{typo(block[2:])}</p></div>')
         elif (m := re.match(r">(log|doc|notice)((?:\.[\w-]+)*)(?:\[(.+?)\])?[ \t]*(.*)", block)):
@@ -348,6 +388,8 @@ def build(src, out, template):
             continue
         if kind == "earth":
             parts.append('<section class="earth"><div class="wrap">\n' + "\n".join(items) + "\n</div></section>")
+        elif kind == "city":
+            parts.append(city_open(label) + "\n".join(items) + "\n</div></section>")
         else:
             lab = f'<p class="below-label">{html.escape(label)}</p>\n' if label else ""
             parts.append('<section class="below"><div class="ash" aria-hidden="true"></div><div class="wrap">\n'
@@ -366,7 +408,9 @@ def build(src, out, template):
     page = page.replace("{{CONTENT}}", "\n".join(parts))
     Path(out).write_text(page, encoding="utf-8")
     below = sum(1 for s in sections if s[0] == "below")
-    print(f"{out}: {words} слов, ≈{minutes} мин чтения, сцен внизу: {below}")
+    city = sum(1 for s in sections if s[0] == "city")
+    print(f"{out}: {words} слов, ≈{minutes} мин чтения, сцен внизу: {below}"
+          + (f", вставок «Город»: {city}" if city else ""))
 
 
 if __name__ == "__main__":
