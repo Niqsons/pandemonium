@@ -100,6 +100,10 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
 .tape .ink{fill:none;stroke:#3a3d8c;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .tape .tick{fill:none;stroke:#6f6a60;stroke-width:1.2}
 .tape text{font-family:"Caveat","Segoe Print",cursive;font-size:24px;fill:#5d5850}
+/* волны: страна уходит вниз по часовым поясам (с С6) */
+.tape.waves .ink{stroke-width:1.3}
+.tape.waves .tick{stroke:#8a837a}
+.tape.waves text{font-size:21px}
 
 /* карта дыма */
 .smokemap{margin:1.8em 0 2em;border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px rgba(120,255,170,.08),0 20px 50px rgba(0,0,0,.6)}
@@ -129,10 +133,23 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
   box-shadow:0 0 0 6px #1a1413,0 0 0 7px rgba(255,120,60,.16),0 24px 60px rgba(0,0,0,.65)}
 .mirror.back::after{opacity:.18}
 .mirror.back .g{color:#ff8a4c;filter:drop-shadow(0 0 5px rgba(255,100,40,.85))}
+/* чужое пыльное стекло: знак выжжен в пыли — это чудо, за него платят (с С6) */
+.mirror.dust{color:#7c2a0a;
+  background:radial-gradient(120% 90% at 26% 8%,rgba(255,248,232,.32),rgba(255,248,232,0) 58%),radial-gradient(70% 70% at 52% 54%,rgba(255,130,60,.22),rgba(255,130,60,0) 72%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .27 0 0 0 0 .24 0 0 0 1.1 -.42'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23d)'/%3E%3C/svg%3E"),linear-gradient(104deg,rgba(255,255,255,0) 38%,rgba(255,250,240,.12) 46%,rgba(255,255,255,0) 54%),linear-gradient(160deg,#aaa197,#6d655d);
+  box-shadow:0 0 0 6px #2b2723,0 0 0 7px rgba(255,255,255,.05),0 24px 60px rgba(0,0,0,.6)}
+.mirror.dust::after{opacity:.22}
+.mirror.dust .g{color:#8f2f0b;filter:drop-shadow(0 0 4px rgba(255,95,25,.8));animation:heat 2.4s ease-in-out infinite}
+/* знак, нарисованный пальцем: пыль стёрта до чистого тёмного стекла — ни огня, ни платы (с С7) */
+.mirror.dust .g.wiped{color:#211f1d;filter:drop-shadow(0 0 1.2px rgba(255,250,240,.4));animation:none}
+.mirror.dust .g.wiped path{stroke-width:2.2}
+/* знак, выжженный давно: остыл до бурого и не проступает заново (с С7) */
+.mirror.dust .g.old{color:#4d1f0d;filter:drop-shadow(0 0 1px rgba(255,205,165,.3));animation:none}
 .js .mirror .g path{stroke-dasharray:1 2;stroke-dashoffset:1.01}
 .js .mirror .g .dot{opacity:0}
 .js .mirror.on .g path{animation:draw 1.3s cubic-bezier(.6,.05,.4,1) forwards;animation-delay:calc(var(--i,0) * .95s + .25s)}
 .js .mirror.on .g .dot{animation:appear .35s ease forwards;animation-delay:calc(var(--i,0) * .95s + 1.35s)}
+.js .mirror .g.old path,.js .mirror.on .g.old path{stroke-dasharray:none;stroke-dashoffset:0;animation:none}
+.js .mirror .g.old .dot,.js .mirror.on .g.old .dot{opacity:1;animation:none}
 .mirror .letters{display:block;font-family:var(--display);font-weight:600;font-size:clamp(2rem,9.5vw,2.8rem);line-height:1.1;letter-spacing:.16em;padding-left:.16em;color:inherit}
 .mirror.back .letters{text-shadow:0 0 10px rgba(255,100,40,.85)}
 .js .mirror .letters{opacity:0}
@@ -155,11 +172,27 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
 .below.cold-1::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 140px rgba(180,210,240,.07)}
 .below.cold-1 .ash i{background:#c4c9d0}
 .below.cold-1 .ash i.e{background:#ffb27a}
+.below.cold-2{background:radial-gradient(130% 50% at 50% 112%,rgba(125,58,38,.2),rgba(125,58,38,0) 60%),radial-gradient(130% 55% at 50% -10%,rgba(175,205,235,.13),rgba(175,205,235,0) 66%),linear-gradient(var(--bg) 0,#05070a 200px)}
+.below.cold-2::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 170px rgba(185,212,240,.12),inset 0 0 26px rgba(215,232,250,.1)}
+.below.cold-2 .ash i{background:#d6dce3}
+.below.cold-2 .ash i.e{background:#f3b48a}
+.below.cold-2 .below-label{color:#f0a479;text-shadow:0 0 14px rgba(200,225,250,.35)}
+/* третья ступень (С7): пепел больше не поднимается — падает, как снег */
+.below.cold-3{background:radial-gradient(130% 45% at 50% 112%,rgba(110,62,46,.13),rgba(110,62,46,0) 58%),radial-gradient(140% 60% at 50% -12%,rgba(180,210,240,.17),rgba(180,210,240,0) 68%),linear-gradient(var(--bg) 0,#04070b 200px)}
+.below.cold-3::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 190px rgba(190,215,242,.15),inset 0 0 30px rgba(222,236,252,.14)}
+.below.cold-3 .ash i{bottom:auto;top:-10px;background:#e6ebf1;box-shadow:0 0 3px rgba(225,236,250,.45);animation-name:fall}
+.below.cold-3 .ash i.e{background:#f0b28e;box-shadow:0 0 5px 1px rgba(255,120,60,.5)}
+.below.cold-3 .below-label{color:#e9ab88;text-shadow:0 0 16px rgba(205,228,252,.45)}
 
 /* квадрат SATOR на чугунной заслонке */
 .sator{margin:2.2em auto;width:min(100%,15.5rem);padding:1.1em;border-radius:6px;background:radial-gradient(120% 120% at 30% 20%,#3b3634,#1c1918 70%);box-shadow:inset 0 0 0 2px #2b2725,inset 0 0 24px rgba(0,0,0,.75),0 16px 40px rgba(0,0,0,.55)}
 .sator .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.1em}
 .sator span{display:flex;align-items:center;justify-content:center;aspect-ratio:1;font-family:var(--display);font-weight:600;font-size:clamp(1.45rem,7.2vw,1.95rem);line-height:1;color:#958c87;text-shadow:0 -1px 0 rgba(0,0,0,.85),0 1px 0 rgba(255,255,255,.13)}
+/* тот же квадрат мелом на доске — как его помнит Феликс (с С7) */
+.sator.chalk{position:relative;width:min(100%,16.5rem);border-radius:3px;background:radial-gradient(90% 60% at 72% 78%,rgba(235,235,225,.08),rgba(235,235,225,0) 70%),radial-gradient(120% 90% at 25% 15%,rgba(255,255,255,.06),rgba(255,255,255,0) 60%),linear-gradient(160deg,#28322d,#161c19);box-shadow:0 0 0 7px #4b3b2d,0 0 0 8px rgba(255,255,255,.05),0 18px 44px rgba(0,0,0,.6)}
+.sator.chalk span{font-family:"Caveat","Segoe Print",cursive;font-weight:600;font-size:clamp(1.65rem,8.2vw,2.2rem);color:#e8e6de;text-shadow:0 0 1px rgba(255,255,255,.55),0 0 7px rgba(255,255,255,.12);opacity:.9}
+.sator.chalk span:nth-child(3n){transform:rotate(-3deg)}
+.sator.chalk span:nth-child(4n+1){transform:translateY(1px) rotate(2deg)}
 
 /* город: вставки о мире под штампом «Фосфора» */
 .city{position:relative;padding:4.6em 0 3.6em;color:#cfd8df;background:linear-gradient(var(--bg),#0a0f14 6em,#0a0f14 calc(100% - 6em),var(--bg))}
@@ -167,6 +200,10 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
   background:radial-gradient(circle,rgba(87,229,144,.2) 0 1px,rgba(87,229,144,0) 1.6px) 0 0/22px 22px;
   -webkit-mask-image:linear-gradient(transparent,#000 9em,#000 calc(100% - 9em),transparent);mask-image:linear-gradient(transparent,#000 9em,#000 calc(100% - 9em),transparent)}
 .city .wrap{position:relative;z-index:1}
+/* страна: карта отъехала — огоньков больше, и они мельче (с С6) */
+.city.country::before{opacity:.5;background:radial-gradient(circle,rgba(87,229,144,.22) 0 .7px,rgba(87,229,144,0) 1.1px) 0 0/11px 11px}
+/* мир: карта отъехала до целой планеты — шар в сетке меридианов, датчики на нём как пыль (с С7) */
+.city.world::before{opacity:.5;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3Cpattern id='p' width='4.2' height='4.2' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='2.1' cy='2.1' r='.5' fill='%2357e590'/%3E%3C/pattern%3E%3C/defs%3E%3Ccircle cx='100' cy='100' r='96' fill='url(%23p)' opacity='.6'/%3E%3Cg fill='none' stroke='%2378aacd' stroke-width='.45' opacity='.7'%3E%3Ccircle cx='100' cy='100' r='96'/%3E%3Cellipse cx='100' cy='100' rx='83.1' ry='96'/%3E%3Cellipse cx='100' cy='100' rx='48' ry='96'/%3E%3Cpath d='M100 4V196M4 100H196M16.9 52H183.1M16.9 148H183.1M52 16.9H148M52 183.1H148'/%3E%3C/g%3E%3C/svg%3E") 50% 50%/min(34rem,94vw) auto no-repeat}
 .stamp{overflow:hidden;margin:0 0 2.2em;padding:.45em 0 .85em;border-bottom:1px solid rgba(130,160,185,.18);font-family:"PT Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.68rem;line-height:1.75;letter-spacing:.13em;text-transform:uppercase;color:#7f95a6;-webkit-hyphens:manual;hyphens:manual}
 .stamp-in{display:flex;flex-wrap:wrap;align-items:baseline;margin-left:-2em}
 .stamp-in>span::before{content:"·";display:inline-block;width:2em;text-align:center;letter-spacing:0;color:#46545f}
@@ -191,13 +228,14 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
 @keyframes ping{0%{transform:scale(1);opacity:.95}100%{transform:scale(5.5);opacity:0}}
 @keyframes smoulder{0%,100%{filter:drop-shadow(0 0 6px rgba(255,100,40,.55))}50%{filter:drop-shadow(0 0 14px rgba(255,100,40,.95))}}
 @keyframes heat{0%,100%{filter:drop-shadow(0 0 3px rgba(255,90,20,.7))}50%{filter:drop-shadow(0 0 9px rgba(255,90,20,1))}}
+@keyframes fall{0%{transform:translate(0,0);opacity:0}8%{opacity:var(--o)}85%{opacity:calc(var(--o) * .7)}100%{transform:translate(var(--x),var(--h,1800px));opacity:0}}
 @keyframes rise{0%{transform:translate(0,0);opacity:0}8%{opacity:var(--o)}80%{opacity:calc(var(--o) * .55)}100%{transform:translate(var(--x),calc(-1 * var(--h,1800px)));opacity:0}}
 @keyframes burn{25%{border-color:rgba(255,175,95,.95);color:#fff4e6;box-shadow:inset 0 0 70px rgba(255,120,40,.6),0 0 60px rgba(255,90,20,.5)}100%{border-color:rgba(150,140,130,.15);color:rgba(185,175,165,.42);background:rgba(255,255,255,.012);box-shadow:none}}
 @keyframes blip{0%,100%{opacity:1}50%{opacity:.35}}
 @keyframes flicker{0%{opacity:0}8%{opacity:.75}12%{opacity:.1}20%{opacity:.6}26%{opacity:.15}40%{opacity:.8}46%{opacity:.35}60%,100%{opacity:1}}
 
 @media (prefers-reduced-motion:reduce){
-  .g.emblem,.mirror.hot .g,.page.burn{animation:none}
+  .g.emblem,.mirror.hot .g,.mirror.dust .g,.page.burn{animation:none}
   .js .mirror .g path,.js .mirror.on .g path{stroke-dasharray:none;stroke-dashoffset:0;animation:none}
   .js .mirror .g .dot,.js .mirror.on .g .dot{opacity:1;animation:none}
   .js .mirror .letters,.js .mirror.on .letters{opacity:1;animation:none}
@@ -243,7 +281,7 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
 <p>— Ты даже не прочитала, что там.</p>
 <p>— А ты прочитала? Неделю нажимала «Позже», а потом ушла под дождь. Куда? К кому?</p>
 <p>— Какая разница.</p>
-<p>— Такая. — Мама вдруг осела на край ванны, как будто у неё кончились ноги. — Я до утра сидела на лестнице у ординаторской и звонила тебе каждые десять минут. «Абонент недоступен». Ты знаешь, что я передумала за эту ночь?</p>
+<p>— Такая. — Мама вдруг осела на край ванны, будто ноги перестали её держать. — Я до утра сидела на лестнице у ординаторской и звонила тебе каждые десять минут. «Абонент недоступен». Ты знаешь, что я передумала за эту ночь?</p>
 <p>Вера знала. По маминому лицу было видно всё, что она передумала: под глазами лежали серые тени, губы потрескались, руки, красные от антисептика, мелко дрожали на коленях. Маме было страшно — и, похоже, страшно до сих пор.</p>
 <p>— Я одного уже потеряла, — тихо сказала мама. — Второго не отдам. Поняла? Мне сказали нажать — я нажала. И нажму ещё раз, если надо.</p>
 <p>Она протянула руку — то ли обнять, то ли взять за плечо. Вера отступила на шаг, к раковине. Мамина рука повисла в воздухе, и лицо у мамы сразу закрылось, как дверь.</p>
@@ -494,19 +532,22 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
     watch.observe(next);
   });
 
-  // Пепел падает вверх
+  // Пепел падает вверх; на третьей ступени холода — вниз, как снег (это делает CSS)
   if (!reduce) each('.below', function (sec) {
     var ash = sec.querySelector('.ash');
     if (!ash) return;
     // чем холоднее Архив, тем меньше среди пепла тлеющих искр
-    var embers = Math.max(0.04, 0.3 - (+sec.getAttribute('data-cold') || 0) * 0.14);
-    for (var i = 0; i < 36; i++) {
+    var cold = +sec.getAttribute('data-cold') || 0;
+    var snow = cold >= 3;   // третья ступень: пепел падает медленно и гуще, как снег
+    var embers = snow ? 0.02 : Math.max(0.04, 0.3 - cold * 0.14);
+    for (var i = 0; i < (snow ? 72 : 36); i++) {
       var s = document.createElement('i');
       if (Math.random() < embers) s.className = 'e';
+      var d = snow ? sec.offsetHeight / (Math.random() * 35 + 35) : Math.random() * 16 + 16;
       s.style.left = (Math.random() * 100).toFixed(2) + '%';
-      s.style.setProperty('--s', (Math.random() * 2.4 + 1.2).toFixed(2) + 'px');
-      s.style.setProperty('--d', (Math.random() * 16 + 16).toFixed(1) + 's');
-      s.style.setProperty('--delay', (-Math.random() * 32).toFixed(1) + 's');
+      s.style.setProperty('--s', (Math.random() * 2.4 + (snow ? 1.8 : 1.2)).toFixed(2) + 'px');
+      s.style.setProperty('--d', d.toFixed(1) + 's');
+      s.style.setProperty('--delay', (-Math.random() * (snow ? d : 32)).toFixed(1) + 's');
       s.style.setProperty('--x', ((Math.random() - 0.5) * 90).toFixed(0) + 'px');
       s.style.setProperty('--o', (Math.random() * 0.45 + 0.35).toFixed(2));
       ash.appendChild(s);
