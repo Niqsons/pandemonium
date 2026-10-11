@@ -3,7 +3,8 @@
 
 Разметка исходника:
   TITLE / NUMBER / EMBLEM   шапка до первой пустой строки
-  COLD: 1                   в шапке: насколько остыл Архив — сцена «Внизу» холоднее (с С5)
+  COLD: 1                   в шапке: насколько остыл Архив — сцена «Внизу» холоднее (с С5);
+                            с COLD: 3 пепел больше не поднимается, а падает, как снег (С7)
   пустая строка             граница абзаца
   ***                       смена сцены
   >>> Подпись               сцена «внизу», до <<< или до конца
@@ -27,6 +28,8 @@
   [[mirror-hot: a]]         то же на раскалённом стекле
   [[mirror-below: a b]]     то же стекло, вид снизу: зеркально и огнём
   [[mirror-dust: a]]        знак, выжженный в пыли на чужом стекле (чудо, за которое платят)
+  friend~ в [[mirror…]]     знак, нарисованный пальцем по пыли, а не выжженный (с С7)
+  no- в [[mirror…]]         знак, выжженный давно: остыл и не светится (с С7)
   "СЛОВО" внутри [[mirror…]] буквы, выведенные пальцем
   [[tape: 9:41 10:26]]      кусок ленты самописца с «почерком» между отметками
   [[tape-waves: 8:00 9:00]] лента, где под каждой отметкой — всплеск: волны массового Сошествия,
@@ -34,6 +37,7 @@
   [[smokemap]]              карта дыма «Фосфора»: зелёные датчики и одна оранжевая вспышка
   [[smokemap: 14]]          та же карта, но вспышек столько, сколько указано
   [[sator]]                 квадрат SATOR на чугунной печной заслонке
+  [[sator: chalk]]          тот же квадрат мелом на доске — как его помнит Феликс (с С7)
 """
 import html
 import math
@@ -155,6 +159,10 @@ def glyph(name, cls="g", i=None, mods=""):
     if "^" in mods:
         body += PAST
         label += ", прошедшее время"
+    if "~" in mods:
+        label += ", пальцем по пыли"
+    if "-" in mods:
+        label += ", выжжен давно"
     style = f' style="--i:{i}"' if i is not None else ""
     return f'<svg class="{cls}" viewBox="0 0 24 24" role="img" aria-label="{label}"{style}>{body}</svg>'
 
@@ -191,10 +199,13 @@ def mirror(kind, spec):
             if tok.startswith('"'):
                 cells.append(f'<span class="letters" style="--i:{i}">{html.escape(tok[1:-1])}</span>')
             else:
-                m = re.fullmatch(r"(\w+)([+^]*)", tok)
+                m = re.fullmatch(r"(\w+)([+^~-]*)", tok)
                 if not m:
                     sys.exit(f"Не разобрать знак на зеркале: {tok}")
-                cells.append(glyph(m.group(1), i=i, mods=m.group(2)))
+                # «~» — знак нарисован пальцем по пыли, а не выжжен: без огня и без платы;
+                # «-» — знак выжжен давно и остыл: не горит и не проступает заново
+                cls = "g wiped" if "~" in m.group(2) else "g old" if "-" in m.group(2) else "g"
+                cells.append(glyph(m.group(1), cls=cls, i=i, mods=m.group(2)))
             i += 1
         rows.append('<div class="row">' + "".join(cells) + "</div>")
     cls = {"mirror": "mirror", "mirror-hot": "mirror hot", "mirror-below": "mirror back",
@@ -329,10 +340,21 @@ def smokemap(n=1):
 SATOR_ROWS = ("SATOR", "AREPO", "TENET", "OPERA", "ROTAS")
 
 
-def sator():
-    """Квадрат SATOR на чугунной печной заслонке: читается одинаково с любой стороны."""
+SATOR_KINDS = {"": ("sator", "Квадрат SATOR"),
+               "chalk": ("sator chalk", "Квадрат SATOR мелом на доске")}
+
+
+def sator(kind=""):
+    """Квадрат SATOR: читается одинаково с любой стороны.
+
+    Без пометки — на чугунной печной заслонке (С5); «chalk» — мелом на доске,
+    как его помнит Феликс-лингвист (С7).
+    """
+    if kind not in SATOR_KINDS:
+        sys.exit(f"Неизвестный вид квадрата SATOR: {kind}")
+    cls, label = SATOR_KINDS[kind]
     cells = "".join(f"<span>{ch}</span>" for row in SATOR_ROWS for ch in row)
-    return ('<figure class="sator" role="img" aria-label="Квадрат SATOR: '
+    return (f'<figure class="{cls}" role="img" aria-label="{label}: '
             + ", ".join(SATOR_ROWS) + f'"><div class="grid" aria-hidden="true">{cells}</div></figure>')
 
 
@@ -423,8 +445,8 @@ def build(src, out, template):
             items.append(tape_waves(m.group(1)))
         elif (m := re.fullmatch(r"\[\[smokemap(?::\s*(\d+))?\]\]", block)):
             items.append(smokemap(int(m.group(1) or 1)))
-        elif block == "[[sator]]":
-            items.append(sator())
+        elif (m := re.fullmatch(r"\[\[sator(?::\s*(\w+))?\]\]", block)):
+            items.append(sator(m.group(1) or ""))
         elif block.startswith(">>"):
             items.append(f'<div class="page"><p>{typo(block[2:])}</p></div>')
         elif (m := re.match(r">(log|doc|notice)((?:\.[\w-]+)*)(?:\[(.+?)\])?[ \t]*(.*)", block)):
