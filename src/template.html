@@ -144,6 +144,14 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
 .mirror.dust .g.wiped path{stroke-width:2.2}
 /* знак, выжженный давно: остыл до бурого и не проступает заново (с С7) */
 .mirror.dust .g.old{color:#4d1f0d;filter:drop-shadow(0 0 1px rgba(255,205,165,.3));animation:none}
+/* замёрзшее окно: надышали — и нарисовали пальцем по инею (С8) */
+.mirror.frost{color:#1e2731;
+  background:radial-gradient(42% 38% at 50% 50%,rgba(250,252,255,.55),rgba(250,252,255,0) 70%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.25 -.55'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23f)'/%3E%3C/svg%3E"),linear-gradient(160deg,#dfe7ee,#a7b4c0);
+  box-shadow:0 0 0 6px #2d2a27,0 0 0 7px rgba(255,255,255,.08),0 24px 60px rgba(0,0,0,.55)}
+.mirror.frost::after{opacity:.35}
+.mirror.frost .g{filter:none}
+.mirror.frost .g.wiped{color:#1c252f;filter:drop-shadow(0 0 1.5px rgba(255,255,255,.7))}
+.mirror.frost .g.wiped path{stroke-width:2.2}
 .js .mirror .g path{stroke-dasharray:1 2;stroke-dashoffset:1.01}
 .js .mirror .g .dot{opacity:0}
 .js .mirror.on .g path{animation:draw 1.3s cubic-bezier(.6,.05,.4,1) forwards;animation-delay:calc(var(--i,0) * .95s + .25s)}
@@ -183,6 +191,18 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
 .below.cold-3 .ash i{bottom:auto;top:-10px;background:#e6ebf1;box-shadow:0 0 3px rgba(225,236,250,.45);animation-name:fall}
 .below.cold-3 .ash i.e{background:#f0b28e;box-shadow:0 0 5px 1px rgba(255,120,60,.5)}
 .below.cold-3 .below-label{color:#e9ab88;text-shadow:0 0 16px rgba(205,228,252,.45)}
+/* четвёртая ступень (С8): огонь Архива гаснет совсем */
+.below.cold-4{background:radial-gradient(130% 40% at 50% 112%,rgba(95,60,48,.1),rgba(95,60,48,0) 55%),radial-gradient(140% 60% at 50% -12%,rgba(185,212,242,.18),rgba(185,212,242,0) 68%),linear-gradient(var(--bg) 0,#03060a 200px)}
+.below.cold-4::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 210px rgba(195,218,245,.17),inset 0 0 34px rgba(225,238,252,.16)}
+.below.cold-4 .ash i{bottom:auto;top:-10px;background:#e9eef4;box-shadow:0 0 3px rgba(225,236,250,.45);animation-name:fall}
+.below.cold-4 .ash i.e{background:#f0b28e;box-shadow:0 0 5px 1px rgba(255,120,60,.5)}
+.below.cold-4 .below-label{color:#e3b9a2;text-shadow:0 0 16px rgba(210,230,252,.5)}
+/* огонь гаснет: от отметки [[out]] вниз — темнота, последние искры пропадают (С8) */
+.below .dark{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 6s ease;
+  background:linear-gradient(rgba(0,0,0,0) 0,rgba(0,0,0,0) calc(var(--out,100%) - 260px),rgba(1,2,4,.62) var(--out,100%),rgba(1,2,4,.7) 100%)}
+.below.out .dark{opacity:1}
+.below.out .ash i.e{opacity:0 !important}
+.out-mark{height:0}
 
 /* квадрат SATOR на чугунной заслонке */
 .sator{margin:2.2em auto;width:min(100%,15.5rem);padding:1.1em;border-radius:6px;background:radial-gradient(120% 120% at 30% 20%,#3b3634,#1c1918 70%);box-shadow:inset 0 0 0 2px #2b2725,inset 0 0 24px rgba(0,0,0,.75),0 16px 40px rgba(0,0,0,.55)}
@@ -193,6 +213,18 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
 .sator.chalk span{font-family:"Caveat","Segoe Print",cursive;font-weight:600;font-size:clamp(1.65rem,8.2vw,2.2rem);color:#e8e6de;text-shadow:0 0 1px rgba(255,255,255,.55),0 0 7px rgba(255,255,255,.12);opacity:.9}
 .sator.chalk span:nth-child(3n){transform:rotate(-3deg)}
 .sator.chalk span:nth-child(4n+1){transform:translateY(1px) rotate(2deg)}
+/* квадрат буквами на стекле, вид снизу: зеркально, буквы горят белым (С8) */
+.sator.fire{width:min(100%,17rem);border-radius:14px;transform:scaleX(-1);
+  background:radial-gradient(120% 90% at 50% 40%,rgba(255,240,230,.12),rgba(255,240,230,0) 62%),linear-gradient(160deg,#2b2524,#121010);
+  box-shadow:0 0 0 6px #1a1413,0 0 0 7px rgba(255,140,80,.2),0 24px 60px rgba(0,0,0,.65)}
+.sator.fire span{font-family:var(--display);font-weight:600;color:#fff4e8;text-shadow:0 0 6px rgba(255,170,90,.95),0 0 16px rgba(255,100,40,.8)}
+.js .sator.fire span{opacity:0}
+.js .sator.fire.on span{animation:appear .5s ease forwards;animation-delay:calc(var(--i,0) * .16s + .3s)}
+/* тот же квадрат, выжженный в окне, вид сверху, утром (С8) */
+.sator.glass{width:min(100%,17rem);border-radius:4px;
+  background:radial-gradient(70% 60% at 50% 50%,rgba(60,45,35,.18),rgba(60,45,35,0) 70%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.25 -.55'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23f)'/%3E%3C/svg%3E"),linear-gradient(160deg,#cfd8df,#98a5b0);
+  box-shadow:0 0 0 6px #2d2a27,0 0 0 7px rgba(255,255,255,.08),0 20px 50px rgba(0,0,0,.55)}
+.sator.glass span{font-family:var(--display);font-weight:600;color:#3a2418;text-shadow:0 0 4px rgba(70,40,20,.45),0 1px 0 rgba(255,255,255,.25)}
 
 /* город: вставки о мире под штампом «Фосфора» */
 .city{position:relative;padding:4.6em 0 3.6em;color:#cfd8df;background:linear-gradient(var(--bg),#0a0f14 6em,#0a0f14 calc(100% - 6em),var(--bg))}
@@ -239,6 +271,8 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
   .js .mirror .g path,.js .mirror.on .g path{stroke-dasharray:none;stroke-dashoffset:0;animation:none}
   .js .mirror .g .dot,.js .mirror.on .g .dot{opacity:1;animation:none}
   .js .mirror .letters,.js .mirror.on .letters{opacity:1;animation:none}
+  .js .sator.fire span,.js .sator.fire.on span{opacity:1;animation:none}
+  .below .dark{transition:none}
   .smokemap .ring{animation:none;opacity:0}
   .ash{display:none}
   .page.burn{border-color:rgba(150,140,130,.18);color:rgba(195,185,175,.6);box-shadow:none}
@@ -269,14 +303,14 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
 
   // Знаки на зеркале проступают, когда зеркало оказывается на экране
   if (!hasIO || reduce) {
-    each('.mirror', function (m) { m.classList.add('on'); });
+    each('.mirror, .sator.fire', function (m) { m.classList.add('on'); });
   } else {
     var seen = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('on'); seen.unobserve(e.target); }
       });
     }, { threshold: 0.6 });
-    each('.mirror', function (m) { seen.observe(m); });
+    each('.mirror, .sator.fire', function (m) { seen.observe(m); });
   }
 
   // Штамп «Фосфора» над вставкой «Город» загорается, когда вставка выходит на экран
@@ -302,6 +336,22 @@ h1{margin:.2em 0 .4em;font-family:var(--display);font-style:italic;font-weight:5
       });
     }, { threshold: 0, rootMargin: '0px 0px -58% 0px' });
     watch.observe(next);
+  });
+
+  // Огонь гаснет (С8): от отметки [[out]] вниз — темнота; срабатывает, когда отметка доходит до середины экрана
+  each('.below', function (sec) {
+    var mark = sec.querySelector('.out-mark');
+    if (!mark) return;
+    function place() { sec.style.setProperty('--out', (mark.getBoundingClientRect().top - sec.getBoundingClientRect().top) + 'px'); }
+    place();
+    window.addEventListener('resize', place);
+    if (!hasIO || reduce) { sec.classList.add('out'); return; }
+    var dim = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { sec.classList.add('out'); dim.disconnect(); }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -45% 0px' });
+    dim.observe(mark);
   });
 
   // Пепел падает вверх; на третьей ступени холода — вниз, как снег (это делает CSS)

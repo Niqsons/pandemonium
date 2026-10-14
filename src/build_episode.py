@@ -3,8 +3,12 @@
 
 Разметка исходника:
   TITLE / NUMBER / EMBLEM   шапка до первой пустой строки
+  END: Конец первого сезона в шапке: своя подпись в конце вместо «Конец N-й серии» (С8)
   COLD: 1                   в шапке: насколько остыл Архив — сцена «Внизу» холоднее (с С5);
-                            с COLD: 3 пепел больше не поднимается, а падает, как снег (С7)
+                            с COLD: 3 пепел больше не поднимается, а падает, как снег (С7);
+                            COLD: 4 — огонь Архива гаснет совсем (С8)
+  [[out]]                   отметка в сцене «Внизу»: когда читатель до неё доходит, гаснут
+                            последние угли и всё ниже отметки уходит в темноту (С8)
   пустая строка             граница абзаца
   ***                       смена сцены
   >>> Подпись               сцена «внизу», до <<< или до конца
@@ -28,6 +32,7 @@
   [[mirror-hot: a]]         то же на раскалённом стекле
   [[mirror-below: a b]]     то же стекло, вид снизу: зеркально и огнём
   [[mirror-dust: a]]        знак, выжженный в пыли на чужом стекле (чудо, за которое платят)
+  [[mirror-frost: a~]]      знак на замёрзшем окне: надышали и нарисовали пальцем (С8)
   friend~ в [[mirror…]]     знак, нарисованный пальцем по пыли, а не выжженный (с С7)
   no- в [[mirror…]]         знак, выжженный давно: остыл и не светится (с С7)
   "СЛОВО" внутри [[mirror…]] буквы, выведенные пальцем
@@ -38,6 +43,8 @@
   [[smokemap: 14]]          та же карта, но вспышек столько, сколько указано
   [[sator]]                 квадрат SATOR на чугунной печной заслонке
   [[sator: chalk]]          тот же квадрат мелом на доске — как его помнит Феликс (с С7)
+  [[sator: fire]]           квадрат буквами на стекле, вид снизу: зеркально, буквы горят по одной (С8)
+  [[sator: glass]]          квадрат, выжженный в оконном стекле, вид сверху (С8)
 """
 import html
 import math
@@ -209,9 +216,10 @@ def mirror(kind, spec):
             i += 1
         rows.append('<div class="row">' + "".join(cells) + "</div>")
     cls = {"mirror": "mirror", "mirror-hot": "mirror hot", "mirror-below": "mirror back",
-           "mirror-dust": "mirror dust"}[kind]
+           "mirror-dust": "mirror dust", "mirror-frost": "mirror frost"}[kind]
     label = {"mirror-below": "Знаки на стекле, вид снизу",
-             "mirror-dust": "Знак, выжженный в пыли на стекле"}.get(kind, "Знаки на зеркале")
+             "mirror-dust": "Знак, выжженный в пыли на стекле",
+             "mirror-frost": "Знак на замёрзшем стекле"}.get(kind, "Знаки на зеркале")
     return f'<figure class="{cls}" aria-label="{label}">' + "".join(rows) + "</figure>"
 
 
@@ -341,19 +349,26 @@ SATOR_ROWS = ("SATOR", "AREPO", "TENET", "OPERA", "ROTAS")
 
 
 SATOR_KINDS = {"": ("sator", "Квадрат SATOR"),
-               "chalk": ("sator chalk", "Квадрат SATOR мелом на доске")}
+               "chalk": ("sator chalk", "Квадрат SATOR мелом на доске"),
+               "fire": ("sator fire", "Квадрат SATOR буквами на стекле, вид снизу"),
+               "glass": ("sator glass", "Квадрат SATOR, выжженный в оконном стекле")}
 
 
 def sator(kind=""):
     """Квадрат SATOR: читается одинаково с любой стороны.
 
     Без пометки — на чугунной печной заслонке (С5); «chalk» — мелом на доске,
-    как его помнит Феликс-лингвист (С7).
+    как его помнит Феликс-лингвист (С7); «fire» — буквами на стекле, вид снизу:
+    буквы проступают по одной (С8); «glass» — выжженный в окне, вид сверху (С8).
     """
     if kind not in SATOR_KINDS:
         sys.exit(f"Неизвестный вид квадрата SATOR: {kind}")
     cls, label = SATOR_KINDS[kind]
-    cells = "".join(f"<span>{ch}</span>" for row in SATOR_ROWS for ch in row)
+    if kind == "fire":
+        cells = "".join(f'<span style="--i:{k}">{ch}</span>'
+                        for k, ch in enumerate(ch for row in SATOR_ROWS for ch in row))
+    else:
+        cells = "".join(f"<span>{ch}</span>" for row in SATOR_ROWS for ch in row)
     return (f'<figure class="{cls}" role="img" aria-label="{label}: '
             + ", ".join(SATOR_ROWS) + f'"><div class="grid" aria-hidden="true">{cells}</div></figure>')
 
@@ -437,7 +452,9 @@ def build(src, out, template):
                 sections.append(["below", label, []])
         elif block.startswith("<<<"):
             sections.append(["earth", "", []])
-        elif (m := re.fullmatch(r"\[\[(mirror(?:-hot|-below|-dust)?):\s*(.+?)\]\]", block)):
+        elif block == "[[out]]":
+            items.append('<div class="out-mark" aria-hidden="true"></div>')
+        elif (m := re.fullmatch(r"\[\[(mirror(?:-hot|-below|-dust|-frost)?):\s*(.+?)\]\]", block)):
             items.append(mirror(m.group(1), m.group(2)))
         elif (m := re.fullmatch(r"\[\[tape:\s*(.*?)\]\]", block)):
             items.append(tape(m.group(1)))
@@ -492,13 +509,14 @@ def build(src, out, template):
         else:
             lab = f'<p class="below-label">{html.escape(label)}</p>\n' if label else ""
             cls = f'below cold-{cold}" data-cold="{cold}' if cold else "below"
-            parts.append(f'<section class="{cls}"><div class="ash" aria-hidden="true"></div><div class="wrap">\n'
+            dark = '<div class="dark" aria-hidden="true"></div>' if any("out-mark" in it for it in items) else ""
+            parts.append(f'<section class="{cls}"><div class="ash" aria-hidden="true"></div>{dark}<div class="wrap">\n'
                          + lab + "\n".join(items) + "\n</div></section>")
     ordinal = ORDINAL[number] if number < len(ORDINAL) else f"{number}-й"
     parts += [
         '<footer class="end"><div class="wrap">',
         DIVIDER,
-        f'<p class="end-title">Конец {ordinal} серии</p>',
+        f'<p class="end-title">{html.escape(meta.get("END") or f"Конец {ordinal} серии")}</p>',
         '<p class="end-sub">Пандемониум · продолжение следует</p>',
         "</div></footer>",
     ]
